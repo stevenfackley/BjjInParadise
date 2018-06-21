@@ -1,0 +1,810 @@
+﻿@model BjjInParadise.Core.Models.Camp
+@{
+    ViewBag.Title = "BJJ In Paradise - Home";
+}
+
+<!-- Header -->
+<header class="masthead">
+    <div class="container">
+        <!-- Navigation -->
+
+        <div class="intro-text">
+            @if (Model != null)
+            {
+                <div class="intro-lead-in">Our Next Camp: </div>
+                <div class="intro-heading text-uppercase">@(Model.StartDate.ToLongDateString())</div>
+            }
+            else
+            {
+                <div class="intro-lead-in">Stay Tuned</div>
+                <div class="intro-heading text-uppercase">We are organizing our next camp!</div>
+            }
+            <a class="btn btn-info btn-xl text-uppercase js-scroll-trigger" href="#what">Tell Me More</a>
+            @if (Model != null)
+            {
+                <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#what">Book Today</a>
+            }
+        </div>
+    </div>
+</header>
+
+<!-- What is It -->
+<section id="what">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading text-uppercase">Our Mission</h2>
+                <p class=" text-muted">Make friends and experience new peopke and places through a sharedd passion for Jiu Jitsu.</p>
+                <h3 class="section-subheading text-muted">The idea is simple. Show the beauty of Puerto Escondido to our friends and family in the world-wide BJJ community. Train and make friends through a shared passion for jiu jitsu. </h3>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-md-4">
+                <span class="fa-stack fa-4x">
+                    <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                    <i class="fa fa-sun-o fa-stack-1x fa-inverse"></i>
+                </span>
+                <h4 class="service-heading">World Class Training in Paradise</h4>
+                <p class="text-muted">Several sessions per day, morning and late afternoon and evening with small group jiu jitsu instruction, lots of open mat time and plenty of one on one time with top-level black belts from around the world. Some of the notable instructors we have hosted include: Caio Terra, Magid Hage, Marcio Stambowsky, Kroyler Gracie and more.</p>
+            </div>
+            <div class="col-md-4">
+                <span class="fa-stack fa-4x">
+                    <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                    <i class="fa fa-tags fa-stack-1x fa-inverse"></i>
+                </span>
+                <h4 class="service-heading">Did I Read This Right?</h4>
+                <p class="text-muted">Yes you did! BJJ in Paradise is more than just a small group Brazilian Jiu-Jitsu camp; It's an all-inclusive jiu jitsu vacation with beautiful beaches, surfing, deluxe accommodation, great food, but most importantly, the chance to make new friends and discover new places through a shared love of the art of Brazilian Jiu-Jitsu. </p>
+            </div>
+            <div class="col-md-4">
+                <span class="fa-stack fa-4x">
+                    <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                    <i class="fa fa-cutlery fa-stack-1x fa-inverse"></i>
+                </span>
+                <h4 class="service-heading">Food</h4>
+                <p class="text-muted">
+                    A large part of living the jiu jitsu lifestyle is good healthy food to fuel your sessions on the mat. With this in mind, we will be offering the best food for breakfast and lunch every day of camp full of fresh fruits, juices and other high quality fresh food to keep our athletes and their families in top condition.
+                    For dinner, choose from dozens of delicious local places, vegetarian options, burgers, and much more within a short walk of the hotel, or eat in the award winning Hotel Santa Fe restaurant.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Portfolio Grid -->
+<section class="bg-light" id="portfolio" style="padding-bottom: 50px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading text-uppercase">Portfolio</h2>
+                <h3 class="section-subheading text-muted">Some pictures from our latest camp!</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-sm-6">
+
+                <img class="img-samesize" src="~/Images/surf.jpg" alt="">
+
+            </div>
+            <div class="col-md-4 col-sm-6">
+
+                <img class="img-samesize" src="~/Images/oscar.jpg" alt="">
+
+
+            </div>
+            <div class="col-md-4 col-sm-6 ">
+
+                <img class="img-samesize" src="~/Images/Molly.jpg" alt="">
+
+
+            </div>
+
+
+        </div>
+        <div class="offset-5">
+            @Html.ActionLink("View More >>>", "Index", "Gallery", null, new {@class = "btn btn-info btn-xl text-uppercase "})
+        </div>
+
+    </div>
+</section>
+
+<!-- About -->
+<section id="about" s>
+    <div class="container">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <h2 class="section-heading text-uppercase">About</h2>
+            <h3 class="section-subheading text-muted">So, what's the deal?</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-7">
+
+                    <h4 class="subheading">What is Included?</h4>
+
+                    <p class="text-muted">
+                        <ul>
+                            <li>Deluxe accommodation for 6 nights.</li>
+                            <li>Hours upon hours of daily BJJ instruction from top-level black belt instructors.</li>
+                            <li>Welcome BBQ.</li>
+                            <li>Daily Breakfast.</li>
+                            <li>Daily laundry service for gi's and clothing.</li>
+                            <li>All airport transfers to and from Puerto Escondido Airport.</li>
+                            <li>Surf lessons for all skill-levels.</li>
+                            <li>Complimentary ice cold coconuts after every training session.</li>
+                            <li>Great Rolls, good friends, and amazing vibes.</li>
+                        </ul>
+                    </p>
+
+                </div>
+                <div class="col-5">
+                    <img class="rounded img-samesize rounded-circle" src="~/Images/laugh.jpg" alt="">
+
+                </div>
+
+
+            </div>
+            <br/>
+
+            <br/>
+            <br/>
+            <br/>
+            <div class="row">
+                <div class="col-4">
+                    <img class="rounded img-samesize " src="~/Images/surf.jpg" alt="">
+
+                </div>
+
+                <div class="col-8">
+
+                    <h4 class="subheading">Surfing</h4>
+
+                    <p class="text-muted">
+                        At the of the end of the Sierra Madre del Sur mountain range that snakes through Oaxaca, Mexico, and down to the Pacific Ocean, lies the safe, tranquil coastal resort of Puerto Escondido. The town is built around a picturesque bay dotted with gigantic rock formations. On the northwestern end, Bacocho Beach has the most variety of hotels and the atmosphere is decidedly laid-back. Playa Principal in the middle of town has a nice beach for families and several boats you can hire for fishing or sightseeing. On the southeastern end you’ll find Zicatela, a vibrant action-packed beach with a cosmopolitan atmosphere that attracts surfers and other tourists from around the world, especially Europe. Many come to conquer the resort's famous waves.
+                        A stroll along Zicatela provides the chance to enjoy the spectacular performances of surfers skimming atop the crests of colossal waves. According to experts, Puerto Escondido is among the ten best surfing sites on the planet.
+
+                    </p>
+
+                </div>
+
+
+            </div>
+            <br/>
+
+            <br/>
+            <br/>
+            <br/>
+            <div class="row">
+
+
+                <div class="col-6">
+
+                    <h4 class="subheading">Instructors</h4>
+
+                    <p class="text-muted">
+                        We strive to offer a wide array of top level instructors at very camp. Check our @Html.ActionLink("current camps", "Index", "Camp", null, new {@class = ""}) page as instructors are confirmed for our next camp.
+                    </p>
+
+                </div>
+                <div class="col-6">
+                    <img class="rounded img-samesize fa-rotate-270" src="~/Images/caioandkroyler.JPG" alt="">
+
+                </div>
+
+            </div>
+            <br/>
+
+            <br/>
+            <br/>
+            <br/>
+            <div class="row">
+                <div class="col-4">
+                    <img class="rounded img-samesize " src="~/Images/Manialtepec.png" alt="">
+                </div>
+                <div class="col-8">
+
+
+                    <h4 class="subheading">Nature</h4>
+                    <p class="text-muted">
+                        The area surrounding the bay has a wealth of natural wonders. Just 20 minutes north of Puerto Escondido, birders can rent kayaks or motorboats to view the pelicans, hawks, hummingbirds, spoonbills and more that inhabit the mangrove forests of the Manialtepec Lagoon.
+                    </p>
+                </div>
+
+            </div>
+
+            <br/>
+
+            <br/>
+            <br/>
+            <br/>
+            <div class="row">
+                <div class="col-8">
+                    <h4 class="subheading">Adventure</h4>
+                    <p class="text-muted">
+                        Alternatively, if you’re looking for an authentic ethnic experience, visit the communities nearby and learn a little of their customs. Mazunte, for example, is a small village whose inhabitants have dedicated themselves to protecting the natural environment. They invite visitors on eco-tours on foot, on horseback or by rowboat.
+                    </p>
+                </div>
+
+                <div class="col-4">
+                    <img class="rounded img-samesize " src="~/Images/montate-a-la-aventura.jpg" alt="">
+                </div>
+
+
+            </div>
+
+            <br/>
+
+            <br/>
+            <br/>
+            <br/>
+            <div class="row">
+                <div class="col-4">
+                    <img class="rounded img-samesize rounded-circle " src="~/Images/la-ventanilla.jpg" alt="">
+                </div>
+                <div class="col-8">
+                    <h4 class="subheading">Closer to Puerto Escondido</h4>
+                    <p class="text-muted">
+                        Just 15 minutes away, Ventanilla is an ecological reserve for families wanting to explore the imposing rock formations that dominate the beach, spend time getting to know the indigenous community and maybe even watch baby turtles hatch in the moonlight. The longer you stay here, the harder it is to leave this tranquil and unspoiled paradise.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<section class="bg-secondary" id="faq">
+
+    <div class="container">
+
+        <h3 class="text-info">FAQ</h3>
+        <div class="row">
+            <div id="accordion" class="container">
+                <div class="card">
+                    <div class="card-header">
+                        <a class=" card-link text-info" data-toggle="collapse" href="#collapseTwo">
+                            Where is the camp?
+
+
+                        </a>
+                    </div>
+                    <div id="collapseTwo" class="collapse show" data-parent="#accordion">
+                        <div class="card-body">
+                            The camp is in Puerto Escondido, Oaxaca Mexico.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <a class="collapsed card-link text-info" data-toggle="collapse" href="#collapseOne">
+                            How do I get to camp?
+                        </a>
+                    </div>
+                    <div id="collapseOne" class="collapse " data-parent="#accordion">
+                        <div class="card-body">
+                            Getting to Puerto Escondido is easy. You can travel direct by air from Mexico City (airport code PXM), and we will pick you and your family up at Puerto’s airport at no charge. Aeromar, Interjet and Viva Aerobus provide regular service to and from Mexico City.
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card">
+                    <div class="card-header">
+                        <a class="collapsed card-link text-info" data-toggle="collapse" href="#collapseThree">
+                            Is it safe?
+                        </a>
+                    </div>
+                    <div id="collapseThree" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                            Yes!! Puerto Escondido is far removed from any violence or activity in other parts of Mexico. The area sees many tourists annually and walking around at night/taking taxi's is more than safe.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <a class="collapsed card-link text-info" data-toggle="collapse" href="#collapseFour">
+                            What day do I need to arrive / leave?
+                        </a>
+                    </div>
+                    <div id="collapseFour" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                            Come any day you like! We start training Monday in the afternoon. If you don’t want to miss out on anything, we recommend you arrive Sunday that way you are relaxed and ready to train on Monday. Camp ends Sunday, however we can easily arrange extra nights at a reduced rate if you would like to stay on any enjoy more of Mexico.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <a class="collapsed card-link text-info" data-toggle="collapse" href="#collapseFive">
+                            I’m a complete beginner, can I still join?
+                        </a>
+                    </div>
+                    <div id="collapseFive" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                            Yes!! Classes are designed for everyone!
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <a class="collapsed card-link text-info" data-toggle="collapse" href="#collapseSix">
+                            What language will the classes be taught in?
+                        </a>
+                    </div>
+                    <div id="collapseSix" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                            All classes will be taught in English, but we also have native Spanish and Portuguese speakers on hand.
+
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <a class="collapsed card-link text-info" data-toggle="collapse" href="#collapseSeven">
+                            Is it possible to do private lessons with the instructors?
+                        </a>
+                    </div>
+                    <div id="collapseSeven" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                            Yes, please talk with the instructors directly to make an appointment.
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card">
+                    <div class="card-header">
+                        <a class="collapsed card-link text-info" data-toggle="collapse" href="#collapseEight">
+                            Is this just a BJJ camp?
+                        </a>
+                    </div>
+                    <div id="collapseEight" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                            No, it's much more! Bring your family and friends for a relaxing and fun vacation in paradise. We’ll offer a wide array of excursions, plenty of beach time and ton of off the mat activities for all ages whether they train or not.
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card">
+                    <div class="card-header">
+                        <a class="collapsed card-link text-info" data-toggle="collapse" href="#collapseNine">
+                            Do you have gym facilities?
+                        </a>
+                    </div>
+                    <div id="collapseNine" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                            There are yoga classes offered at several locations around Puerto (including the hotel) and a fitness center a short walk down the street should you or your family want to work out during your stay. Or… take a nice run on the beach!
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card">
+                    <div class="card-header">
+                        <a class="collapsed card-link text-info" data-toggle="collapse" href="#collapseTen">
+                            When will there be training?
+                        </a>
+                    </div>
+                    <div id="collapseTen" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                            Training will run in the late afternoon for 2 hours on Monday and then in the morning and afternoon/early evening from the rest of the week. Our first typically session starts between 10am and 11am daily.
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card">
+                    <div class="card-header">
+                        <a class="collapsed card-link text-info" data-toggle="collapse" href="#collapseEleven">
+                            Will I be allowed to film during the camp?
+                        </a>
+                    </div>
+                    <div id="collapseEleven" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                            Yes. But always ask the instructors permission prior to filming
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <a class="collapsed card-link text-info" data-toggle="collapse" href="#collapseTwelve">
+                            Other Questions
+                        </a>
+                    </div>
+                    <div id="collapseTwelve" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                            Is there a supermarket/ other amenities near the hotel?
+                            Yes, just a short walk away are tons of stores, bars, restaurants and pharmacies should you need anything. Taxi's are also very cheap and safe to further explore.
+
+                            Do you have WiFi connection?
+                            Yes, there is a high speed WiFi connection the hotel.
+                            Where can I wash my training clothes?
+                            We will offer free daily laundry service.
+                            What kind of food are you serving?
+                            We will offer high quality, fresh food throughout the camp. Fresh fruits, eggs, juices and hearty lunches are among the offerings from the great restaurant and chefs at Hotel Santa Fe and several other dining options around Puerto.
+                            Is there an option for vegetarian food?
+                            Yes.
+                            How is the night life?
+                            Amazing. Puerto is a great mix of family-friendly, safe and quiet and fun and vibrant night-life. There is something for everyone!
+                            Is it safe?
+                            Once again...Yes :)
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+</section>
+<!-- Team -->
+<section class="bg-light" id="team">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading text-uppercase">Meet Brad and Adrian</h2>
+                <h3 class="section-subheading text-muted">MThe folks responsible for creating this amazing camp!</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="team-member">
+                    <img class="mx-auto rounded" src="~/Images/brad.jpg" alt="">
+                    <h4>Brad Wolfson</h4>
+                    <p class="text-muted">Brad is an avid traveler, 20 year student of BJJ, second degree black belt and owner of Soulcraft BJJ, he first visited Puerto Escondido in 2015 through a chance meeting with Adrian through BJJ Globetrotters. After that first trip, he just knew that this magical place would always be a big part of his heart and soul.. Brad is a husband, dog father and academy owner based in New Haven, CT.</p>
+                    <ul class="list-inline social-buttons">
+                        <li class="list-inline-item">
+                            <a href="//twitter.com/SoulcraftBJJ">
+                                <i class="fa fa-twitter"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="//www.facebook.com/brad.wolfson.7">
+                                <i class="fa fa-facebook"></i>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="team-member">
+                    <img class="mx-auto rounded-circle" src="~/Images/adrian.jpg" alt="">
+                    <h4>Adrian Erick Davo Vela</h4>
+                    <p class="text-muted">Adrian is a Puerto local, avid BJJ practitioner, surfer and family man. Born and raised in Puerto Escondido, he, along with his brothers has been instrumental in the growth of BJJ in the area. He is the co-founder of La Colonia BJJ, a home builder, frozen yogurt mogul, father of 3 and an all-around great dude.</p>
+                    <ul class="list-inline social-buttons">
+                        <li class="list-inline-item">
+                            <a href="//www.facebook.com/profile.php?id=584260485">
+                                <i class="fa fa-facebook"></i>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <p class="large text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Clients -->
+<section class="py-5">
+    <div class="container">
+
+        <div class="row justify-content-center align-self-center">
+
+            <div class="col-sm-12">
+                <a href="//soulcraftbjj.com/">
+                    <img class="img-fluid d-block mx-auto" src="//soulcraftbjj.com/wp-content/uploads/2014/05/copy-logo1.png" alt="">
+                </a>
+            </div>
+
+
+            <div class=" col-sm-12">
+                <a href="//oddthebrand.bigcartel.com/">
+                    <img class="img-fluid d-block mx-auto" src="//scontent.fbed1-1.fna.fbcdn.net/v/t1.0-1/p200x200/18922103_1689974841305652_1078677841300916901_n.jpg?_nc_cat=0&oh=9e6d64bcf58576ea208083bb7a78142f&oe=5BA96FDD" alt="">
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- Contact -->
+<section id="contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading text-uppercase">Contact Us</h2>
+                <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <form id="contactForm" name="sentMessage" novalidate="novalidate">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input class="form-control" id="name" type="text" placeholder="Your Name *" required="required" data-validation-required-message="Please enter your name.">
+                                <p class="help-block text-danger"></p>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" id="email" type="email" placeholder="Your Email *" required="required" data-validation-required-message="Please enter your email address.">
+                                <p class="help-block text-danger"></p>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" id="phone" type="tel" placeholder="Your Phone *" required="required" data-validation-required-message="Please enter your phone number.">
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <textarea class="form-control" id="message" placeholder="Your Message *" required="required" data-validation-required-message="Please enter a message."></textarea>
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-lg-12 text-center">
+                            <div id="success"></div>
+                            <button id="sendMessageButton" class="btn btn-primary btn-xl text-uppercase" type="submit">Send Message</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <span class="copyright">Copyright &copy; Your Website 2018</span>
+            </div>
+            <div class="col-md-4">
+                <ul class="list-inline social-buttons">
+                    <li class="list-inline-item">
+                        <a href="#">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <ul class="list-inline quicklinks">
+                    <li class="list-inline-item">
+                        <a href="#">Privacy Policy</a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">Terms of Use</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Portfolio Modals -->
+<!-- Modal 1 -->
+<div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl"></div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="modal-body">
+                            <!-- Project Details Go Here -->
+                            <h2 class="text-uppercase">Project Name</h2>
+                            <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                            <img class="img-fluid d-block mx-auto" src="~/Content/agency/img/portfolio/01-full.jpg" alt="">
+                            <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                            <ul class="list-inline">
+                                <li>Date: January 2017</li>
+                                <li>Client: Threads</li>
+                                <li>Category: Illustration</li>
+                            </ul>
+                            <button class="btn btn-primary" data-dismiss="modal" type="button">
+                                <i class="fa fa-times"></i>
+                                Close Project
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal 2 -->
+<div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl"></div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="modal-body">
+                            <!-- Project Details Go Here -->
+                            <h2 class="text-uppercase">Project Name</h2>
+                            <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                            <img class="img-fluid d-block mx-auto" src="~/Content/agency/img/portfolio/02-full.jpg" alt="">
+                            <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                            <ul class="list-inline">
+                                <li>Date: January 2017</li>
+                                <li>Client: Explore</li>
+                                <li>Category: Graphic Design</li>
+                            </ul>
+                            <button class="btn btn-primary" data-dismiss="modal" type="button">
+                                <i class="fa fa-times"></i>
+                                Close Project
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal 3 -->
+<div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl"></div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="modal-body">
+                            <!-- Project Details Go Here -->
+                            <h2 class="text-uppercase">Project Name</h2>
+                            <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                            <img class="img-fluid d-block mx-auto" src="~/Content/agency/img/portfolio/03-full.jpg" alt="">
+                            <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                            <ul class="list-inline">
+                                <li>Date: January 2017</li>
+                                <li>Client: Finish</li>
+                                <li>Category: Identity</li>
+                            </ul>
+                            <button class="btn btn-primary" data-dismiss="modal" type="button">
+                                <i class="fa fa-times"></i>
+                                Close Project
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal 4 -->
+<div class="portfolio-modal modal fade" id="portfolioModal4" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl"></div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="modal-body">
+                            <!-- Project Details Go Here -->
+                            <h2 class="text-uppercase">Project Name</h2>
+                            <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                            <img class="img-fluid d-block mx-auto" src="~/Content/agency/img/portfolio/04-full.jpg" alt="">
+                            <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                            <ul class="list-inline">
+                                <li>Date: January 2017</li>
+                                <li>Client: Lines</li>
+                                <li>Category: Branding</li>
+                            </ul>
+                            <button class="btn btn-primary" data-dismiss="modal" type="button">
+                                <i class="fa fa-times"></i>
+                                Close Project
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal 5 -->
+<div class="portfolio-modal modal fade" id="portfolioModal5" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl"></div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="modal-body">
+                            <!-- Project Details Go Here -->
+                            <h2 class="text-uppercase">Project Name</h2>
+                            <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                            <img class="img-fluid d-block mx-auto" src="~/Content/agency/img/portfolio/05-full.jpg" alt="">
+                            <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                            <ul class="list-inline">
+                                <li>Date: January 2017</li>
+                                <li>Client: Southwest</li>
+                                <li>Category: Website Design</li>
+                            </ul>
+                            <button class="btn btn-primary" data-dismiss="modal" type="button">
+                                <i class="fa fa-times"></i>
+                                Close Project
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal 6 -->
+<div class="portfolio-modal modal fade" id="portfolioModal6" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl"></div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="modal-body">
+                            <!-- Project Details Go Here -->
+                            <h2 class="text-uppercase">Project Name</h2>
+                            <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                            <img class="img-fluid d-block mx-auto" src="~/Content/agency/img/portfolio/06-full.jpg" alt="">
+                            <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                            <ul class="list-inline">
+                                <li>Date: January 2017</li>
+                                <li>Client: Window</li>
+                                <li>Category: Photography</li>
+                            </ul>
+                            <button class="btn btn-primary" data-dismiss="modal" type="button">
+                                <i class="fa fa-times"></i>
+                                Close Project
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
