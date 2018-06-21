@@ -98,6 +98,8 @@ namespace BjjInParadise.Business
 
         public async Task<Camp> GetNextCampAsync()
         {
+        
+
             using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
             {
                 var result = await db.QueryAsync<Camp>("Select top 1 * From Camp where IsActive = 1 order by StartDate");

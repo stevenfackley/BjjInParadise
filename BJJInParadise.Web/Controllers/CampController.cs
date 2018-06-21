@@ -23,9 +23,6 @@ namespace BJJInParadise.Web.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            String connectionString =
-                ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-
             var camps = _campService.GetAll();
             return View(camps);
         }
