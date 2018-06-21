@@ -16,38 +16,65 @@ namespace BjjInParadise.Business
     public class CampService : BaseCrudService<Camp>
     {
         private BjjInParadiseContext _context;
+        private string _connectionString;
 
         public CampService(BjjInParadiseContext context)
         {
             _context = context;
-
+            _connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         }
 
 
         public override IEnumerable<Camp> GetAll()
         {
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+            using (IDbConnection db = new SqlConnection())
             {
                 return db.Query<Camp>("Select * From Camp").ToList();
             }
 
         }
 
+        public async Task<IEnumerable<Camp> >GetAllActiveAsync()
+        {
+            using (IDbConnection db = new SqlConnection(_connectionString))
+            {
+                return await db.QueryAsync<Camp>("SELECT  * FROM Camp where IsActive = 1 order by StartDate");
+
+            }
+
+        }
         protected override async Task<Camp> Add(Camp t)
         {
-
-            try
+            using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                _context.Camps.Add(t);
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-                Log.Instance.Error(e);
-                throw;
-            }
+                try
+                {
 
-            return t;
+                  
+                    string insertQuery = @"INSERT INTO [dbo].[Camp]
+                                                                   ([CampName]
+                                                                   ,[StartDate]
+                                                                   ,[EndDate]
+                                                                   ,[IsActive]
+                                                                   ,[CreatedDate]
+                                                                   ,[ModifiedDate])
+                                                             VALUES
+                                                                   (@CampName
+                                                                   ,@StartDate
+                                                                   ,@EndDate
+                                                                   ,@IsActive
+                                                                   ,@CreatedDate
+                                                                   ,@ModifiedDate)";
+
+                    var result = await db.ExecuteAsync(insertQuery, t);
+                    return t;
+                }
+                catch (Exception e)
+                {
+                    Log.Instance.Error(e);
+                    throw;
+                }
+            }
         }
 
         public override Camp Get(int? id)
@@ -98,16 +125,25 @@ namespace BjjInParadise.Business
 
         public async Task<Camp> GetNextCampAsync()
         {
-        
 
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+            try
             {
-                var result = await db.QueryAsync<Camp>("Select top 1 * From Camp where IsActive = 1 order by StartDate");
 
-                return result.FirstOrDefault();
+
+                using (IDbConnection db = new SqlConnection(_connectionString))
+                {
+                    var result =
+                        await db.QueryAsync<Camp>("Select top 1 * From Camp where IsActive = 1 order by StartDate");
+
+                    return result.FirstOrDefault();
+                }
+
             }
-
-          
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

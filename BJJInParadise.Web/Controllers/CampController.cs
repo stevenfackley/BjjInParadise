@@ -106,7 +106,7 @@ namespace BJJInParadise.Web.Controllers
             }
             catch(Exception e)
             {
-                throw;
+                
                 return View();
             }
         }

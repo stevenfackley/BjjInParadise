@@ -22,7 +22,7 @@
             <a class="btn btn-info btn-xl text-uppercase js-scroll-trigger" href="#what">Tell Me More</a>
             @if (Model != null)
             {
-                <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#what">Book Today</a>
+                @Html.ActionLink("Book Today", "Index", "Booking", null, new {@class = "btn btn-primary btn-xl text-uppercase " })
             }
         </div>
     </div>

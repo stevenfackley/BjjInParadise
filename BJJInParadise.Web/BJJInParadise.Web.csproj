@@ -85,6 +85,9 @@
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="PayPal, Version=1.9.1.0, Culture=neutral, PublicKeyToken=5b4afc1ccaef40fb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PayPal.1.9.1\lib\net451\PayPal.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -218,8 +221,28 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\NewBookingViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\assets\css\bootstrap.min.css" />
+    <Content Include="Content\assets\css\demo.css" />
+    <Content Include="Content\assets\css\material-bootstrap-wizard.css" />
+    <Content Include="Content\assets\img\apple-icon.png" />
+    <Content Include="Content\assets\img\default-avatar.png" />
+    <Content Include="Content\assets\img\favicon.png" />
+    <Content Include="Content\assets\img\new_logo.png" />
+    <Content Include="Content\assets\img\thumb_list_boat.png" />
+    <Content Include="Content\assets\img\thumb_list_place.png" />
+    <Content Include="Content\assets\img\thumb_register.png" />
+    <Content Include="Content\assets\img\tim_80x80.png" />
+    <Content Include="Content\assets\img\wizard-book.jpg" />
+    <Content Include="Content\assets\img\wizard-city.jpg" />
+    <Content Include="Content\assets\img\wizard-profile.jpg" />
+    <Content Include="Content\assets\js\bootstrap.min.js" />
+    <Content Include="Content\assets\js\jquery-2.2.4.min.js" />
+    <Content Include="Content\assets\js\jquery.bootstrap.js" />
+    <Content Include="Content\assets\js\jquery.validate.min.js" />
+    <Content Include="Content\assets\js\material-bootstrap-wizard.js" />
     <Content Include="Images\adrian.jpg" />
     <Content Include="Images\la-ventanilla.jpg" />
     <Content Include="Images\laugh.JPG" />
@@ -291,6 +314,33 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\assets\.DS_Store" />
+    <Content Include="Content\assets\css\.DS_Store" />
+    <Content Include="Content\assets\img\.DS_Store" />
+    <Content Include="Content\assets\js\.DS_Store" />
+    <Content Include="Content\assets\scss\material-bootstrap-wizard.scss" />
+    <Content Include="Content\assets\scss\material-bootstrap-wizard\mixins\_buttons.scss" />
+    <Content Include="Content\assets\scss\material-bootstrap-wizard\mixins\_inputs.scss" />
+    <Content Include="Content\assets\scss\material-bootstrap-wizard\mixins\_vendor-prefixes.scss" />
+    <Content Include="Content\assets\scss\material-bootstrap-wizard\_buttons.scss" />
+    <Content Include="Content\assets\scss\material-bootstrap-wizard\_card.scss" />
+    <Content Include="Content\assets\scss\material-bootstrap-wizard\_checkboxes.scss" />
+    <Content Include="Content\assets\scss\material-bootstrap-wizard\_colors.scss" />
+    <Content Include="Content\assets\scss\material-bootstrap-wizard\_footers.scss" />
+    <Content Include="Content\assets\scss\material-bootstrap-wizard\_inputs-size.scss" />
+    <Content Include="Content\assets\scss\material-bootstrap-wizard\_inputs.scss" />
+    <Content Include="Content\assets\scss\material-bootstrap-wizard\_misc.scss" />
+    <Content Include="Content\assets\scss\material-bootstrap-wizard\_mixins.scss" />
+    <Content Include="Content\assets\scss\material-bootstrap-wizard\_navs-pagination.scss" />
+    <Content Include="Content\assets\scss\material-bootstrap-wizard\_radios.scss" />
+    <Content Include="Content\assets\scss\material-bootstrap-wizard\_responsive.scss" />
+    <Content Include="Content\assets\scss\material-bootstrap-wizard\_ripples.scss" />
+    <Content Include="Content\assets\scss\material-bootstrap-wizard\_shadows.scss" />
+    <Content Include="Content\assets\scss\material-bootstrap-wizard\_tooltips.scss" />
+    <Content Include="Content\assets\scss\material-bootstrap-wizard\_typography.scss" />
+    <Content Include="Content\assets\scss\material-bootstrap-wizard\_variables.scss" />
+    <Content Include="Content\assets\scss\material-bootstrap-wizard\_variables_bootstrap.scss" />
+    <Content Include="Content\assets\scss\material-bootstrap-wizard\_wizard-card.scss" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -344,8 +394,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Header.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -376,8 +424,6 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\Home\Team.cshtml" />
-    <Content Include="Views\Home\FAQ.cshtml" />
     <Content Include="Views\Home\ComingSoon.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Camp\Index.cshtml" />
@@ -385,6 +431,7 @@
     <Content Include="Views\Camp\Edit.cshtml" />
     <Content Include="Views\Camp\Delete.cshtml" />
     <Content Include="Views\Camp\Details.cshtml" />
+    <Content Include="Views\Booking\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BjjInParadise.Business\BjjInParadise.Business.csproj">
