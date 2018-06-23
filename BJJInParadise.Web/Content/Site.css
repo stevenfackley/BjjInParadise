@@ -23,3 +23,9 @@ textarea {
     background-size: cover;
 }
 
+#mainNav .navbar-brand.active, #mainNav .navbar-brand {
+    font-size: 35px;
+   
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+}

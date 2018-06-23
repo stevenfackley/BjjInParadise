@@ -244,6 +244,7 @@
     <Content Include="Content\assets\js\jquery.validate.min.js" />
     <Content Include="Content\assets\js\material-bootstrap-wizard.js" />
     <Content Include="Images\adrian.jpg" />
+    <Content Include="Images\headerGroupSmile.jpg" />
     <Content Include="Images\la-ventanilla.jpg" />
     <Content Include="Images\laugh.JPG" />
     <Content Include="Images\Manialtepec.png" />
@@ -432,6 +433,7 @@
     <Content Include="Views\Camp\Delete.cshtml" />
     <Content Include="Views\Camp\Details.cshtml" />
     <Content Include="Views\Booking\Index.cshtml" />
+    <Content Include="Views\Camp\Upcoming.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BjjInParadise.Business\BjjInParadise.Business.csproj">
