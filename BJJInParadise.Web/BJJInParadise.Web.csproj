@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Microsoft.Net.Compilers.2.8.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.8.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.2.8.2\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.8.2\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
-  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -60,26 +60,32 @@
     <Reference Include="Autofac.Integration.Owin, Version=4.2.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.Owin.4.2.0\lib\net45\Autofac.Integration.Owin.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AI.DependencyCollector, Version=2.6.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.6.1\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
+    <Reference Include="Imgur.API, Version=4.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Imgur.API.4.0.1\lib\net45\Imgur.API.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AI.PerfCounterCollector, Version=2.6.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.6.1\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
+    <Reference Include="Microsoft.AI.DependencyCollector, Version=2.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.6.4\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AI.ServerTelemetryChannel, Version=2.6.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.6.1\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
+    <Reference Include="Microsoft.AI.PerfCounterCollector, Version=2.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.6.4\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AI.Web, Version=2.6.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.6.1\lib\net45\Microsoft.AI.Web.dll</HintPath>
+    <Reference Include="Microsoft.AI.ServerTelemetryChannel, Version=2.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.6.4\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AI.WindowsServer, Version=2.6.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.2.6.1\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
+    <Reference Include="Microsoft.AI.Web, Version=2.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.6.4\lib\net45\Microsoft.AI.Web.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ApplicationInsights, Version=2.6.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.2.6.1\lib\net46\Microsoft.ApplicationInsights.dll</HintPath>
+    <Reference Include="Microsoft.AI.WindowsServer, Version=2.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.2.6.4\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights, Version=2.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.2.6.4\lib\net46\Microsoft.ApplicationInsights.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.TelemetryCorrelation, Version=1.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.TelemetryCorrelation.1.0.3\lib\net45\Microsoft.AspNet.TelemetryCorrelation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -90,6 +96,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.5.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -190,14 +199,8 @@
     <Reference Include="Microsoft.Owin.Security.OAuth">
       <HintPath>..\packages\Microsoft.Owin.Security.OAuth.4.0.0\lib\net451\Microsoft.Owin.Security.OAuth.dll</HintPath>
     </Reference>
-    <Reference Include="System.Diagnostics.DiagnosticSource">
-      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.4.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.4.0\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
-      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -243,6 +246,113 @@
     <Content Include="Content\assets\js\jquery.bootstrap.js" />
     <Content Include="Content\assets\js\jquery.validate.min.js" />
     <Content Include="Content\assets\js\material-bootstrap-wizard.js" />
+    <Content Include="Content\unitegallery-master\dist\css\unite-gallery.css" />
+    <Content Include="Content\unitegallery-master\dist\images\button-close.png" />
+    <Content Include="Content\unitegallery-master\dist\images\cover-grid.png" />
+    <Content Include="Content\unitegallery-master\dist\images\icon-link32.png" />
+    <Content Include="Content\unitegallery-master\dist\images\icon-play32.png" />
+    <Content Include="Content\unitegallery-master\dist\images\icon-zoom32.png" />
+    <Content Include="Content\unitegallery-master\dist\images\lightbox-arrow-left.png" />
+    <Content Include="Content\unitegallery-master\dist\images\lightbox-arrow-right.png" />
+    <Content Include="Content\unitegallery-master\dist\images\lightbox-icon-close-compact.png" />
+    <Content Include="Content\unitegallery-master\dist\images\lightbox-icon-close-compact2.png" />
+    <Content Include="Content\unitegallery-master\dist\images\lightbox-icon-close.png" />
+    <Content Include="Content\unitegallery-master\dist\images\loader-black1.gif" />
+    <Content Include="Content\unitegallery-master\dist\images\loader-black2.gif" />
+    <Content Include="Content\unitegallery-master\dist\images\loader-black3.gif" />
+    <Content Include="Content\unitegallery-master\dist\images\loader-black4.gif" />
+    <Content Include="Content\unitegallery-master\dist\images\loader-black5.gif" />
+    <Content Include="Content\unitegallery-master\dist\images\loader-black6.gif" />
+    <Content Include="Content\unitegallery-master\dist\images\loader-black7.gif" />
+    <Content Include="Content\unitegallery-master\dist\images\loader-white1.gif" />
+    <Content Include="Content\unitegallery-master\dist\images\loader-white2.gif" />
+    <Content Include="Content\unitegallery-master\dist\images\loader-white3.gif" />
+    <Content Include="Content\unitegallery-master\dist\images\loader-white4.gif" />
+    <Content Include="Content\unitegallery-master\dist\images\loader-white5.gif" />
+    <Content Include="Content\unitegallery-master\dist\images\loader-white6.gif" />
+    <Content Include="Content\unitegallery-master\dist\images\loader-white7.gif" />
+    <Content Include="Content\unitegallery-master\dist\images\loader.gif" />
+    <Content Include="Content\unitegallery-master\dist\images\loader_bright.gif" />
+    <Content Include="Content\unitegallery-master\dist\images\loader_skype_trans.gif" />
+    <Content Include="Content\unitegallery-master\dist\images\not_loaded.png" />
+    <Content Include="Content\unitegallery-master\dist\images\play-button-round.png" />
+    <Content Include="Content\unitegallery-master\dist\images\play-button-square.png" />
+    <Content Include="Content\unitegallery-master\dist\images\transparent.png" />
+    <Content Include="Content\unitegallery-master\dist\js\jquery-11.0.min.js" />
+    <Content Include="Content\unitegallery-master\dist\js\unitegallery.js" />
+    <Content Include="Content\unitegallery-master\dist\js\unitegallery.min.js" />
+    <Content Include="Content\unitegallery-master\dist\release_log.txt" />
+    <Content Include="Content\unitegallery-master\dist\skins\alexis\alexis.css" />
+    <Content Include="Content\unitegallery-master\dist\skins\alexis\images\arrows_strip_left.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\alexis\images\arrows_strip_right.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\alexis\images\button_fullscreen.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\alexis\images\button_playpause.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\alexis\images\button_zoom_back.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\alexis\images\button_zoom_minus.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\alexis\images\button_zoom_plus.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\alexis\images\grid_arrow_down.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\alexis\images\grid_arrow_left.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\alexis\images\grid_arrow_left_hortype.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\alexis\images\grid_arrow_right.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\alexis\images\grid_arrow_right_hortype.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\alexis\images\grid_arrow_up.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\alexis\images\grid_handle_down.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\alexis\images\grid_handle_left.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\alexis\images\grid_handle_right.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\alexis\images\grid_handle_up.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\alexis\images\slider_arrow_left.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\alexis\images\slider_arrow_right.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\alexis\images\slider_bullets.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\default\arrows_strip_down.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\default\arrows_strip_left.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\default\arrows_strip_right.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\default\arrows_strip_up.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\default\arrow_grid_down.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\default\arrow_grid_up.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\default\button_fullscreen.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\default\button_playpause.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\default\grid_arrow_left.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\default\grid_arrow_right.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\default\grid_handle_black_bottom.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\default\grid_handle_black_left.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\default\grid_handle_black_right.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\default\grid_handle_black_top.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\default\icon_zoom_back.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\default\icon_zoom_minus.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\default\icon_zoom_plus.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\default\slider_arrow_left.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\default\slider_arrow_right.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\default\slider_bullets.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\default\tile_bullets_blue.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\default\tile_bullets_brown.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\default\tile_bullets_gray.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\default\tile_bullets_green.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\default\tile_bullets_red.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\default\tile_button_left.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\default\tile_button_play_pause.png" />
+    <Content Include="Content\unitegallery-master\dist\skins\default\tile_button_right.png" />
+    <Content Include="Content\unitegallery-master\dist\themes\carousel\ug-theme-carousel.js" />
+    <Content Include="Content\unitegallery-master\dist\themes\compact\ug-theme-compact.js" />
+    <Content Include="Content\unitegallery-master\dist\themes\default\images\arrows_strip_left.png" />
+    <Content Include="Content\unitegallery-master\dist\themes\default\images\arrows_strip_right.png" />
+    <Content Include="Content\unitegallery-master\dist\themes\default\images\arrow_down_up.png" />
+    <Content Include="Content\unitegallery-master\dist\themes\default\images\button_fullscreen.png" />
+    <Content Include="Content\unitegallery-master\dist\themes\default\images\button_fullscreen_single.png" />
+    <Content Include="Content\unitegallery-master\dist\themes\default\images\button_playpause.png" />
+    <Content Include="Content\unitegallery-master\dist\themes\default\images\button_playpause_single.png" />
+    <Content Include="Content\unitegallery-master\dist\themes\default\ug-theme-default.css" />
+    <Content Include="Content\unitegallery-master\dist\themes\default\ug-theme-default.js" />
+    <Content Include="Content\unitegallery-master\dist\themes\grid\ug-theme-grid.js" />
+    <Content Include="Content\unitegallery-master\dist\themes\slider\ug-theme-slider.js" />
+    <Content Include="Content\unitegallery-master\dist\themes\tilesgrid\ug-theme-tilesgrid.js" />
+    <Content Include="Content\unitegallery-master\dist\themes\tiles\ug-theme-tiles.js" />
+    <Content Include="Content\unitegallery-master\dist\themes\video\images\arrow_left.png" />
+    <Content Include="Content\unitegallery-master\dist\themes\video\images\arrow_right.png" />
+    <Content Include="Content\unitegallery-master\dist\themes\video\skin-bottom-text.css" />
+    <Content Include="Content\unitegallery-master\dist\themes\video\skin-right-no-thumb.css" />
+    <Content Include="Content\unitegallery-master\dist\themes\video\skin-right-thumb.css" />
+    <Content Include="Content\unitegallery-master\dist\themes\video\skin-right-title-only.css" />
+    <Content Include="Content\unitegallery-master\dist\themes\video\ug-theme-video.js" />
     <Content Include="Images\adrian.jpg" />
     <Content Include="Images\headerGroupSmile.jpg" />
     <Content Include="Images\la-ventanilla.jpg" />
@@ -437,6 +547,7 @@
     <Content Include="Views\Booking\Index.cshtml" />
     <Content Include="Views\Camp\Upcoming.cshtml" />
     <Content Include="Views\Gallery\Index.cshtml" />
+    <Content Include="Views\Gallery\_galleryImages.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BjjInParadise.Business\BjjInParadise.Business.csproj">
@@ -490,8 +601,8 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.8.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.8.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.8.2\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.8.2\build\Microsoft.Net.Compilers.props'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
