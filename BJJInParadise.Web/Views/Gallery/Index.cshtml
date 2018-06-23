@@ -1,0 +1,61 @@
+﻿@model IEnumerable<string>
+@section styles{
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css"/>
+    <style>
+        .row {
+            margin: 15px;
+        }
+
+        .img-fluid {
+      
+            width: auto\9; /* ie8 */
+            padding: 10px;
+            max-height: 100%;
+            max-width: 100%;
+        }
+
+
+
+        #mainNav {
+            background: #000 !important;
+        }
+
+        #galleryContainer {
+            margin-top: 150px;
+        }
+
+        #imgContainer {
+            height: 350px;
+            width: 350px;
+        }
+    </style>
+}
+<div class="container-fluid" id="galleryContainer">
+    <h2>Our Gallery</h2>
+    <div class="row">
+
+        @foreach (var item in Model)
+        {
+            <div id="imgContainer">
+                <a href="@Url.Content(@item)" data-max-width="1500" data-max-height="1800" data-toggle="lightbox" data-gallery="example-gallery" class="col-sm-4">
+                    <img src="@Url.Content(@item)" class="img-fluid">
+                </a>
+            </div>
+        }
+
+
+
+    </div>
+</div>
+
+@section Scripts {
+    <script src="//cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
+    <script>
+        $(document).on('click', '[data-toggle="lightbox"]', function (event) {
+            event.preventDefault();
+            $(this).ekkoLightbox();
+
+        });
+    </script>
+}

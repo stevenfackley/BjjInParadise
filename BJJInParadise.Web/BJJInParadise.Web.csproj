@@ -246,6 +246,7 @@
     <Content Include="Images\adrian.jpg" />
     <Content Include="Images\headerGroupSmile.jpg" />
     <Content Include="Images\la-ventanilla.jpg" />
+    <Content Include="Images\lacoloniabjj.png" />
     <Content Include="Images\laugh.JPG" />
     <Content Include="Images\Manialtepec.png" />
     <Content Include="Images\montate-a-la-aventura.jpg" />
@@ -289,6 +290,7 @@
     <Content Include="Images\brad.jpg" />
     <Content Include="Images\caioandkroyler.JPG" />
     <Content Include="Images\molly.JPG" />
+    <Content Include="Images\pointing.jpg" />
     <Content Include="Images\surf.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
@@ -434,6 +436,7 @@
     <Content Include="Views\Camp\Details.cshtml" />
     <Content Include="Views\Booking\Index.cshtml" />
     <Content Include="Views\Camp\Upcoming.cshtml" />
+    <Content Include="Views\Gallery\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BjjInParadise.Business\BjjInParadise.Business.csproj">
@@ -461,7 +464,7 @@
     <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Gallery\" />
+    <Folder Include="Images\Gallery\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

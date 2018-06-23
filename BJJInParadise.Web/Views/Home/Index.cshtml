@@ -22,7 +22,7 @@
             <a class="btn btn-info btn-xl text-uppercase js-scroll-trigger" href="#what">Tell Me More</a>
             @if (Model != null)
             {
-                @Html.ActionLink("Book Today", "Index", "Booking", null, new {@class = "btn btn-primary btn-xl text-uppercase " })
+                @Html.ActionLink("Book Today", "Index", "Booking", null, new { @class = "btn btn-primary btn-xl text-uppercase " })
             }
         </div>
     </div>
@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="row">
-          
+
             <div class="embed-responsive embed-responsive-16by9">
                 <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/WvTq57o3-zo?rel=0" allowfullscreen></iframe>
             </div>
@@ -80,8 +80,8 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="section-heading text-uppercase">Portfolio</h2>
-                <h3 class="section-subheading text-muted">Some pictures from our latest camp!</h3>
+                <h2 class="section-heading text-uppercase">Media</h2>
+                <h3 class="section-subheading text-muted">Our latest camp!</h3>
             </div>
         </div>
         <div class="row">
@@ -106,7 +106,7 @@
 
         </div>
         <div class="offset-5">
-            @Html.ActionLink("View More >>>", "Index", "Gallery", null, new {@class = "btn btn-info btn-xl text-uppercase "})
+            @Html.ActionLink("View More >>>", "Index", "Gallery", null, new { @class = "btn btn-info btn-xl text-uppercase " })
         </div>
 
     </div>
@@ -115,145 +115,146 @@
 <!-- About -->
 <section id="about" s>
     <div class="container">
-    <div class="row">
-        <div class="col-lg-12 text-center">
-            <h2 class="section-heading text-uppercase">About</h2>
-            <h3 class="section-subheading text-muted">So, what's the deal?</h3>
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading text-uppercase">About</h2>
+                <h3 class="section-subheading text-muted">So, what's the deal?</h3>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="row">
-                <div class="col-7">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-7">
 
-                    <h4 class="subheading">What is Included?</h4>
+                        <h4 class="subheading">What is Included?</h4>
 
-                    <p class="text-muted">
-                        <ul>
-                            <li>Deluxe accommodation for 6 nights.</li>
-                            <li>Hours upon hours of daily BJJ instruction from top-level black belt instructors.</li>
-                            <li>Welcome BBQ.</li>
-                            <li>Daily Breakfast.</li>
-                            <li>Daily laundry service for gi's and clothing.</li>
-                            <li>All airport transfers to and from Puerto Escondido Airport.</li>
-                            <li>Surf lessons for all skill-levels.</li>
-                            <li>Complimentary ice cold coconuts after every training session.</li>
-                            <li>Great Rolls, good friends, and amazing vibes.</li>
-                        </ul>
-                    </p>
+                        <p class="text-muted">
+                            <ul>
+                                <li>Deluxe accommodation for 6 nights.</li>
+                                <li>Hours upon hours of daily BJJ instruction from top-level black belt instructors.</li>
+                                <li>Welcome BBQ.</li>
+                                <li>Daily Breakfast.</li>
+                                <li>Daily laundry service for gi's and clothing.</li>
+                                <li>All airport transfers to and from Puerto Escondido Airport.</li>
+                                <li>Surf lessons for all skill-levels.</li>
+                                <li>Complimentary ice cold coconuts after every training session.</li>
+                                <li>Great Rolls, good friends, and amazing vibes.</li>
+                            </ul>
+                        </p>
+
+                    </div>
+                    <div class="col-5">
+                        <img class="rounded img-samesize rounded-circle" src="~/Images/laugh.jpg" alt="">
+
+                    </div>
+
 
                 </div>
-                <div class="col-5">
-                    <img class="rounded img-samesize rounded-circle" src="~/Images/laugh.jpg" alt="">
+                <br />
+
+                <br />
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-4">
+                        <img class="rounded img-samesize " src="~/Images/surf.jpg" alt="">
+
+                    </div>
+
+                    <div class="col-8">
+
+                        <h4 class="subheading">Surfing</h4>
+
+                        <p class="text-muted">
+                            At the of the end of the Sierra Madre del Sur mountain range that snakes through Oaxaca, Mexico, and down to the Pacific Ocean, lies the safe, tranquil coastal resort of Puerto Escondido. The town is built around a picturesque bay dotted with gigantic rock formations. On the northwestern end, Bacocho Beach has the most variety of hotels and the atmosphere is decidedly laid-back. Playa Principal in the middle of town has a nice beach for families and several boats you can hire for fishing or sightseeing. On the southeastern end you’ll find Zicatela, a vibrant action-packed beach with a cosmopolitan atmosphere that attracts surfers and other tourists from around the world, especially Europe. Many come to conquer the resort's famous waves.
+                            A stroll along Zicatela provides the chance to enjoy the spectacular performances of surfers skimming atop the crests of colossal waves. According to experts, Puerto Escondido is among the ten best surfing sites on the planet.
+
+                        </p>
+
+                    </div>
+
+
+                </div>
+                <br />
+
+                <br />
+                <br />
+                <br />
+                <div class="row">
+
+
+                    <div class="col-6">
+
+                        <h4 class="subheading">Instructors</h4>
+
+                        <p class="text-muted">
+                            We strive to offer a wide array of top level instructors at very camp. Check our @Html.ActionLink("current camps", "Index", "Camp", null, new { @class = "" }) page as instructors are confirmed for our next camp.
+                        </p>
+
+                    </div>
+                    <div class="col-6">
+                        <img class="rounded img-samesize fa-rotate-270" src="~/Images/caioandkroyler.JPG" alt="">
+
+                    </div>
+
+                </div>
+                <br />
+
+                <br />
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-4">
+                        <img class="rounded img-samesize " src="~/Images/Manialtepec.png" alt="">
+                    </div>
+                    <div class="col-8">
+
+
+                        <h4 class="subheading">Nature</h4>
+                        <p class="text-muted">
+                            The area surrounding the bay has a wealth of natural wonders. Just 20 minutes north of Puerto Escondido, birders can rent kayaks or motorboats to view the pelicans, hawks, hummingbirds, spoonbills and more that inhabit the mangrove forests of the Manialtepec Lagoon.
+                        </p>
+                    </div>
 
                 </div>
 
+                <br />
 
-            </div>
-            <br/>
+                <br />
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-8">
+                        <h4 class="subheading">Adventure</h4>
+                        <p class="text-muted">
+                            Alternatively, if you’re looking for an authentic ethnic experience, visit the communities nearby and learn a little of their customs. Mazunte, for example, is a small village whose inhabitants have dedicated themselves to protecting the natural environment. They invite visitors on eco-tours on foot, on horseback or by rowboat.
+                        </p>
+                    </div>
 
-            <br/>
-            <br/>
-            <br/>
-            <div class="row">
-                <div class="col-4">
-                    <img class="rounded img-samesize " src="~/Images/surf.jpg" alt="">
+                    <div class="col-4">
+                        <img class="rounded img-samesize " src="~/Images/montate-a-la-aventura.jpg" alt="">
+                    </div>
+
 
                 </div>
 
-                <div class="col-8">
+                <br />
 
-                    <h4 class="subheading">Surfing</h4>
-
-                    <p class="text-muted">
-                        At the of the end of the Sierra Madre del Sur mountain range that snakes through Oaxaca, Mexico, and down to the Pacific Ocean, lies the safe, tranquil coastal resort of Puerto Escondido. The town is built around a picturesque bay dotted with gigantic rock formations. On the northwestern end, Bacocho Beach has the most variety of hotels and the atmosphere is decidedly laid-back. Playa Principal in the middle of town has a nice beach for families and several boats you can hire for fishing or sightseeing. On the southeastern end you’ll find Zicatela, a vibrant action-packed beach with a cosmopolitan atmosphere that attracts surfers and other tourists from around the world, especially Europe. Many come to conquer the resort's famous waves.
-                        A stroll along Zicatela provides the chance to enjoy the spectacular performances of surfers skimming atop the crests of colossal waves. According to experts, Puerto Escondido is among the ten best surfing sites on the planet.
-
-                    </p>
-
-                </div>
-
-
-            </div>
-            <br/>
-
-            <br/>
-            <br/>
-            <br/>
-            <div class="row">
-
-
-                <div class="col-6">
-
-                    <h4 class="subheading">Instructors</h4>
-
-                    <p class="text-muted">
-                        We strive to offer a wide array of top level instructors at very camp. Check our @Html.ActionLink("current camps", "Index", "Camp", null, new {@class = ""}) page as instructors are confirmed for our next camp.
-                    </p>
+                <br />
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-4">
+                        <img class="rounded img-samesize rounded-circle " src="~/Images/la-ventanilla.jpg" alt="">
+                    </div>
+                    <div class="col-8">
+                        <h4 class="subheading">Closer to Puerto Escondido</h4>
+                        <p class="text-muted">
+                            Just 15 minutes away, Ventanilla is an ecological reserve for families wanting to explore the imposing rock formations that dominate the beach, spend time getting to know the indigenous community and maybe even watch baby turtles hatch in the moonlight. The longer you stay here, the harder it is to leave this tranquil and unspoiled paradise.
+                        </p>
+                    </div>
 
                 </div>
-                <div class="col-6">
-                    <img class="rounded img-samesize fa-rotate-270" src="~/Images/caioandkroyler.JPG" alt="">
-
-                </div>
-
-            </div>
-            <br/>
-
-            <br/>
-            <br/>
-            <br/>
-            <div class="row">
-                <div class="col-4">
-                    <img class="rounded img-samesize " src="~/Images/Manialtepec.png" alt="">
-                </div>
-                <div class="col-8">
-
-
-                    <h4 class="subheading">Nature</h4>
-                    <p class="text-muted">
-                        The area surrounding the bay has a wealth of natural wonders. Just 20 minutes north of Puerto Escondido, birders can rent kayaks or motorboats to view the pelicans, hawks, hummingbirds, spoonbills and more that inhabit the mangrove forests of the Manialtepec Lagoon.
-                    </p>
-                </div>
-
-            </div>
-
-            <br/>
-
-            <br/>
-            <br/>
-            <br/>
-            <div class="row">
-                <div class="col-8">
-                    <h4 class="subheading">Adventure</h4>
-                    <p class="text-muted">
-                        Alternatively, if you’re looking for an authentic ethnic experience, visit the communities nearby and learn a little of their customs. Mazunte, for example, is a small village whose inhabitants have dedicated themselves to protecting the natural environment. They invite visitors on eco-tours on foot, on horseback or by rowboat.
-                    </p>
-                </div>
-
-                <div class="col-4">
-                    <img class="rounded img-samesize " src="~/Images/montate-a-la-aventura.jpg" alt="">
-                </div>
-
-
-            </div>
-
-            <br/>
-
-            <br/>
-            <br/>
-            <br/>
-            <div class="row">
-                <div class="col-4">
-                    <img class="rounded img-samesize rounded-circle " src="~/Images/la-ventanilla.jpg" alt="">
-                </div>
-                <div class="col-8">
-                    <h4 class="subheading">Closer to Puerto Escondido</h4>
-                    <p class="text-muted">
-                        Just 15 minutes away, Ventanilla is an ecological reserve for families wanting to explore the imposing rock formations that dominate the beach, spend time getting to know the indigenous community and maybe even watch baby turtles hatch in the moonlight. The longer you stay here, the harder it is to leave this tranquil and unspoiled paradise.
-                    </p>
-                </div>
-
             </div>
         </div>
     </div>
@@ -511,15 +512,8 @@
         <div class="row justify-content-center align-self-center">
 
             <div class="col-sm-12">
-                <a href="//soulcraftbjj.com/">
-                    <img class="img-fluid d-block mx-auto" src="//soulcraftbjj.com/wp-content/uploads/2014/05/copy-logo1.png" alt="">
-                </a>
-            </div>
-
-
-            <div class=" col-sm-12">
-                <a href="//oddthebrand.bigcartel.com/">
-                    <img class="img-fluid d-block mx-auto" src="//scontent.fbed1-1.fna.fbcdn.net/v/t1.0-1/p200x200/18922103_1689974841305652_1078677841300916901_n.jpg?_nc_cat=0&oh=9e6d64bcf58576ea208083bb7a78142f&oe=5BA96FDD" alt="">
+                <a href="//www.facebook.com/lacoloniajiujitsu/">
+                    <img class="img-fluid d-block mx-auto" src="~/Images/lacoloniabjj.png" alt="">
                 </a>
             </div>
 
@@ -609,208 +603,37 @@
         </div>
     </div>
 </footer>
-<!-- Portfolio Modals -->
-<!-- Modal 1 -->
-<div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="close-modal" data-dismiss="modal">
-                <div class="lr">
-                    <div class="rl"></div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 mx-auto">
-                        <div class="modal-body">
-                            <!-- Project Details Go Here -->
-                            <h2 class="text-uppercase">Project Name</h2>
-                            <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                            <img class="img-fluid d-block mx-auto" src="~/Content/agency/img/portfolio/01-full.jpg" alt="">
-                            <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
-                            <ul class="list-inline">
-                                <li>Date: January 2017</li>
-                                <li>Client: Threads</li>
-                                <li>Category: Illustration</li>
-                            </ul>
-                            <button class="btn btn-primary" data-dismiss="modal" type="button">
-                                <i class="fa fa-times"></i>
-                                Close Project
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal 2 -->
-<div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="close-modal" data-dismiss="modal">
-                <div class="lr">
-                    <div class="rl"></div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 mx-auto">
-                        <div class="modal-body">
-                            <!-- Project Details Go Here -->
-                            <h2 class="text-uppercase">Project Name</h2>
-                            <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                            <img class="img-fluid d-block mx-auto" src="~/Content/agency/img/portfolio/02-full.jpg" alt="">
-                            <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
-                            <ul class="list-inline">
-                                <li>Date: January 2017</li>
-                                <li>Client: Explore</li>
-                                <li>Category: Graphic Design</li>
-                            </ul>
-                            <button class="btn btn-primary" data-dismiss="modal" type="button">
-                                <i class="fa fa-times"></i>
-                                Close Project
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal 3 -->
-<div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="close-modal" data-dismiss="modal">
-                <div class="lr">
-                    <div class="rl"></div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 mx-auto">
-                        <div class="modal-body">
-                            <!-- Project Details Go Here -->
-                            <h2 class="text-uppercase">Project Name</h2>
-                            <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                            <img class="img-fluid d-block mx-auto" src="~/Content/agency/img/portfolio/03-full.jpg" alt="">
-                            <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
-                            <ul class="list-inline">
-                                <li>Date: January 2017</li>
-                                <li>Client: Finish</li>
-                                <li>Category: Identity</li>
-                            </ul>
-                            <button class="btn btn-primary" data-dismiss="modal" type="button">
-                                <i class="fa fa-times"></i>
-                                Close Project
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal 4 -->
-<div class="portfolio-modal modal fade" id="portfolioModal4" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="close-modal" data-dismiss="modal">
-                <div class="lr">
-                    <div class="rl"></div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 mx-auto">
-                        <div class="modal-body">
-                            <!-- Project Details Go Here -->
-                            <h2 class="text-uppercase">Project Name</h2>
-                            <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                            <img class="img-fluid d-block mx-auto" src="~/Content/agency/img/portfolio/04-full.jpg" alt="">
-                            <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
-                            <ul class="list-inline">
-                                <li>Date: January 2017</li>
-                                <li>Client: Lines</li>
-                                <li>Category: Branding</li>
-                            </ul>
-                            <button class="btn btn-primary" data-dismiss="modal" type="button">
-                                <i class="fa fa-times"></i>
-                                Close Project
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal 5 -->
-<div class="portfolio-modal modal fade" id="portfolioModal5" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="close-modal" data-dismiss="modal">
-                <div class="lr">
-                    <div class="rl"></div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 mx-auto">
-                        <div class="modal-body">
-                            <!-- Project Details Go Here -->
-                            <h2 class="text-uppercase">Project Name</h2>
-                            <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                            <img class="img-fluid d-block mx-auto" src="~/Content/agency/img/portfolio/05-full.jpg" alt="">
-                            <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
-                            <ul class="list-inline">
-                                <li>Date: January 2017</li>
-                                <li>Client: Southwest</li>
-                                <li>Category: Website Design</li>
-                            </ul>
-                            <button class="btn btn-primary" data-dismiss="modal" type="button">
-                                <i class="fa fa-times"></i>
-                                Close Project
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal 6 -->
-<div class="portfolio-modal modal fade" id="portfolioModal6" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="close-modal" data-dismiss="modal">
-                <div class="lr">
-                    <div class="rl"></div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 mx-auto">
-                        <div class="modal-body">
-                            <!-- Project Details Go Here -->
-                            <h2 class="text-uppercase">Project Name</h2>
-                            <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                            <img class="img-fluid d-block mx-auto" src="~/Content/agency/img/portfolio/06-full.jpg" alt="">
-                            <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
-                            <ul class="list-inline">
-                                <li>Date: January 2017</li>
-                                <li>Client: Window</li>
-                                <li>Category: Photography</li>
-                            </ul>
-                            <button class="btn btn-primary" data-dismiss="modal" type="button">
-                                <i class="fa fa-times"></i>
-                                Close Project
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+@section Scripts {
+    
+    <script>
+        /*!
+    * Start Bootstrap - Agency v4.1.1 (https://startbootstrap.com/template-overviews/agency)
+    * Copyright 2013-2018 Start Bootstrap
+    * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-agency/blob/master/LICENSE)
+    */
+        ! function(a) {
+            "use strict";
+            a('a.js-scroll-trigger[href*="#"]:not([href="#"])').click(function() {
+                if (location.pathname.replace(/^\//, "") == this.pathname.replace(/^\//, "") && location.hostname == this.hostname) {
+                    var o = a(this.hash);
+                    if ((o = o.length ? o : a("[name=" + this.hash.slice(1) + "]")).length) return a("html, body").animate({
+                        scrollTop: o.offset().top - 54
+                    }, 1e3, "easeInOutExpo"), !1
+                }
+            }), a(".js-scroll-trigger").click(function() {
+                a(".navbar-collapse").collapse("hide")
+            }), a("body").scrollspy({
+                target: "#mainNav",
+                offset: 56
+            });
+            var o = function() {
+                a("#mainNav").offset().top > 100 ? a("#mainNav").addClass("navbar-shrink") : a("#mainNav").removeClass("navbar-shrink")
+            };
+            o(), a(window).scroll(o), a(".portfolio-modal").on("show.bs.modal", function(o) {
+                a(".navbar").addClass("d-none")
+            }), a(".portfolio-modal").on("hidden.bs.modal", function(o) {
+                a(".navbar").removeClass("d-none")
+            })
+        }(jQuery);
+    </script>
+}
