@@ -70,6 +70,7 @@ namespace BJJInParadise.Web
             builder.RegisterType<BjjInParadiseContext>().AsSelf().InstancePerRequest();
             builder.RegisterType<AccountService>().AsSelf().InstancePerRequest();
             builder.RegisterType<CampService>().AsSelf().InstancePerRequest();
+            builder.RegisterType<BookingService>().AsSelf().InstancePerRequest();
         }
     }
     public class ApplicationUserStore : UserStore<ApplicationUser>

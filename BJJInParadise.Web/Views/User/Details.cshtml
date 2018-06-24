@@ -1,0 +1,173 @@
+﻿@model BJJInParadise.Web.ViewModels.UserBookingViewModel
+@section styles{
+    <style>
+        #mainNav {
+            background: #000 !important;
+
+        }
+        #userDetails {
+            margin-top: 80px;
+        }
+        .card-header {
+            background: darkgray;
+        }
+        .btn {
+            color: #fed136;
+        }
+    </style>
+}
+
+<div class="container" id="userDetails">
+    <h4>User</h4>
+    <hr />
+    <div class="col-xs-12 col-md-6">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.AspNetUserId)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.AspNetUserId)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.FirstName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.LastName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.LastName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Street)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Street)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.City)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.City)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.State)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.State)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ZipCode)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ZipCode)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.HomeGym)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.HomeGym)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Country)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Country)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PhoneNumber)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CreatedDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ModifiedDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ModifiedDate)
+            </dd>
+
+        </dl>
+    </div>
+</div>
+@{
+    var count = 0;
+}
+<hr/>
+<h2>Booked Camps for @Model.FirstName + @Model.LastName</h2>
+<div class="col-xs-12 col-md-6">
+    <div id="accordion">
+        @foreach (var item in Model.BookedCamps)
+        {
+
+            <div class="card">
+                <div class="card-header" id="headingOne">
+
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapse@(count)" aria-expanded="true" aria-controls="collapse@(count)">
+                            @item.Camp.CampName
+                        </button>
+                    </h5>
+                </div>
+
+                <div id="collapse@(count)" class="collapse" aria-labelledby="heading + @(count)" data-parent="#accordion">
+                    <div class="card-body">
+                        
+                     
+                    
+                        <div class="col-xs-3">@Html.DisplayNameFor(x => item.AmountPaid): @Html.DisplayFor(x => item.AmountPaid)</div>
+                  
+                        <div class="col-xs-3">@Html.DisplayNameFor(x => item.Camp.StartDate): @Html.DisplayFor(x => item.Camp.StartDate)</div>
+    
+                        <div class="col-xs-3">@Html.DisplayNameFor(x => item.Camp.EndDate): @Html.DisplayFor(x => item.Camp.EndDate)</div>
+                        <div class="col-xs-3">@Html.DisplayNameFor(x => item.CreatedDate): @Html.DisplayFor(x => item.CreatedDate)</div>
+
+                        <div class="col-xs-3">@Html.DisplayNameFor(x => item.ModifiedDate): @Html.DisplayFor(x => item.ModifiedDate)</div>
+                  
+                        <div class="col-xs-3">@Html.DisplayNameFor(x => item.Camp.IsActive): @Html.DisplayFor(x => item.Camp.IsActive)</div>
+                    
+                
+                      
+                        </div>
+                </div>
+                @{ count++;}
+            </div>
+
+        }
+    </div>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.UserId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -12,18 +12,22 @@ namespace BJJInParadise.Web.Controllers
     [Authorize]
     public class AdminController : Controller
     {
-      
+        private AccountService _accountService;
 
-        public AdminController()
+
+        public AdminController(AccountService service)
         {
-         
+            _accountService = service;
         }
         // GET: Admin
         
         public ActionResult Index()
         {
-            return View();
+            var users = _accountService.GetAll();
+            return View(users);
         }
+
+     
 
         // GET: Admin/Details/5
         public ActionResult Details(int id)

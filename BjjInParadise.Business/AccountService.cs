@@ -15,7 +15,7 @@ namespace BjjInParadise.Business
     public class AccountService : BaseCrudService<User>
     {
         private readonly BjjInParadiseContext _context;
-        private string _connectionString;
+        private readonly string _connectionString;
 
         public AccountService(BjjInParadiseContext context)
         {
@@ -25,7 +25,20 @@ namespace BjjInParadise.Business
 
         public override IEnumerable<User> GetAll()
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (IDbConnection db = new SqlConnection(_connectionString))
+                {
+                    var result =  db.Query<User>("SELECT  * From ApplicationUsers");
+
+                    return result;
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Instance.Error(e);
+                throw;
+            }
         }
 
         public async Task<User> Get(string id)
@@ -55,7 +68,7 @@ namespace BjjInParadise.Business
             {
                 using (IDbConnection db = new SqlConnection(_connectionString))
                 {
-                    var result = db.Query<User>("SELECT TOP 1 * From ApplicationUsers where [UserId] = {0}", id);
+                    var result = db.Query<User>("SELECT TOP 1 * From ApplicationUsers where [UserId] = @UserId",  new { UserId = id });
 
                     return result.FirstOrDefault();
                 }
@@ -68,9 +81,59 @@ namespace BjjInParadise.Business
     
         }
 
-        public override Task<User> UpdateAsync(User t)
+        public  override async Task<User> UpdateAsync(User t)
         {
-            throw new NotImplementedException();
+            if (t == null)
+                return null;
+            try
+            {
+                using (IDbConnection db = new SqlConnection(_connectionString))
+                {
+                    t.ModifiedDate =DateTime.UtcNow;
+                    
+                    var updateQuery =
+                            @"UPDATE [dbo].[ApplicationUsers]  
+                    SET
+                        [FirstName] = @FirstName
+                        ,[LastName] = @LastName
+                        ,[Street] = @Street
+                        ,[City] = @City
+                        ,[State] = @State
+                        ,[ZipCode] = @ZipCode
+                        ,[HomeGym] = @HomeGym
+                        ,[Country] = @Country
+                        ,[PhoneNumber] = @PhoneNumber
+
+                        ,[ModifiedDate] = @ModifiedDate
+WHERE [AspNetUserId] = @AspNetUserId
+                   "
+                        ;
+                    var obj = new
+                    {
+                        t.FirstName,
+                        t.LastName,
+                        t.Street,
+                        t.City,
+                        t.State,
+                        t.ZipCode,
+                        t.HomeGym,
+                        t.Country,
+                        t.PhoneNumber,
+                        t.ModifiedDate,
+                        t.AspNetUserId
+                    };
+                    var result = await db.ExecuteAsync(updateQuery,obj);
+                    return t;
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Instance.Error(e);
+                throw;
+            }
+
+
+
         }
 
         protected override async Task<User> Add(User user)
@@ -90,9 +153,25 @@ namespace BjjInParadise.Business
             return user;
         }
 
-        public override Task  DeleteAsync(User t)
+        public override  async Task  DeleteAsync(User t)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (IDbConnection db = new SqlConnection(_connectionString))
+                {
+                    string deleteQuery = @"DELETE FROM [dbo].[ApplicationUsers] UserId = @UserId";
+
+                    var result =await db.ExecuteAsync(deleteQuery, new
+                    {
+                        t.UserId
+                    });
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Instance.Error(e);
+            }
+           
         }
     }
 }

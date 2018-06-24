@@ -27,9 +27,9 @@ namespace BjjInParadise.Business
 
         public override IEnumerable<Camp> GetAll()
         {
-            using (IDbConnection db = new SqlConnection())
+            using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                return db.Query<Camp>("Select * From Camp").ToList();
+                return db.Query<Camp>("SELECT * FROM Camp").ToList();
             }
 
         }

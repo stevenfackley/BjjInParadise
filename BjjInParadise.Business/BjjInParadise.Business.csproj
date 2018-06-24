@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="AccountService.cs" />
     <Compile Include="BaseCrudService.cs" />
+    <Compile Include="BookingService.cs" />
     <Compile Include="CampService.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

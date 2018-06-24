@@ -1,0 +1,83 @@
+﻿@using Microsoft.AspNet.Identity
+@model IEnumerable<BJJInParadise.Web.ViewModels.UserViewModel>
+
+@{
+    var userId = User.Identity.GetUserId();
+}
+<style>
+    #mainNav {
+        background: #000 !important;
+          
+    }
+    #userContainer{
+        margin-top: 160px;
+    }
+    #btn-group {
+       display:inline;
+    }
+</style>
+<div class="container" id="userContainer">
+<table class="table">
+    <tr>
+  
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+      
+        <th>
+            @Html.DisplayNameFor(model => model.HomeGym)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Country)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </th>
+    
+        <th>
+            @Html.DisplayNameFor(model => model.IsAdmin)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+      
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+     
+        <td>
+            @Html.DisplayFor(modelItem => item.HomeGym)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Country)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PhoneNumber)
+        </td>
+   
+        <td>
+            @Html.DisplayFor(modelItem => item.IsAdmin)
+        </td>
+        <td>
+            <span style="display: inline;" id="btn-group">
+                @Html.ActionLink("Edit", "Edit", new { id = item.UserId }, new { @class = "btn btn-info" })
+                @Html.ActionLink("Details", "Details", new { id = item.UserId }, new { @class = "btn btn-warning" })
+            @if (userId != item.AspNetUserId)
+            {
+                @Html.ActionLink("X", "Delete", new {id = item.UserId}, new {@class = "btn btn-danger"})
+            }
+            </span>
+        </td>
+    </tr>
+}
+
+</table>
+</div>

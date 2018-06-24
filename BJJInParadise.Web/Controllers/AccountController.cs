@@ -169,7 +169,7 @@ namespace BJJInParadise.Web.Controllers
                         AspNetUserId = user.Id,
                         FirstName = model.FirstName,
                         LastName = model.LastName,
-                        State = model.Street,
+                        State = model.State,
                         Street = model.Street,
                         City = model.City,
                         ZipCode = model.ZipCode,
