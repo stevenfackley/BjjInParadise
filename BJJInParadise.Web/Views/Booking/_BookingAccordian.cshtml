@@ -1,0 +1,44 @@
+﻿@using System.Web.Mvc.Html
+@model IEnumerable<BjjInParadise.Core.Models.Booking>
+@{ var count = 0;}
+<div class="col-xs-12 col-md-6">
+    <div id="accordion">
+        @foreach (var item in Model)
+        {
+
+            <div class="card">
+                <div class="card-header" id="headingOne">
+
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapse@(count)" aria-expanded="true" aria-controls="collapse@(count)">
+                            @item.Camp.CampName - @item.User.LastName, @item.User.FirstName
+                        </button>
+                    </h5>
+                </div>
+
+                <div id="collapse@(count)" class="collapse" aria-labelledby="heading + @(count)" data-parent="#accordion">
+                    <div class="card-body">
+
+
+
+                        <div class="col-xs-3">@Html.DisplayNameFor(x => x.AmountPaid): @Html.DisplayFor(x => item.AmountPaid)</div>
+
+                        <div class="col-xs-3">@Html.DisplayNameFor(x => x.Camp.StartDate): @Html.DisplayFor(x => item.Camp.StartDate)</div>
+
+                        <div class="col-xs-3">@Html.DisplayNameFor(x => x.Camp.EndDate): @Html.DisplayFor(x => item.Camp.EndDate)</div>
+                        <div class="col-xs-3">@Html.DisplayNameFor(x => x.CreatedDate): @Html.DisplayFor(x => item.CreatedDate)</div>
+
+                        <div class="col-xs-3">@Html.DisplayNameFor(x => x.ModifiedDate): @Html.DisplayFor(x => item.ModifiedDate)</div>
+
+                        <div class="col-xs-3">@Html.DisplayNameFor(x => x.Camp.IsActive): @Html.DisplayFor(x => item.Camp.IsActive)</div>
+
+
+
+                    </div>
+                </div>
+                @{ count++;}
+            </div>
+
+        }
+    </div>
+</div>

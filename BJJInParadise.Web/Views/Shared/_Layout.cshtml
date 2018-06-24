@@ -48,14 +48,15 @@
                         <li class="nav-item">
                             <a class="nav-link js-scroll-trigger" href="#team">Your Hosts</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
-                        </li>
+                      
                         <li class="nav-item">
                             @Html.ActionLink("Upcoming Camps", "Upcoming", "Camp", null, new { @class = "nav-link" })
                         </li>
                         <li class="nav-item">
-                            @Html.ActionLink("Book Today", "Index", "Booking", null, new { @class = "nav-link" })
+                            @Html.ActionLink("Reserve My Spot", "Index", "Booking", null, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
                         </li>
                     </ul>
                     @Html.Partial("_LoginPartial")

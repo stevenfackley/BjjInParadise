@@ -159,19 +159,56 @@ WHERE [AspNetUserId] = @AspNetUserId
             {
                 using (IDbConnection db = new SqlConnection(_connectionString))
                 {
-                    string deleteQuery = @"DELETE FROM [dbo].[ApplicationUsers] UserId = @UserId";
-
-                    var result =await db.ExecuteAsync(deleteQuery, new
+                    string deleteBooking = "DELETE FROM [dbo].[Booking] WHERE UserId = @UserId ";
+                    await db.ExecuteAsync(deleteBooking, new
                     {
-                        t.UserId
+                        UserId = t.UserId
                     });
+
+                  
+
                 }
             }
             catch (Exception e)
             {
                 Log.Instance.Error(e);
             }
-           
+
+            try
+            {
+                using (IDbConnection db = new SqlConnection(_connectionString))
+                {
+                    var deleteBooking = @"DELETE FROM [dbo].[Participant] WHERE UserId = @UserId";
+                    await db.ExecuteAsync(deleteBooking, new
+                    {
+                        UserId = t.UserId
+                    });
+
+                   
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            try
+            {
+                using (IDbConnection db = new SqlConnection(_connectionString))
+                {
+                  
+                    var deleteBooking = @"DELETE FROM [dbo].[ApplicationUsers] WHERE UserId = @UserId";
+                   var rresult = await db.ExecuteAsync(deleteBooking, new
+                    {
+                        UserId = t.UserId
+                    });
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

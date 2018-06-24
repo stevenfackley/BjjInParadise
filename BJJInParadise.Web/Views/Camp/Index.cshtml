@@ -62,7 +62,7 @@
                     {
                         @Html.ActionLink("Edit", "Edit", new {id = item.CampId}, new {@class = "btn btn-success"})
                     }
-                    @Html.ActionLink("Details", "Details", new {id = item.CampId}, new {@class = "btn btn-info"})
+                    @Html.ActionLink("Details", "Details", new {id = item.CampId}, new {@class = "btn btn-warning"})
                     @if (User.IsInRole(UserConsts.ADMIN_ROLE))
                     {
                         @Html.ActionLink("Delete", "Delete", new {id = item.CampId}, new {@class = "btn btn-danger"})

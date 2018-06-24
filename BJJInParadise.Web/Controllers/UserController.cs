@@ -34,19 +34,21 @@ namespace BJJInParadise.Web.Controllers
             var mappedResult = Mapper.Map<IEnumerable<User>, List<UserViewModel>>(result);
             foreach (var userViewModel in mappedResult)
             {
-                try
-                {
-                    userViewModel.IsAdmin = await _userManager.IsInRoleAsync(userViewModel.AspNetUserId, UserConsts.ADMIN_ROLE);
-
-                }
-                catch (Exception e)
-                {
-                    userViewModel.IsAdmin = false;
-
-                }
-
+                await AddUserRole(userViewModel);
             }
             return View(mappedResult);
+        }
+
+        private async Task AddUserRole(UserViewModel userViewModel)
+        {
+            try
+            {
+                userViewModel.IsAdmin = await _userManager.IsInRoleAsync(userViewModel.AspNetUserId, UserConsts.ADMIN_ROLE);
+            }
+            catch (Exception e)
+            {
+                userViewModel.IsAdmin = false;
+            }
         }
 
         public async Task<ActionResult> Details(int id)
@@ -57,11 +59,17 @@ namespace BJJInParadise.Web.Controllers
 
             var user = _accountService.Get(id);
 
-            mappedResult.IsAdmin = await _userManager.IsInRoleAsync(user.AspNetUserId, UserConsts.ADMIN_ROLE);
+            await AddUserRole(mappedResult);
 
             var bookings = await _bookingService.GetBookingsByUserIdAsync(id);
+            var booksEnum = new List<Booking>();
+            foreach (var item in bookings)
+            {
+                item.User = user;
+                booksEnum.Add(item);
+            }
 
-            mappedResult.BookedCamps = bookings;
+            mappedResult.BookedCamps = booksEnum;
 
             return View(mappedResult);
         }
@@ -71,9 +79,8 @@ namespace BJJInParadise.Web.Controllers
             var user =  _accountService.Get(id);
 
             var mappedResult = Mapper.Map<User, UserBookingViewModel>(user);
-            mappedResult.IsAdmin = await _userManager.IsInRoleAsync(mappedResult.AspNetUserId, UserConsts.ADMIN_ROLE);
-            var bookings = await _bookingService.GetBookingsByUserIdAsync(id);
-
+            await AddUserRole(mappedResult); var bookings = await _bookingService.GetBookingsByUserIdAsync(id);
+            
             mappedResult.BookedCamps = bookings;
 
 
@@ -124,12 +131,21 @@ namespace BJJInParadise.Web.Controllers
             var user = _accountService.Get(id);
             return View(user);
         }
-
+        [HttpPost]
         public async Task<ActionResult> Delete(User user)
         {
-            await _userManager.DeleteAsync(await _userManager.FindByIdAsync(user.AspNetUserId));
+            try
+            {
+                if (user.AspNetUserId != null)
+                    await _userManager.DeleteAsync(await _userManager.FindByIdAsync(user.AspNetUserId));
+            }
+            catch (Exception e)
+            {
+             //ignored
+            }
+      
             await _accountService.DeleteAsync(user);
-            return View(user);
+            return RedirectToAction("Index");
         }
     }
 }

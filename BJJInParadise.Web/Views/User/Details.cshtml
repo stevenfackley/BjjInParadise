@@ -1,16 +1,19 @@
-﻿@model BJJInParadise.Web.ViewModels.UserBookingViewModel
+﻿@using BjjInParadise.Core.Constants
+@model BJJInParadise.Web.ViewModels.UserBookingViewModel
 @section styles{
     <style>
         #mainNav {
             background: #000 !important;
-
         }
+
         #userDetails {
             margin-top: 80px;
         }
+
         .card-header {
             background: darkgray;
         }
+
         .btn {
             color: #fed136;
         }
@@ -120,54 +123,25 @@
 
         </dl>
     </div>
-</div>
-@{
-    var count = 0;
+
+@if (Model.BookedCamps.Any())
+{
+    <hr />
+    <h2>Booked Camps for @Model.FirstName + @Model.LastName</h2>
+    @Html.Partial("../Booking/_BookingAccordian", @Model.BookedCamps)
 }
-<hr/>
-<h2>Booked Camps for @Model.FirstName + @Model.LastName</h2>
-<div class="col-xs-12 col-md-6">
-    <div id="accordion">
-        @foreach (var item in Model.BookedCamps)
+else
+{
+    <hr />
+    <h2>No Booked Camps for @Model.FirstName + @Model.LastName</h2>
+ 
+}
+    <p>
+        @if (User.IsInRole(UserConsts.ADMIN_ROLE))
         {
-
-            <div class="card">
-                <div class="card-header" id="headingOne">
-
-                    <h5 class="mb-0">
-                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapse@(count)" aria-expanded="true" aria-controls="collapse@(count)">
-                            @item.Camp.CampName
-                        </button>
-                    </h5>
-                </div>
-
-                <div id="collapse@(count)" class="collapse" aria-labelledby="heading + @(count)" data-parent="#accordion">
-                    <div class="card-body">
-                        
-                     
-                    
-                        <div class="col-xs-3">@Html.DisplayNameFor(x => item.AmountPaid): @Html.DisplayFor(x => item.AmountPaid)</div>
-                  
-                        <div class="col-xs-3">@Html.DisplayNameFor(x => item.Camp.StartDate): @Html.DisplayFor(x => item.Camp.StartDate)</div>
-    
-                        <div class="col-xs-3">@Html.DisplayNameFor(x => item.Camp.EndDate): @Html.DisplayFor(x => item.Camp.EndDate)</div>
-                        <div class="col-xs-3">@Html.DisplayNameFor(x => item.CreatedDate): @Html.DisplayFor(x => item.CreatedDate)</div>
-
-                        <div class="col-xs-3">@Html.DisplayNameFor(x => item.ModifiedDate): @Html.DisplayFor(x => item.ModifiedDate)</div>
-                  
-                        <div class="col-xs-3">@Html.DisplayNameFor(x => item.Camp.IsActive): @Html.DisplayFor(x => item.Camp.IsActive)</div>
-                    
-                
-                      
-                        </div>
-                </div>
-                @{ count++;}
-            </div>
-
+            @Html.ActionLink("Edit", "Edit", new { id = Model.UserId }, new { @class = "btn btn-warning" })
         }
-    </div>
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-sucess" })
+    </p>
+
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.UserId }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

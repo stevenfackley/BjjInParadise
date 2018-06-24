@@ -45,6 +45,7 @@ namespace BjjInParadise.Core.Models
         [Phone]
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
-        
+
+   
     }
 }
