@@ -57,14 +57,16 @@ namespace BjjInParadise.Business
                                                                    ,[EndDate]
                                                                    ,[IsActive]
                                                                    ,[CreatedDate]
-                                                                   ,[ModifiedDate])
+                                                                   ,[ModifiedDate]
+                                                                    ,[HtmlPageText])
                                                              VALUES
                                                                    (@CampName
                                                                    ,@StartDate
                                                                    ,@EndDate
                                                                    ,@IsActive
                                                                    ,@CreatedDate
-                                                                   ,@ModifiedDate)";
+                                                                   ,@ModifiedDate
+                                                                    ,@HtmlPageText)";
 
                     var result = await db.ExecuteAsync(insertQuery, t);
                     return t;

@@ -5,8 +5,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using BjjInParadise.Business;
 using BjjInParadise.Core.Models;
+using BJJInParadise.Web.ViewModels;
 
 namespace BJJInParadise.Web.Controllers
 {
@@ -37,14 +39,15 @@ namespace BJJInParadise.Web.Controllers
 
         // POST: Admin/Create
         [HttpPost]
-        public async Task<ActionResult> Create(Camp camp)
+        public async Task<ActionResult> Create(CreateCampViewModel camp)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+                    var create = Mapper.Map<CreateCampViewModel, Camp>(camp);
                     // TODO: Add insert logic here
-                    await _campService.AddAsync(camp);
+                    await _campService.AddAsync(create);
                     return RedirectToAction("Index");
                 }
                 catch
