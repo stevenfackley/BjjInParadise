@@ -364,7 +364,12 @@
     <Content Include="Content\unitegallery-master\dist\themes\video\skin-right-title-only.css" />
     <Content Include="Content\unitegallery-master\dist\themes\video\ug-theme-video.js" />
     <Content Include="Images\adrian.jpg" />
+    <Content Include="Images\brad.WithOthers.jpg" />
     <Content Include="Images\headerGroupSmile.jpg" />
+    <Content Include="Images\claude.jpg" />
+    <Content Include="Images\jojo-roper-puerto-escondido.jpg" />
+    <Content Include="Images\triangleChallenge.jpg" />
+    <Content Include="Images\turtulesSunset.jpg" />
     <Content Include="Images\la-ventanilla.jpg" />
     <Content Include="Images\lacoloniabjj.png" />
     <Content Include="Images\laugh.JPG" />
