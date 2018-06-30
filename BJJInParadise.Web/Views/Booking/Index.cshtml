@@ -75,60 +75,18 @@
             <div id="step-2" class="">
                 <div class="row">
                     <div class="container">
-                    <label class="control-label">@Html.DisplayNameFor(x => x.AllAvailableCamps)</label>
-                    @Html.DropDownListFor(x => x.CampId, Model.AllAvailableCamps, new {htmlAttributes = new {@class = "form-control"}})
+                        <label class="control-label">@Html.DisplayNameFor(x => x.AllAvailableCamps)</label>
+                        @Html.DropDownListFor(x => x.CampId, Model.AllAvailableCamps, new { htmlAttributes = new { @class = "form-control" } })
+                   
                     </div>
                 </div>
-          
+                <div class="row" >
                     <div class="container">
-                        <h3>Participants</h3>
-                        <table id="myTable" class="table-responsive order-list">
-                            <thead>
-                                <tr>
-                                    <td>First Name</td>
-                                    <td>Last Name</td>
-                                    <td>Email</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-
-                                        @Html.EditorFor(model => model.User.FirstName, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.User.FirstName, "", new { @class = "text-danger" })
-
-                                    </td>
-                                    <td>
-                                        @Html.EditorFor(model => model.User.LastName, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.User.LastName, "", new { @class = "text-danger" })
-                                    </td>
-                                    <td style="width:250px">
-                                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                                    </td>
-                                
-                                    <td>
-                                        @Html.CheckBoxFor(model => model.NonTraining, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.NonTraining, "", new { @class = "text-danger" })
-                                    </td>
-                                    <td class="col-sm-2">
-                                        <a class="deleteRow"></a>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="5" style="text-align: left;">
-                                        <input type="button" class="btn btn-lg btn-block " id="addrow" value="Add Row" />
-                                    </td>
-                                </tr>
-                                <tr></tr>
-                            </tfoot>
-                        </table>
-
-
+                        <label class="control-label">@Html.DisplayNameFor(x => x.RoomOptions)</label>
+                        @Html.DropDownListFor(x => x.CampRoomOptionId, Model.RoomOptions, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
                 </div>
+
             </div>
             <div id="step-3" class="">
                 Step Content
@@ -233,6 +191,7 @@
 
 }
 </div>
+
 @section Scripts {
     <script src="~/Scripts/jquery.smartWizard.js"></script>
 
@@ -265,6 +224,27 @@
 
         });
 
+        
+        $("#CampId").change(function () {
+            var camp = $("#CampRoomOptionId").empty();
+            camp.empty();
+            var data = { campId: $(this).val() }
+            $.post('@Url.Action("GetCampOptions")', data, function (backdata, status) {
+                // callback, do something
+                alert();
+            
+            }, "json").done(function(data){
+      
+
+                    camp.append($('<option></option>').text("-- Select -- ").val(0));
+                $.each(data.data, function(index, item) { // item is now an object containing properties ID and Text
+                        camp.append($('<option></option>').text(item.RoomType + ' ' + item.CostPerPerson).val(item.CampRoomOptionId));
+                    });
+                })
+                .fail(function(xhr){
+                    alert(xhr.responseText); 
+                });;
+        });
 
 
    

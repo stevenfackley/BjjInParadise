@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using BjjInParadise.Business;
+using BjjInParadise.Core.Models;
 using BJJInParadise.Web.ViewModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -17,12 +18,14 @@ namespace BJJInParadise.Web.Controllers
         private AccountService _service;
         private CampService _campService;
         private ApplicationUserManager _userManager;
+        private CampRoomOptionService _roomOptionService;
 
-        public BookingController(AccountService service, CampService campService, ApplicationUserManager userManager)
+        public BookingController(AccountService service, CampService campService, ApplicationUserManager userManager, CampRoomOptionService roomOptionService)
         {
             _service = service;
             _campService = campService;
             UserManager = userManager;
+            _roomOptionService = roomOptionService;
         }
         public ApplicationUserManager UserManager
         {
@@ -36,22 +39,41 @@ namespace BJJInParadise.Web.Controllers
             var nextCamp = await _campService.GetNextCampAsync();
             var availCamps = await _campService.GetAllActiveAsync();
             var userOwin = await UserManager.FindByIdAsync(user.AspNetUserId);
+            
+
             var list = new List<SelectListItem> {new SelectListItem {Text = "-- Select --", Value = "0"}};
             list.AddRange(availCamps.Select(x => new SelectListItem
             {
                 Text = $@"{x.StartDate.ToShortDateString()} - {x.CampName} From ",
                 Value = x.CampId.ToString()
             }));
+
+            var list2 = new List<SelectListItem> { new SelectListItem { Text = "-- Select --", Value = "0" } };
+     
+
             var vm = new NewBookingViewModel
             {
                 UserId = user.UserId,
-                CampId = nextCamp.CampId,
+                CampId = 0,
                 User = user,
                 Email = userOwin.Email,
-                AllAvailableCamps = list
+                AllAvailableCamps = list,
+                RoomOptions = list2
             };
 
             return View(vm);
+        }
+        [HttpPost]
+        public ActionResult GetCampOptions(int campId)
+        {
+            var result = _roomOptionService.GetByCampId(campId).ToList();
+            foreach (var campRoomOption in result)
+            {
+                campRoomOption.Camp = null;
+            }
+            return Json(new { success = true, data=result },
+                JsonRequestBehavior.AllowGet);
+
         }
 
         [HttpPost]

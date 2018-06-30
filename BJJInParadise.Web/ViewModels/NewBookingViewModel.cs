@@ -32,7 +32,9 @@ namespace BJJInParadise.Web.ViewModels
         [DisplayName("Available Camps")]
         public List<SelectListItem> AllAvailableCamps { get; set; }
 
-        [DisplayName("Not Training")]
-        public bool NonTraining { get; set; }
+        [DisplayName("Room Options")]
+        public List<SelectListItem> RoomOptions { get; set; }
+
+        public int CampRoomOptionId { get; set; }
     }
 }
