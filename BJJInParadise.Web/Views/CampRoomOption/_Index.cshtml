@@ -1,0 +1,57 @@
+﻿@model IEnumerable<BjjInParadise.Core.Models.CampRoomOption>
+
+<div class="container" id="campOptionsContainer">
+    <h2>Room Options</h2>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    @if (Model != null && Model.Any())
+    {
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Camp.CampName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RoomType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CostPerPerson)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SpotsAvailable)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Camp.CampName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RoomType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CostPerPerson)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SpotsAvailable)
+                    </td>
+
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new {id = item.CampRoomOptionId}, new {@class = "btn btn-success"})
+                        @Html.ActionLink("Details", "Details", new {id = item.CampRoomOptionId}, new {@class = "btn btn-warning"})
+                        @Html.ActionLink("Delete", "Delete", new {id = item.CampRoomOptionId}, new {@class = "btn btn-danger"})
+                    </td>
+                </tr>
+            }
+            else{
+            <p>No rooms added</p>
+            
+            }
+
+        </table>
+    }
+</div>

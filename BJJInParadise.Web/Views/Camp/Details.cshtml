@@ -64,11 +64,14 @@
         </dd>
 
     </dl>
+    
+@{ Html.RenderAction("Index", "CampRoomOption", new {id = Model.CampId}); }
     @{ var count = 0;}
     <h2>Booked Camps for @Model.CampName + @Model.StartDate.ToLongDateString()</h2>
     @Html.Partial("../Booking/_BookingAccordian", @Model.Bookings)
-
-<p>
+    
+    
+    <p>
 @if (User.IsInRole(UserConsts.ADMIN_ROLE))
 {
     @Html.ActionLink("Edit", "Edit", new {id = Model.CampId}, new { @class = "btn btn-warning" }) 

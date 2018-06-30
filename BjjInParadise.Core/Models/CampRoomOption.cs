@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BjjInParadise.Core.Models
 {
-    public class CampRoomOption
+    public class CampRoomOption : BaseModel
     {
         [Key]
         public int CampRoomOptionId { get; set; }
@@ -18,6 +18,8 @@ namespace BjjInParadise.Core.Models
         public string RoomType { get; set; }
         [Required]
         public decimal CostPerPerson { get; set; }
+        [Required]
+        public int SpotsAvailable { get; set; }
 
     }
 }
