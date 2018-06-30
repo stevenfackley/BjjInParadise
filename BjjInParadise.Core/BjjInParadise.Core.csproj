@@ -46,6 +46,7 @@
     <Compile Include="Models\Booking.cs" />
     <Compile Include="Models\BookingParticipent.cs" />
     <Compile Include="Models\Camp.cs" />
+    <Compile Include="Models\CampRoomOption.cs" />
     <Compile Include="Models\Page.cs" />
     <Compile Include="Models\PageItem.cs" />
     <Compile Include="Models\Participent.cs" />

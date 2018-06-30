@@ -18,7 +18,10 @@ namespace BjjInParadise.Core.Models
         [Display(Name = "Amount Paid")]
         public decimal? AmountPaid { get; set; }
 
+        public int? CampRoomOptionId { get; set; }
+
         public virtual User User { get; set; }
         public virtual Camp Camp { get; set; }
+        public virtual CampRoomOption CampRoomOption { get; set; }
     }
 }

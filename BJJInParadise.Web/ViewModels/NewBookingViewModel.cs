@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+using System.Web.Mvc;
 using BjjInParadise.Core.Models;
 
 namespace BJJInParadise.Web.ViewModels
@@ -12,7 +12,6 @@ namespace BJJInParadise.Web.ViewModels
         public NewBookingViewModel()
         {
             AdditionalParticipants = new List<Participant>();
-            AvailableCamps = new List<Camp>();
         }
         [Required]
         public User User { get; set; }
@@ -24,14 +23,16 @@ namespace BJJInParadise.Web.ViewModels
         [Required]
         public int CampId { get; set; }
 
-        public Camp SelectedCamp { get; set; }
-
-        public List<Camp> AvailableCamps { get; set; }
-
         public List<Participant> AdditionalParticipants { get; set; }
         [Required]
         [EmailAddress]
         public string Email { get; set; }
 
+
+        [DisplayName("Available Camps")]
+        public List<SelectListItem> AllAvailableCamps { get; set; }
+
+        [DisplayName("Not Training")]
+        public bool NonTraining { get; set; }
     }
 }

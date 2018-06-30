@@ -36,16 +36,21 @@ namespace BJJInParadise.Web.Controllers
             var nextCamp = await _campService.GetNextCampAsync();
             var availCamps = await _campService.GetAllActiveAsync();
             var userOwin = await UserManager.FindByIdAsync(user.AspNetUserId);
-
-            var vm = new NewBookingViewModel()
+            var list = new List<SelectListItem> {new SelectListItem {Text = "-- Select --", Value = "0"}};
+            list.AddRange(availCamps.Select(x => new SelectListItem
+            {
+                Text = $@"{x.StartDate.ToShortDateString()} - {x.CampName} From ",
+                Value = x.CampId.ToString()
+            }));
+            var vm = new NewBookingViewModel
             {
                 UserId = user.UserId,
                 CampId = nextCamp.CampId,
-                AvailableCamps = availCamps.ToList(),
                 User = user,
-                SelectedCamp = nextCamp,
-                Email = userOwin.Email
+                Email = userOwin.Email,
+                AllAvailableCamps = list
             };
+
             return View(vm);
         }
 

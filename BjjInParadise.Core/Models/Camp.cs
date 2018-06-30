@@ -26,6 +26,7 @@ namespace BjjInParadise.Core.Models
 
 
         public virtual ICollection<Booking> Bookings { get; set; }
+        public virtual ICollection<CampRoomOption> CampRoomOptions { get; set; }
         public string HtmlPageText { get; set; }
     }
 }

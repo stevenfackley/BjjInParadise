@@ -56,6 +56,10 @@
     <Compile Include="Migrations\201806240617213_TheNextOne.Designer.cs">
       <DependentUpon>201806240617213_TheNextOne.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806300021596_AddCampRoomOptions.cs" />
+    <Compile Include="Migrations\201806300021596_AddCampRoomOptions.Designer.cs">
+      <DependentUpon>201806300021596_AddCampRoomOptions.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -77,6 +81,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806240617213_TheNextOne.resx">
       <DependentUpon>201806240617213_TheNextOne.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806300021596_AddCampRoomOptions.resx">
+      <DependentUpon>201806300021596_AddCampRoomOptions.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
