@@ -1,0 +1,82 @@
+﻿@model BjjInParadise.Core.Models.CampRoomOption
+@section styles{
+    <style>
+        #mainNav {
+            background: #000 !important;
+        }
+
+        #editCampsContainer {
+            margin-top: 160px;
+        }
+    </style>
+}
+<div class="container" id="editCampsContainer">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Camp</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.CampId)
+            @Html.HiddenFor(model => model.CampRoomOptionId)
+            @Html.HiddenFor(model => model.CreatedDate)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Camp.CampName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DisplayFor(model => model.Camp.CampName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.LabelFor(model => model.Camp.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    @Html.DisplayFor(model => model.Camp.StartDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.LabelFor(model => model.Camp.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    @Html.DisplayFor(model => model.Camp.EndDate, new { htmlAttributes = new { @class = "form-control" } })
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.RoomType, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.RoomType, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.RoomType, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CostPerPerson, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CostPerPerson, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CostPerPerson, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.SpotsAvailable, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+
+                    @Html.EditorFor(model => model.SpotsAvailable)
+                    @Html.ValidationMessageFor(model => model.SpotsAvailable, "", new { @class = "text-danger" })
+
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-success" })
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

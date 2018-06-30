@@ -15,10 +15,14 @@ namespace BjjInParadise.Core.Models
         public int CampId { get; set; }
         public Camp Camp { get; set; }
         [Required]
+        [Display(Name = "Room Type: ")]
         public string RoomType { get; set; }
         [Required]
+        [Display(Name = "Cost Per Person: ")]
+        [DataType(DataType.Currency)]
         public decimal CostPerPerson { get; set; }
         [Required]
+        [Display(Name = "Spots Available: ")]
         public int SpotsAvailable { get; set; }
 
     }

@@ -1,30 +1,30 @@
-﻿@model IEnumerable<BjjInParadise.Core.Models.CampRoomOption>
+﻿@model BJJInParadise.Web.ViewModels.CreateCampRoomOptionViewModel 
 
 <div class="container" id="campOptionsContainer">
     <h2>Room Options</h2>
     <p>
-        @Html.ActionLink("Create New", "Create")
+        @Html.ActionLink("Create New", "Create", new {id = Model.CampId}, new { @class = "btn btn-info" })
     </p>
-    @if (Model != null && Model.Any())
+    @if (Model.CampRoomOptions != null && Model.CampRoomOptions.Any())
     {
         <table class="table">
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Camp.CampName)
+                    @Html.DisplayNameFor(model => model.CampRoomOptions.FirstOrDefault().Camp.CampName)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.RoomType)
+                    @Html.DisplayNameFor(model => model.CampRoomOptions.FirstOrDefault().RoomType)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.CostPerPerson)
+                    @Html.DisplayNameFor(model => model.CampRoomOptions.FirstOrDefault().CostPerPerson)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.SpotsAvailable)
+                    @Html.DisplayNameFor(model => model.CampRoomOptions.FirstOrDefault().SpotsAvailable)
                 </th>
                 <th></th>
             </tr>
 
-            @foreach (var item in Model)
+            @foreach (var item in Model.CampRoomOptions)
             {
                 <tr>
                     <td>
@@ -42,16 +42,14 @@
 
                     <td>
                         @Html.ActionLink("Edit", "Edit", new {id = item.CampRoomOptionId}, new {@class = "btn btn-success"})
-                        @Html.ActionLink("Details", "Details", new {id = item.CampRoomOptionId}, new {@class = "btn btn-warning"})
                         @Html.ActionLink("Delete", "Delete", new {id = item.CampRoomOptionId}, new {@class = "btn btn-danger"})
                     </td>
                 </tr>
             }
-            else{
-            <p>No rooms added</p>
-            
-            }
 
         </table>
+    }else{
+        <p>No rooms added</p>
+            
     }
 </div>

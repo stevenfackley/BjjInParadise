@@ -16,10 +16,12 @@ namespace BjjInParadise.Business
     {
         private BjjInParadiseContext _context;
         private string _connectionString;
+        private CampService _campService;
 
-        public CampRoomOptionService(BjjInParadiseContext context)
+        public CampRoomOptionService(BjjInParadiseContext context, CampService campService)
         {
             _context = context;
+            _campService = campService;
             _connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         }
 
@@ -32,7 +34,7 @@ namespace BjjInParadise.Business
                     string deleteBooking = "DELETE FROM [dbo].[CampRoomOption] WHERE CampRoomOptionId = @CampRoomOptionId ";
                     await db.ExecuteAsync(deleteBooking, new
                     {
-                        CampRoomOption = t.CampRoomOptionId
+                       t.CampRoomOptionId
                     });
 
 
@@ -52,8 +54,13 @@ namespace BjjInParadise.Business
                 using (IDbConnection db = new SqlConnection(_connectionString))
                 {
                     var result =  db.Query<CampRoomOption>("SELECT TOP 1 * From CampRoomOption where [CampRoomOptionId] = @CampRoomOptionId", new { CampRoomOptionId = id });
+                    var retVal = result.FirstOrDefault();
+                    if (retVal != null)
+                    {
+                        retVal.Camp = _campService.Get(retVal.CampId);
+                    }
 
-                    return result.FirstOrDefault();
+                    return retVal;
                 }
             }
             catch (Exception e)
@@ -62,15 +69,25 @@ namespace BjjInParadise.Business
                 throw;
             }
         }
-        public  CampRoomOption GetByCampId(int? id)
+
+        public IEnumerable<CampRoomOption> GetByCampId(int? id)
         {
             try
             {
                 using (IDbConnection db = new SqlConnection(_connectionString))
                 {
-                    var result = db.Query<CampRoomOption>("SELECT TOP 1 * From CampRoomOption where [CampId] = @CampId", new { CampId = id });
+                    var result = db.Query<CampRoomOption>("SELECT * From CampRoomOption where [CampId] = @CampId",
+                        new {CampId = id}).ToList();
+                    ;
 
-                    return result.FirstOrDefault();
+                    var camp = _campService.Get(id);
+
+                    foreach (var campRoomOption in result)
+                    {
+                        campRoomOption.Camp = camp;
+                    }
+
+                    return result;
                 }
             }
             catch (Exception e)
@@ -79,6 +96,7 @@ namespace BjjInParadise.Business
                 throw;
             }
         }
+
         public override IEnumerable<CampRoomOption> GetAll()
         {
             try
@@ -110,15 +128,20 @@ namespace BjjInParadise.Business
                     var updateQuery =
                             @"UPDATE [dbo].[CampRoomOption]  
                     SET
-                        [FirstName] = @FirstName
+                        [RoomType] = @RoomType,
+                        [CostPerPerson] = @CostPerPerson,
+                        [SpotsAvailable] = @SpotsAvailable
                         WHERE [CampRoomOptionId] = @CampRoomOptionId
                    "
                         ;
                     var obj = new
                     {
 
-                        t.ModifiedDate,
- 
+                        t.RoomType,
+                        t.CostPerPerson,
+                        t.SpotsAvailable,
+                        t.CampRoomOptionId
+
                     };
                     var result = await db.ExecuteAsync(updateQuery, obj);
                     return t;
