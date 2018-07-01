@@ -13,7 +13,7 @@ namespace BjjInParadise.Data.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201807011901365_initial"; }
+            get { return "201807011910345_initial"; }
         }
         
         string IMigrationMetadata.Source

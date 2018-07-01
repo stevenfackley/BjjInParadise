@@ -77,35 +77,16 @@ namespace BjjInParadise.Data.Migrations
                 .ForeignKey("dbo.Camp", t => t.CampId, cascadeDelete: true)
                 .Index(t => t.CampId);
             
-            CreateTable(
-                "dbo.Participant",
-                c => new
-                    {
-                        ParticipantId = c.Int(nullable: false, identity: true),
-                        UserId = c.Int(nullable: false),
-                        FirstName = c.String(),
-                        LastName = c.String(),
-                        Email = c.String(),
-                        CreatedDate = c.DateTime(nullable: false),
-                        ModifiedDate = c.DateTime(nullable: false),
-                    })
-                .PrimaryKey(t => t.ParticipantId)
-                .ForeignKey("dbo.ApplicationUsers", t => t.UserId, cascadeDelete: true)
-                .Index(t => t.UserId);
-            
         }
         
         public override void Down()
         {
-            DropForeignKey("dbo.Participant", "UserId", "dbo.ApplicationUsers");
             DropForeignKey("dbo.Booking", "UserId", "dbo.ApplicationUsers");
             DropForeignKey("dbo.Booking", "CampId", "dbo.Camp");
             DropForeignKey("dbo.CampRoomOption", "CampId", "dbo.Camp");
-            DropIndex("dbo.Participant", new[] { "UserId" });
             DropIndex("dbo.CampRoomOption", new[] { "CampId" });
             DropIndex("dbo.Booking", new[] { "CampId" });
             DropIndex("dbo.Booking", new[] { "UserId" });
-            DropTable("dbo.Participant");
             DropTable("dbo.CampRoomOption");
             DropTable("dbo.Camp");
             DropTable("dbo.Booking");

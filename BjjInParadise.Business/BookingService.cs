@@ -59,8 +59,31 @@ namespace BjjInParadise.Business
             try
             {
                 t.BookingDate = t.ModifiedDate;
-                _context.Bookings.Add(t);
-                await _context.SaveChangesAsync();
+                if (t.AmountPaid == null)
+                    t.AmountPaid = _campRoomOptionService.Get(t.CampRoomOptionId).CostPerPerson;
+
+                using (IDbConnection db = new SqlConnection(_connectionString))
+                {
+                    string insertQuery = @"INSERT INTO [dbo].[Booking]
+           ([BookingDate]
+           ,[AmountPaid]
+           ,[UserId]
+           ,[CampId]
+           ,[CampRoomOptionId]
+           ,[CreatedDate]
+           ,[ModifiedDate])
+     VALUES
+           (@BookingDate
+           ,@AmountPaid
+           ,@UserId
+           ,@CampId
+           ,@CampRoomOptionId
+           ,@CreatedDate
+           ,@ModifiedDate)
+";
+
+                    var result = await db.ExecuteAsync(insertQuery, t);
+                }
             }
             catch (Exception e)
             {

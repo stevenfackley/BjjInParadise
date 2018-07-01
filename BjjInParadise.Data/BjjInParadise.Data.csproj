@@ -48,9 +48,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BjjInParadiseContext.cs" />
-    <Compile Include="Migrations\201807011901365_initial.cs" />
-    <Compile Include="Migrations\201807011901365_initial.Designer.cs">
-      <DependentUpon>201807011901365_initial.cs</DependentUpon>
+    <Compile Include="Migrations\201807011910345_initial.cs" />
+    <Compile Include="Migrations\201807011910345_initial.Designer.cs">
+      <DependentUpon>201807011910345_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -68,8 +68,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201807011901365_initial.resx">
-      <DependentUpon>201807011901365_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201807011910345_initial.resx">
+      <DependentUpon>201807011910345_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

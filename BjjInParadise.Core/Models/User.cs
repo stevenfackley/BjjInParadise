@@ -46,6 +46,6 @@ namespace BjjInParadise.Core.Models
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
 
-   
+        public ICollection<Booking> Bookings { get; set; }
     }
 }
