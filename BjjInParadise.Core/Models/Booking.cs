@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +20,16 @@ namespace BjjInParadise.Core.Models
         public decimal? AmountPaid { get; set; }
 
         public int? CampRoomOptionId { get; set; }
+        [NotMapped]
+        public string CreditCard { get; set; }
 
+        [NotMapped]
+        public string Expiration { get; set; }
+        [NotMapped]
+        public string Email { get; set; }
+
+        [NotMapped]
+        public string CVC { get; set; }
         public virtual User User { get; set; }
         public virtual Camp Camp { get; set; }
         public virtual CampRoomOption CampRoomOption { get; set; }

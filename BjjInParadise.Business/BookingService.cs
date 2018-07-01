@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using BjjInParadise.Core.Models;
 using BjjInParadise.Data;
 using Dapper;
+using PayPal.Api;
+using Transaction = System.Transactions.Transaction;
 
 namespace BjjInParadise.Business
 {
@@ -43,9 +45,12 @@ namespace BjjInParadise.Business
             throw new NotImplementedException();
         }
 
-        protected override Task<Booking> Add(Booking t)
+        protected override Task<Booking> Add(Booking vm)
         {
+
+
             throw new NotImplementedException();
+
         }
 
         public async Task<IEnumerable<Booking>> GetBookingsByUserIdAsync(int userId)
@@ -72,5 +77,109 @@ namespace BjjInParadise.Business
                 throw;
             }
         }
+
+        public bool ProcessPayment(Booking result)
+        {
+            // Authenticate with PayPal
+            var config = ConfigManager.Instance.GetProperties();
+            var accessToken = new OAuthTokenCredential(config).GetAccessToken();
+            var apiContext = new APIContext(accessToken);
+
+
+
+            // A transaction defines the contract of a payment - what is the payment for and who is fulfilling it. 
+            var transaction = new PayPal.Api.Transaction
+            {
+                amount = new Amount
+                {
+                    currency = "USD",
+                    total = result.AmountPaid.ToString(),
+                    details = new Details
+                    {
+                        subtotal = result.AmountPaid.ToString()
+                    }
+                },
+                description = result.Camp.CampName,
+                item_list = new ItemList
+                {
+                    items = new List<Item>
+                    {
+                        new Item
+                        {
+                            name = result.CampRoomOption.RoomType,
+                            currency = "USD",
+                            price = result.AmountPaid.ToString(),
+                            quantity = "1"
+                        }
+                    },
+                    shipping_address = new ShippingAddress
+                    {
+                        city = result.User.City,
+                        country_code = result.User.Country,
+                        line1 = result.User.Street,
+                        postal_code = result.User.ZipCode,
+                        state = result.User.State,
+                        recipient_name = result.User.FirstName + " " + result.User.LastName
+                    }
+                },
+                invoice_number = result.CampId + result.UserId.ToString() + new Random().Next(10000,99999) //Common.GetRandomInvoiceNumber()
+            };
+
+            // A resource representing a Payer that funds a payment.
+            var payer = new Payer
+            {
+                payment_method = "credit_card",
+                funding_instruments = new List<FundingInstrument>
+                {
+                    new FundingInstrument
+                    {
+                        credit_card = new CreditCard
+                        {
+                            billing_address = new Address
+                            {
+                                city = result.User.City,
+                                country_code = result.User.Country,
+                                line1 = result.User.Street,
+                                postal_code = result.User.ZipCode,
+                                state = result.User.State,
+                            },
+                            cvv2 = result.CVC,
+                            expire_month =int.Parse(result.Expiration.Substring(0, 2)),
+                            expire_year = int.Parse(result.Expiration.Substring(2, 2)),
+                            first_name = result.User.FirstName,
+                            last_name = result.User.LastName,
+                            number = result.CreditCard,
+                            type = "visa"
+                        }
+                    }
+                },
+                payer_info = new PayerInfo
+                {
+                    email = result.Email
+                }
+            };
+
+            // A Payment resource; create one using the above types and intent as `sale` or `authorize`
+            var payment = new Payment
+            {
+                intent = "sale",
+                payer = payer,
+                transactions = new List<PayPal.Api.Transaction> { transaction }
+            };
+
+            try
+            {
+                // Create a payment using a valid APIContext
+                var createdPayment = payment.Create(apiContext);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+           
+        }
+
+   
     }
 }

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using BjjInParadise.Business;
 using BjjInParadise.Core.Models;
 using BJJInParadise.Web.ViewModels;
@@ -19,13 +20,15 @@ namespace BJJInParadise.Web.Controllers
         private CampService _campService;
         private ApplicationUserManager _userManager;
         private CampRoomOptionService _roomOptionService;
+        private BookingService _bookingService;
 
-        public BookingController(AccountService service, CampService campService, ApplicationUserManager userManager, CampRoomOptionService roomOptionService)
+        public BookingController(AccountService service, CampService campService, ApplicationUserManager userManager, CampRoomOptionService roomOptionService, BookingService bookingService)
         {
             _service = service;
             _campService = campService;
             UserManager = userManager;
             _roomOptionService = roomOptionService;
+            _bookingService = bookingService;
         }
         public ApplicationUserManager UserManager
         {
@@ -79,58 +82,20 @@ namespace BJJInParadise.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Index(NewBookingViewModel vm)
         {
-            // Authenticate with PayPal
-            var config = ConfigManager.Instance.GetProperties();
-            var accessToken = new OAuthTokenCredential(config).GetAccessToken();
-            var apiContext = new APIContext(accessToken);
-
-            // Make an API call
-            var payment = Payment.Create(apiContext, new Payment
+            if (ModelState.IsValid)
             {
-                intent = "sale",
-                payer = new Payer
+                var user = await _userManager.FindByIdAsync(HttpContext.User.Identity.GetUserId());
+                vm.Email = user.Email;
+                var result = Mapper.Map<NewBookingViewModel, Booking>(vm);
+                if (_bookingService.ProcessPayment(result))
                 {
-                    payment_method = "paypal"
-                },
-                transactions = new List<Transaction>
-                {
-                    new Transaction
-                    {
-                        description = "Transaction description.",
-                        invoice_number = "001",
-                        amount = new Amount
-                        {
-                            currency = "USD",
-                            total = "100.00",
-                            details = new Details
-                            {
-                                tax = "15",
-                                shipping = "10",
-                                subtotal = "75"
-                            }
-                        },
-                        item_list = new ItemList
-                        {
-                            items = new List<Item>
-                            {
-                                new Item
-                                {
-                                    name = "Item Name",
-                                    currency = "USD",
-                                    price = "15",
-                                    quantity = "5",
-                                    sku = "sku"
-                                }
-                            }
-                        }
-                    }
-                },
-                redirect_urls = new RedirectUrls
-                {
-                    return_url = "http://mysite.com/return",
-                    cancel_url = "http://mysite.com/cancel"
+                    await _bookingService.AddAsync(result);
+
                 }
-            });
+
+                return RedirectToAction("Index", "Home");
+            }
+
             return View(vm);
         }
     }

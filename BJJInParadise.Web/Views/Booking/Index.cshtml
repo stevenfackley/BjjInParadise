@@ -5,7 +5,8 @@
 }
 
 @section styles{
-    <link href="~/Content/smart_wizard.css" rel="stylesheet" type="text/css" /> 
+    <link href="~/Content/smart_wizard.css" rel="stylesheet" type="text/css" />
+
     <style>
         #mainNav {
             background: #000 !important;
@@ -16,237 +17,290 @@
         }
 
 
-        #myTable  td {
+        #myTable td {
             width: 150px;
         }
 
+  
+        .credit-card-box .panel-title {
+            display: inline;
+            font-weight: bold;
+        }
+        .credit-card-box .form-control.error {
+            border-color: red;
+            outline: 0;
+            box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(255,0,0,0.6);
+        }
+        .credit-card-box label.error {
+            font-weight: bold;
+            color: red;
+            padding: 2px 8px;
+            margin-top: 2px;
+        }
+        .credit-card-box .payment-errors {
+            font-weight: bold;
+            color: red;
+            padding: 2px 8px;
+            margin-top: 2px;
+        }
+        .credit-card-box label {
+            display: block;
+        }
+        /* The old "center div vertically" hack */
+        .credit-card-box .display-table {
+            display: table;
+        }
+        .credit-card-box .display-tr {
+            display: table-row;
+        }
+        .credit-card-box .display-td {
+            display: table-cell;
+            vertical-align: middle;
+            width: 50%;
+        }
+        /* Just looks nicer */
+        .credit-card-box .panel-heading img {
+            min-width: 180px;
+        }
     </style>
 }
 <div class="container">
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    <div id="smartwizard">
-        <ul>
-            <li><a href="#step-1">Contact Info<br /><small>Who's booking this?</small></a></li>
-            <li><a href="#step-2">Choose a Camp<br /><small>Which one?</small></a></li>
-            <li><a href="#step-3">Step Title<br /><small>Step description</small></a></li>
-            <li><a href="#step-4">Step Title<br /><small>Step description</small></a></li>
-        </ul>
- 
-        <div>
-            <div id="step-1" class="form-inline">
-                <div class="container">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(x => x.UserId)
+        <div id="smartwizard">
+            <ul>
+                <li><a href="#step-1">Contact Info<br /><small>Who's booking this?</small></a></li>
+                <li><a href="#step-2">Choose a Camp<br /><small>Which one?</small></a></li>
+                <li><a href="#step-3">Payment<br /><small></small></a></li>
+            </ul>
 
-                    <div class="table-responsive">
-
-                        <table class="table">
-                            <tbody>
-                            <tr>
-                                <td><label class="control-label">@Html.DisplayNameFor(x => x.User.FirstName)</label></td>
-                                <td><input type="text" class="form-control" value="@Html.DisplayFor(x => x.User.FirstName)"/></td>
-                                <td><label class="control-label">@Html.DisplayNameFor(x => x.User.LastName)</label></td>
-                                <td><input type="text" class="form-control" value="@Html.DisplayFor(x => x.User.LastName)"/></td>
-                            </tr>
-                            <tr>
-                                <td class="tableLabel"><label class="control-label">@Html.DisplayNameFor(x => x.User.Country)</label></td>
-                                <td><input type="text" class="form-control" value="@Html.DisplayFor(x => x.User.Country)"/></td>
-                                <td class="tableLabel"><label class="control-label">@Html.DisplayNameFor(x => x.User.ZipCode)</label></td>
-                                <td><input type="text" class="form-control" value="@Html.DisplayFor(x => x.User.ZipCode)"/></td>
-                            </tr>
-                            <tr>
-                                <td><label class="control-label">@Html.DisplayNameFor(x => x.User.Street)</label></td>
-                                <td><input type="text" class="form-control" value="@Html.DisplayFor(x => x.User.Street)"/></td>
-                                <td><label class="control-label">@Html.DisplayNameFor(x => x.User.State)</label></td>
-                                <td><input type="text" class="form-control" value="@Html.DisplayFor(x => x.User.State)"/></td>
-                            </tr>
-                            <tr>
-                                <td><label class="control-label">@Html.DisplayNameFor(x => x.User.PhoneNumber)</label></td>
-                                <td><input type="text" class="form-control" value="@Html.DisplayFor(x => x.User.PhoneNumber)"/></td>
-                                <td><label class="control-label">@Html.DisplayNameFor(x => x.User.HomeGym)</label></td>
-                                <td><input type="text" class="form-control" value="@Html.DisplayFor(x => x.User.HomeGym)"/></td>
-                            </tr>
-                            </tbody>
-                        </table>
-
-                    </div>
-                </div>
-            </div>
-            <div id="step-2" class="">
-                <div class="row">
+            <div>
+                <div id="step-1" class="form-inline">
                     <div class="container">
-                        <label class="control-label">@Html.DisplayNameFor(x => x.AllAvailableCamps)</label>
-                        @Html.DropDownListFor(x => x.CampId, Model.AllAvailableCamps, new { htmlAttributes = new { @class = "form-control" } })
-                   
+
+                        <div class="table-responsive">
+
+                            <table class="table">
+                                <tbody>
+                                <tr>
+                                    <td><label class="control-label">@Html.DisplayNameFor(x => x.User.FirstName)</label></td>
+                                    <td><input type="text" class="form-control" value="@Html.DisplayFor(x => x.User.FirstName)" /></td>
+                                    <td><label class="control-label">@Html.DisplayNameFor(x => x.User.LastName)</label></td>
+                                    <td><input type="text" class="form-control" value="@Html.DisplayFor(x => x.User.LastName)" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tableLabel"><label class="control-label">@Html.DisplayNameFor(x => x.User.Country)</label></td>
+                                    <td><input type="text" class="form-control" value="@Html.DisplayFor(x => x.User.Country)" /></td>
+                                    <td class="tableLabel"><label class="control-label">@Html.DisplayNameFor(x => x.User.ZipCode)</label></td>
+                                    <td><input type="text" class="form-control" value="@Html.DisplayFor(x => x.User.ZipCode)" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label class="control-label">@Html.DisplayNameFor(x => x.User.Street)</label></td>
+                                    <td><input type="text" class="form-control" value="@Html.DisplayFor(x => x.User.Street)" /></td>
+                                    <td><label class="control-label">@Html.DisplayNameFor(x => x.User.State)</label></td>
+                                    <td><input type="text" class="form-control" value="@Html.DisplayFor(x => x.User.State)" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label class="control-label">@Html.DisplayNameFor(x => x.User.PhoneNumber)</label></td>
+                                    <td><input type="text" class="form-control" value="@Html.DisplayFor(x => x.User.PhoneNumber)" /></td>
+                                    <td><label class="control-label">@Html.DisplayNameFor(x => x.User.HomeGym)</label></td>
+                                    <td><input type="text" class="form-control" value="@Html.DisplayFor(x => x.User.HomeGym)" /></td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
                     </div>
                 </div>
-                <div class="row" >
+                <div id="step-2" class="">
+                    <div class="row">
+                        <div class="container">
+                            <label class="control-label">@Html.DisplayNameFor(x => x.AllAvailableCamps)</label>
+                            @Html.DropDownListFor(x => x.CampId, Model.AllAvailableCamps, new { htmlAttributes = new { @class = "form-control" } })
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="container">
+                            <label class="control-label">@Html.DisplayNameFor(x => x.RoomOptions)</label>
+                            @Html.DropDownListFor(x => x.CampRoomOptionId, Model.RoomOptions, new { htmlAttributes = new { @class = "form-control" } })
+
+                            <div id="total"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="step-3" class="">
                     <div class="container">
-                        <label class="control-label">@Html.DisplayNameFor(x => x.RoomOptions)</label>
-                        @Html.DropDownListFor(x => x.CampRoomOptionId, Model.RoomOptions, new { htmlAttributes = new { @class = "form-control" } })
-                    </div>
-                </div>
-
-            </div>
-            <div id="step-3" class="">
-                Step Content
-            </div>
-            <div id="step-4" class="">
-                Step Content
-            </div>
-        </div>
-    </div>
+  
+                        <div class="row">
+                            <!-- You can make it whatever width you want. I'm making it full width
+                            on <= small devices and 4/12 page width on >= medium devices -->
+                            <div class="col-xs-12 col-md-4">
 
 
-    @*<div class="image-container set-full-height" style="background-image: url('~/Content/assets/img/wizard-profile.jpg'); padding-top: 100px;">
-      
-   
-        <!--   Big container   -->
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-10 col-sm-offset-2">
-                    <!--      Wizard container        -->
-                    <div class="wizard-container">
-                        <div class="card wizard-card" data-color="green" id="wizardProfile">
-                           
-                                <!--        You can switch " data-color="purple" "  with one of the next bright colors: "green", "orange", "red", "blue"       -->
-                                <div class="wizard-header">
-                                    <h3 class="wizard-title">
-                                        Build Your Profile
-                                    </h3>
-                                    <h5>This information will let us know more about you.</h5>
-                                </div>
-                                <div class="wizard-navigation">
-                                    <ul>
-                                        <li><a href="#information" data-toggle="tab">Booking Contact Info</a></li>
-                                        <li><a href="#whichCamp" data-toggle="tab">Camp</a></li>
-                                        <li><a href="#participants" data-toggle="tab">Participants</a></li>
-                                        <li><a href="#payment" data-toggle="tab">Payment</a></li>
-                                    </ul>
-                                </div>
-             
-                                    <div class="tab-pane" id="participants">
-                                        <h4 class="info-text">Camp Participants</h4>
-                                       
-                                        
-                                    
-                                    </div>
-                                    <div class="tab-pane" id="payment">
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <h4 class="info-text">Payment </h4>
-                                            </div>
-                                            <div class="col-sm-7 col-sm-offset-1">
-                                                <div class="form-group label-floating">
-                                                    <label class="control-label">Street Name</label>
-                                                    <input type="text" class="form-control">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <div class="form-group label-floating">
-                                                    <label class="control-label">Street Number</label>
-                                                    <input type="text" class="form-control">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-5 col-sm-offset-1">
-                                                <div class="form-group label-floating">
-                                                    <label class="control-label">City</label>
-                                                    <input type="text" class="form-control">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-5">
-                                                <div class="form-group label-floating">
-                                                    <label class="control-label">Country</label>
-                                            
-                                                </div>
+                                <!-- CREDIT CARD FORM STARTS HERE -->
+                                <div class="panel panel-default credit-card-box">
+                                    <div class="panel-heading display-table">
+                                        <div class="row display-tr">
+                                            <h3 class="panel-title display-td">Payment Details</h3>
+                                            <div class="display-td">
+                                                <img class="img-responsive pull-right" src="http://i76.imgup.net/accepted_c22e0.png">
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="wizard-footer">
-                                    <div class="pull-right">
-                                        <input type='button' class='btn btn-next btn-fill btn-success btn-wd' name='next' value='Next' />
-                                        <input type='button' class='btn btn-finish btn-fill btn-success btn-wd' name='finish' value='Finish' />
+                                    <div class="panel-body">
+                                        <form role="form" id="payment-form">
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <div class="form-group">
+                                                        @Html.DisplayNameFor(x => x.CreditCard)
+                                                        <div class="input-group">
+                                                            @Html.EditorFor(model => model.CreditCard, new {htmlAttributes = new {@class = "form-control", placeholder = "Valid Card Number"}})
+
+
+                                                            <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-7 col-md-7">
+                                                    <div class="form-group">
+                                                        @Html.DisplayNameFor(x => x.Expiration)
+                                                        <div class="input-group">
+                                                            @Html.EditorFor(model => model.Expiration, new {htmlAttributes = new {@class = "form-control", placeholder = "MM / YY"}})
+
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-5 col-md-5 pull-right">
+                                                    <div class="form-group">
+                                                        @Html.DisplayNameFor(x => x.CVC)
+                                                        <div class="input-group">
+                                                            @Html.EditorFor(model => model.CVC, new {htmlAttributes = new {@class = "form-control", placeholder = "CVC"}})
+
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <button class="btn btn-success btn-lg btn-block" type="submit">Checkout</button>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="display: none;">
+                                                <div class="col-xs-12">
+                                                    <p class="payment-errors"></p>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div>
-                                    <div class="pull-left">
-                                        <input type='button' class='btn btn-previous btn-fill btn-default btn-wd' name='previous' value='Previous' />
-                                    </div>
-                                    <div class="clearfix"></div>
                                 </div>
-                    
+                            </div>
                         </div>
-                    </div> <!-- wizard container -->
+                    </div>
                 </div>
-            </div><!-- end row -->
-        </div> <!--  big container -->
-        <div class="footer">
-            <div class="container text-center">
-                Made with <i class="fa fa-heart heart"></i> by <a href="http://www.creative-tim.com">Creative Tim</a>. Free download <a href="http://www.creative-tim.com/product/bootstrap-wizard">here.</a>
+                   
             </div>
         </div>
-    </div>*@
 
 
 
 
-}
+
+
+    }
 </div>
 
 @section Scripts {
-    <script src="~/Scripts/jquery.smartWizard.js"></script>
+     <script src="~/Scripts/jquery.smartWizard.js"></script>
 
     <script type="text/javascript">
-        $(document).ready(function () {
+    
+
+
+
+        $(document).ready(function() {
             $('#smartwizard').smartWizard();
             var counter = 0;
 
-            $("#addrow").on("click", function () {
-                var newRow = $("<tr>");
-                var cols = "";
+            $("#addrow").on("click",
+                function() {
+                    var newRow = $("<tr>");
+                    var cols = "";
 
-                cols += '<td><input type="text" class="form-control" name="firstName' + counter + '"/></td>';
-                cols += '<td><input type="text" class="form-control" name="lastName' + counter + '"/></td>';
-                cols += '<td><input type="text" class="form-control" name="Email' + counter + '"/></td>';
+                    cols += '<td><input type="text" class="form-control" name="firstName' + counter + '"/></td>';
+                    cols += '<td><input type="text" class="form-control" name="lastName' + counter + '"/></td>';
+                    cols += '<td><input type="text" class="form-control" name="Email' + counter + '"/></td>';
 
-                cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Delete"></td>';
-                newRow.append(cols);
-                $("table.order-list").append(newRow);
-                counter++;
-            });
-
-
-
-            $("table.order-list").on("click", ".ibtnDel", function (event) {
-                $(this).closest("tr").remove();
-                counter -= 1;
-            });
+                    cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Delete"></td>';
+                    newRow.append(cols);
+                    $("table.order-list").append(newRow);
+                    counter++;
+                });
 
 
+            $("table.order-list").on("click",
+                ".ibtnDel",
+                function(event) {
+                    $(this).closest("tr").remove();
+                    counter -= 1;
+                });
+
+       
         });
 
-        
-        $("#CampId").change(function () {
+
+        $("#CampId").change(function() {
             var camp = $("#CampRoomOptionId").empty();
             camp.empty();
             var data = { campId: $(this).val() }
-            $.post('@Url.Action("GetCampOptions")', data, function (backdata, status) {
-                // callback, do something
-                alert();
-            
-            }, "json").done(function(data){
-      
+            $.post('@Url.Action("GetCampOptions")',
+                    data,
+                    function(backdata, status) {
+
+                    },
+                    "json").done(function(data) {
+
 
                     camp.append($('<option></option>').text("-- Select -- ").val(0));
-                $.each(data.data, function(index, item) { // item is now an object containing properties ID and Text
-                        camp.append($('<option></option>').text(item.RoomType + ' ' + item.CostPerPerson).val(item.CampRoomOptionId));
-                    });
+                    $.each(data.data,
+                        function(index, item) { // item is now an object containing properties ID and Text
+                            camp.append($('<option></option>').text(item.RoomType + ' ' + formatAsCurrency(item.CostPerPerson))
+                                .val(item.CampRoomOptionId)).data("cost", item.CostPerPerson);
+                        });
+
                 })
-                .fail(function(xhr){
-                    alert(xhr.responseText); 
+                .fail(function(xhr) {
+                    alert(xhr.responseText);
                 });;
         });
+        $("#CampRoomOptionId").change(function () {
+            // Create our number formatter.
 
 
-   
+            $("#total").html('<div class="row"><div class="container">Total Cost: ' + formatAsCurrency($(this).data("cost")) + '</div></div>');
+        });
+
+        function formatAsCurrency(value) {
+            var formatter = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 2,
+                // the default value for minimumFractionDigits depends on the currency
+                // and is usually already 2
+            });
+
+            return formatter.format(value);
+        }
+
+
     </script>
 }
