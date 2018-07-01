@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,8 +13,11 @@ namespace BjjInParadise.Core.Models
         [Key]
         public int CampRoomOptionId { get; set; }
         [Required]
+        [ForeignKey("Camp")]
         public int CampId { get; set; }
-        public Camp Camp { get; set; }
+
+        public virtual Camp Camp { get; set; }
+
         [Required]
         [Display(Name = "Room Type: ")]
         public string RoomType { get; set; }

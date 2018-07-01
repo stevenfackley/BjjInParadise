@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +24,6 @@ namespace BjjInParadise.Core.Models
 
         [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
-
 
         public virtual ICollection<Booking> Bookings { get; set; }
         public virtual ICollection<CampRoomOption> CampRoomOptions { get; set; }

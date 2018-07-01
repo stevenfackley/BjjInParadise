@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using AutoMapper;
 using BjjInParadise.Business;
 using BjjInParadise.Core.Models;
@@ -39,7 +41,7 @@ namespace BJJInParadise.Web.Controllers
         public async Task<ActionResult> Index()
         {
             var user = await _service.Get(User.Identity.GetUserId());
-            var nextCamp = await _campService.GetNextCampAsync();
+            //var nextCamp = await _campService.GetNextCampAsync();
             var availCamps = await _campService.GetAllActiveAsync();
             var userOwin = await UserManager.FindByIdAsync(user.AspNetUserId);
             
@@ -58,10 +60,27 @@ namespace BJJInParadise.Web.Controllers
             {
                 UserId = user.UserId,
                 CampId = 0,
-                User = user,
                 Email = userOwin.Email,
                 AllAvailableCamps = list,
-                RoomOptions = list2
+                RoomOptions = list2,
+                Countries = CreateCountryDropDown(),
+                Country = user.Country,
+                Street = user.Street,
+                State = user.State,
+                ZipCode = user.ZipCode,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                PhoneNumber = user.PhoneNumber,
+                HomeGym = user.HomeGym,
+                City = user.City
+
+
+                //Test
+                ,
+                CreditCard = "4678992774231154"
+                ,Expiration = "05/2027"
+                ,CVC = "377"
+
             };
 
             return View(vm);
@@ -84,19 +103,41 @@ namespace BJJInParadise.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByIdAsync(HttpContext.User.Identity.GetUserId());
-                vm.Email = user.Email;
                 var result = Mapper.Map<NewBookingViewModel, Booking>(vm);
-                if (_bookingService.ProcessPayment(result))
+                var t = _bookingService.ProcessPayment(result);
+                if (t.failed_transactions == null || !t.failed_transactions.Any())
                 {
                     await _bookingService.AddAsync(result);
 
                 }
 
-                return RedirectToAction("Index", "Home");
+                return View("Confirmation", t);
             }
 
             return View(vm);
+        }
+
+        public List<SelectListItem> CreateCountryDropDown()
+        {
+            Dictionary<string, string> objDic = new Dictionary<string, string>();
+
+            foreach (var ObjCultureInfo in CultureInfo.GetCultures(CultureTypes.SpecificCultures))
+            {
+                var objRegionInfo = new RegionInfo(ObjCultureInfo.Name);
+                if (!objDic.ContainsKey(objRegionInfo.EnglishName))
+                {
+                    objDic.Add(objRegionInfo.EnglishName, objRegionInfo.TwoLetterISORegionName.ToLower());
+                }
+            }
+
+            var obj = objDic.OrderBy(p => p.Key);
+           var list = new List<SelectListItem>();
+            foreach (var val in obj)
+            {
+                list.Add(new SelectListItem{ Value = val.Value.ToUpper(), Text = val.Key});
+            }
+
+            return list.OrderBy(x => x.Text).ToList();
         }
     }
 }

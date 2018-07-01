@@ -15,8 +15,7 @@ namespace BjjInParadise.Data
 
         public DbSet<Camp> Camps { get; set; }
         public DbSet<CampRoomOption> CampRoomOptions { get; set; }
-        public DbSet<Participant> Participants { get; set; }
-        public DbSet<User> ApplicationUsers { get; set; }
+         public DbSet<User> ApplicationUsers { get; set; }
 
         public BjjInParadiseContext() : base("name=DefaultConnection")
         {

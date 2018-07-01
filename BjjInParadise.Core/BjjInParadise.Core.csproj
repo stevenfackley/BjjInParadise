@@ -48,7 +48,6 @@
     <Compile Include="Models\CampRoomOption.cs" />
     <Compile Include="Models\Page.cs" />
     <Compile Include="Models\PageItem.cs" />
-    <Compile Include="Models\Participent.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

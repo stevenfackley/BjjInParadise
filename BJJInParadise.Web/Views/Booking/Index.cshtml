@@ -69,7 +69,8 @@
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(x => x.UserId)
-        <div id="smartwizard">
+        @Html.HiddenFor(x => x.Email)
+         <div id="smartwizard">
             <ul>
                 <li><a href="#step-1">Contact Info<br /><small>Who's booking this?</small></a></li>
                 <li><a href="#step-2">Choose a Camp<br /><small>Which one?</small></a></li>
@@ -85,28 +86,37 @@
                             <table class="table">
                                 <tbody>
                                 <tr>
-                                    <td><label class="control-label">@Html.DisplayNameFor(x => x.User.FirstName)</label></td>
-                                    <td><input type="text" class="form-control" value="@Html.DisplayFor(x => x.User.FirstName)" /></td>
-                                    <td><label class="control-label">@Html.DisplayNameFor(x => x.User.LastName)</label></td>
-                                    <td><input type="text" class="form-control" value="@Html.DisplayFor(x => x.User.LastName)" /></td>
+                                    <td><label class="control-label">@Html.DisplayNameFor(x => x.FirstName)</label></td>
+                                    <td>@Html.EditorFor(x => x.FirstName, new {htmlAttributes=new{ @class = "form-control" } })</td>
+                                    <td><label class="control-label">@Html.DisplayNameFor(x => x.LastName)</label></td>
+                                    <td>@Html.EditorFor(x => x.LastName, new {htmlAttributes=new{ @class = "form-control" } })</td>
+             
                                 </tr>
                                 <tr>
-                                    <td class="tableLabel"><label class="control-label">@Html.DisplayNameFor(x => x.User.Country)</label></td>
-                                    <td><input type="text" class="form-control" value="@Html.DisplayFor(x => x.User.Country)" /></td>
-                                    <td class="tableLabel"><label class="control-label">@Html.DisplayNameFor(x => x.User.ZipCode)</label></td>
-                                    <td><input type="text" class="form-control" value="@Html.DisplayFor(x => x.User.ZipCode)" /></td>
+                                    <td class="tableLabel"><label class="control-label">@Html.DisplayNameFor(x => x.Country)</label></td>
+                                    <td>  @Html.DropDownListFor(x => x.Country,Model.Countries, new { htmlAttributes = new { @class = "form-control" } })
+                                        </td>
+                                    <td class="tableLabel"><label class="control-label">@Html.DisplayNameFor(x => x.ZipCode)</label></td>
+                                    <td>@Html.EditorFor(x => x.ZipCode, new {htmlAttributes=new{ @class = "form-control" } })</td>
                                 </tr>
                                 <tr>
-                                    <td><label class="control-label">@Html.DisplayNameFor(x => x.User.Street)</label></td>
-                                    <td><input type="text" class="form-control" value="@Html.DisplayFor(x => x.User.Street)" /></td>
-                                    <td><label class="control-label">@Html.DisplayNameFor(x => x.User.State)</label></td>
-                                    <td><input type="text" class="form-control" value="@Html.DisplayFor(x => x.User.State)" /></td>
+                                    <td><label class="control-label">@Html.DisplayNameFor(x => x.Street)</label></td>
+                                    <td colspan="6">@Html.EditorFor(x => x.Street, new { htmlAttributes = new { @class = "form-control", style="width: 100%" } })</td>
+                                  
                                 </tr>
                                 <tr>
-                                    <td><label class="control-label">@Html.DisplayNameFor(x => x.User.PhoneNumber)</label></td>
-                                    <td><input type="text" class="form-control" value="@Html.DisplayFor(x => x.User.PhoneNumber)" /></td>
-                                    <td><label class="control-label">@Html.DisplayNameFor(x => x.User.HomeGym)</label></td>
-                                    <td><input type="text" class="form-control" value="@Html.DisplayFor(x => x.User.HomeGym)" /></td>
+                                    
+                                    <td><label class="control-label">@Html.DisplayNameFor(x => x.City)</label></td>
+                                    <td>@Html.EditorFor(x => x.City, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                    <td><label class="control-label">@Html.DisplayNameFor(x => x.State)</label></td>
+                                    <td>@Html.EditorFor(x => x.State, new { htmlAttributes = new { @class = "form-control" } })</td>
+
+                                </tr>
+                                <tr>
+                                    <td><label class="control-label">@Html.DisplayNameFor(x => x.PhoneNumber)</label></td>
+                                    <td>@Html.EditorFor(x => x.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                    <td><label class="control-label">@Html.DisplayNameFor(x => x.HomeGym)</label></td>
+                                    <td>@Html.EditorFor(x => x.HomeGym, new { htmlAttributes = new { @class = "form-control" } })</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -127,7 +137,6 @@
                             <label class="control-label">@Html.DisplayNameFor(x => x.RoomOptions)</label>
                             @Html.DropDownListFor(x => x.CampRoomOptionId, Model.RoomOptions, new { htmlAttributes = new { @class = "form-control" } })
 
-                            <div id="total"></div>
                         </div>
                     </div>
                 </div>
@@ -151,13 +160,13 @@
                                         </div>
                                     </div>
                                     <div class="panel-body">
-                                        <form role="form" id="payment-form">
+                             
                                             <div class="row">
                                                 <div class="col-xs-12">
                                                     <div class="form-group">
                                                         @Html.DisplayNameFor(x => x.CreditCard)
                                                         <div class="input-group">
-                                                            @Html.EditorFor(model => model.CreditCard, new {htmlAttributes = new {@class = "form-control", placeholder = "Valid Card Number"}})
+                                                            @Html.EditorFor(model => model.CreditCard, new {htmlAttributes = new {@class = "form-control", placeholder = "Valid Card Number"} })
 
 
                                                             <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
@@ -200,7 +209,7 @@
                                                     <p class="payment-errors"></p>
                                                 </div>
                                             </div>
-                                        </form>
+                                
                                     </div>
                                 </div>
                             </div>
@@ -286,8 +295,7 @@
             // Create our number formatter.
 
 
-            $("#total").html('<div class="row"><div class="container">Total Cost: ' + formatAsCurrency($(this).data("cost")) + '</div></div>');
-        });
+         });
 
         function formatAsCurrency(value) {
             var formatter = new Intl.NumberFormat('en-US', {

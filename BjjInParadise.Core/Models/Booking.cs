@@ -11,15 +11,25 @@ namespace BjjInParadise.Core.Models
     public class Booking : BaseModel
     {
         public int BookingId { get; set; }
-        public int UserId { get; set; }
-        public int CampId { get; set; }
-        [Display(Name = "Booking Date")]
+       [Display(Name = "Booking Date")]
         public DateTime BookingDate { get; set; }
         [DataType(DataType.Currency)]
         [Display(Name = "Amount Paid")]
         public decimal? AmountPaid { get; set; }
+        [ForeignKey("User")]
+        public int UserId { get; set; }
 
-        public int? CampRoomOptionId { get; set; }
+        public virtual User User { get; set; }
+
+        [ForeignKey("Camp")]
+        public int CampId { get; set; }
+
+        public virtual Camp Camp { get; set; }
+
+        public int CampRoomOptionId { get; set; }
+
+      
+
         [NotMapped]
         public string CreditCard { get; set; }
 
@@ -30,8 +40,5 @@ namespace BjjInParadise.Core.Models
 
         [NotMapped]
         public string CVC { get; set; }
-        public virtual User User { get; set; }
-        public virtual Camp Camp { get; set; }
-        public virtual CampRoomOption CampRoomOption { get; set; }
     }
 }

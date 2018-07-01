@@ -5,10 +5,12 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using BjjInParadise.Core.Models;
 using BjjInParadise.Data;
 using Dapper;
+using NLog;
 using PayPal.Api;
 using Transaction = System.Transactions.Transaction;
 
@@ -18,11 +20,18 @@ namespace BjjInParadise.Business
     {
         private BjjInParadiseContext _context;
         private string _connectionString;
+        private CampRoomOptionService _campRoomOptionService;
+        private AccountService _accService;
+        private CampService _campService;
 
-        public BookingService(BjjInParadiseContext context)
+        public BookingService(BjjInParadiseContext context, CampRoomOptionService service, AccountService accService, CampService campservice)
         {
             _context = context;
             _connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+
+            _campRoomOptionService = service;
+            _accService = accService;
+            _campService = campservice;
         }
 
         public override Task DeleteAsync(Booking t)
@@ -45,11 +54,20 @@ namespace BjjInParadise.Business
             throw new NotImplementedException();
         }
 
-        protected override Task<Booking> Add(Booking vm)
+        protected override async Task<Booking> Add(Booking t)
         {
+            try
+            {
+                t.BookingDate = t.ModifiedDate;
+                _context.Bookings.Add(t);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                Log.Instance.Error(e);
+            }
 
-
-            throw new NotImplementedException();
+            return t;
 
         }
 
@@ -78,51 +96,77 @@ namespace BjjInParadise.Business
             }
         }
 
-        public bool ProcessPayment(Booking result)
+        public Payment ProcessPayment(Booking result)
         {
-            // Authenticate with PayPal
+
+            AddUser(result);
+            AddCamp(result);
+
+            return HandlePayPalProcessPayment(result);
+        }
+
+        private void AddUser(Booking booking)
+        {
+            var result = _accService.Get(booking.UserId);
+            booking.User = result;
+        }
+        private void AddCamp(Booking booking)
+        {
+            var result = _campService.Get(booking.CampId);
+            booking.Camp = result;
+        }
+        private CampRoomOption GetCampRoomOption(Booking booking)
+        {
+            var result = _campRoomOptionService.Get(booking.CampRoomOptionId);
+            return result;
+        }
+
+        private  Payment HandlePayPalProcessPayment(Booking result)
+        {
+// Authenticate with PayPal
             var config = ConfigManager.Instance.GetProperties();
             var accessToken = new OAuthTokenCredential(config).GetAccessToken();
             var apiContext = new APIContext(accessToken);
-
-
-
+            var cro = GetCampRoomOption(result);
+            var amt = new Amount
+            {
+                currency = "USD",
+                total = cro.CostPerPerson.ToString(),
+                details = new Details
+                {
+                    subtotal = cro.CostPerPerson.ToString()
+                }
+            };
+            var itemList = new ItemList
+            {
+                items = new List<Item>
+                {
+                    new Item
+                    {
+                        name = cro.RoomType,
+                        currency = "USD",
+                        price = cro.CostPerPerson.ToString(),
+                        quantity = "1"
+                    }
+                },
+                shipping_address = new ShippingAddress
+                {
+                    city = result.User.City,
+                    country_code = result.User.Country,
+                    line1 = result.User.Street,
+                    postal_code = result.User.ZipCode,
+                    state = result.User.State,
+                    recipient_name = result.User.FirstName + " " + result.User.LastName
+                }
+            };
             // A transaction defines the contract of a payment - what is the payment for and who is fulfilling it. 
             var transaction = new PayPal.Api.Transaction
             {
-                amount = new Amount
-                {
-                    currency = "USD",
-                    total = result.AmountPaid.ToString(),
-                    details = new Details
-                    {
-                        subtotal = result.AmountPaid.ToString()
-                    }
-                },
+                amount = amt,
                 description = result.Camp.CampName,
-                item_list = new ItemList
-                {
-                    items = new List<Item>
-                    {
-                        new Item
-                        {
-                            name = result.CampRoomOption.RoomType,
-                            currency = "USD",
-                            price = result.AmountPaid.ToString(),
-                            quantity = "1"
-                        }
-                    },
-                    shipping_address = new ShippingAddress
-                    {
-                        city = result.User.City,
-                        country_code = result.User.Country,
-                        line1 = result.User.Street,
-                        postal_code = result.User.ZipCode,
-                        state = result.User.State,
-                        recipient_name = result.User.FirstName + " " + result.User.LastName
-                    }
-                },
-                invoice_number = result.CampId + result.UserId.ToString() + new Random().Next(10000,99999) //Common.GetRandomInvoiceNumber()
+                item_list = itemList,
+                invoice_number =
+                    result.CampId + result.UserId.ToString() + new Random().Next(10000, 99999) //Common.GetRandomInvoiceNumber()
             };
 
             // A resource representing a Payer that funds a payment.
@@ -144,12 +188,12 @@ namespace BjjInParadise.Business
                                 state = result.User.State,
                             },
                             cvv2 = result.CVC,
-                            expire_month =int.Parse(result.Expiration.Substring(0, 2)),
-                            expire_year = int.Parse(result.Expiration.Substring(2, 2)),
+                            expire_month = int.Parse(result.Expiration.Substring(0, 2)),
+                            expire_year = int.Parse(result.Expiration.Substring(result.Expiration.Length - 4)),
                             first_name = result.User.FirstName,
                             last_name = result.User.LastName,
                             number = result.CreditCard,
-                            type = "visa"
+                            type = GetCreditCardType(result.CreditCard)
                         }
                     }
                 },
@@ -164,22 +208,46 @@ namespace BjjInParadise.Business
             {
                 intent = "sale",
                 payer = payer,
-                transactions = new List<PayPal.Api.Transaction> { transaction }
+                transactions = new List<PayPal.Api.Transaction> {transaction}
             };
 
+            Payment createdPayment = new Payment();
             try
             {
                 // Create a payment using a valid APIContext
-                var createdPayment = payment.Create(apiContext);
-                return true;
+                 createdPayment = payment.Create(apiContext);
+       
             }
             catch (Exception e)
             {
-                return false;
+                Log.Instance.Error(e);
             }
-           
+            return createdPayment;
         }
 
-   
+        private static string GetCreditCardType(string ccn)
+        {
+            var regVisa = new Regex("^4[0-9]{12}(?:[0-9]{3})?$");
+            var regMaster = new Regex("^5[1-5][0-9]{14}$");
+            Regex regExpress = new Regex("^3[47][0-9]{13}$");
+            Regex regDiners = new Regex("^3(?:0[0-5]|[68][0-9])[0-9]{11}$");
+            Regex regDiscover = new Regex("^6(?:011|5[0-9]{2})[0-9]{12}$");
+            Regex regJCB = new Regex("^(?:2131|1800|35\\d{3})\\d{11}$");
+
+
+            if (regVisa.IsMatch(ccn))
+                return "visa";
+            if (regMaster.IsMatch(ccn))
+                return "mastercard";
+            if (regExpress.IsMatch(ccn))
+                return "amex";
+            if (regDiners.IsMatch(ccn))
+                return "diners";
+            if (regDiscover.IsMatch(ccn))
+                return "discover";
+            if (regJCB.IsMatch(ccn))
+                return "jcb";
+            return "invalid";
+        }
     }
 }

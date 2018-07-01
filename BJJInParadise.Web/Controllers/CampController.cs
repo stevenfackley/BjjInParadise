@@ -34,7 +34,7 @@ namespace BJJInParadise.Web.Controllers
         public ActionResult Create()
         {
 
-            return View(new Camp());
+            return View(new CreateCampViewModel());
         }
 
         // POST: Admin/Create

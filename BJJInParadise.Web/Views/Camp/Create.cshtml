@@ -1,4 +1,4 @@
-﻿@model BjjInParadise.Core.Models.Camp
+﻿@model BJJInParadise.Web.ViewModels.CreateCampViewModel
 @section styles{
     <style>
         #mainNav {
@@ -55,7 +55,7 @@
                  </div>
             </div>
             <div class="resize">
-                <textarea style="width: 100%; height: 400px;" name="HtmlPageText">This is some TEST CONTENT</textarea>
+                <textarea style="width: 100%; height: 400px;" name="HtmlPageText">@Model.HtmlPageText</textarea>
             </div>
 
 

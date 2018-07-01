@@ -1,0 +1,43 @@
+﻿@model PayPal.Api.Payment
+@{
+    ViewBag.Title = "Confirmation";
+}
+@section styles{
+    <style>
+        #mainNav {
+            background: #000 !important;
+        }
+
+        #cconfContainer {
+            margin-top: 160px;
+        }
+    </style>
+}
+
+
+<div class="container" id="cconfContainer">
+    <h2>Confirmation</h2>
+    @if (Model.failed_transactions != null && Model.failed_transactions.Any())
+    {
+        foreach (var item in Model.failed_transactions)
+         {
+             <div class="row">
+                 <span>
+                    @item.name         @item.message
+                 </span>
+             </div>
+
+        }
+    }
+    else
+    {
+        <div>
+            Success!
+        </div>
+        <div>
+            @Model.id
+            @Model.create_time
+        </div>
+    }
+
+</div>

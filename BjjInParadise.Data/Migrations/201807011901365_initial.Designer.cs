@@ -7,13 +7,13 @@ namespace BjjInParadise.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class Remove_Participants : IMigrationMetadata
+    public sealed partial class initial : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Remove_Participants));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(initial));
         
         string IMigrationMetadata.Id
         {
-            get { return "201807011621154_Remove_Participants"; }
+            get { return "201807011901365_initial"; }
         }
         
         string IMigrationMetadata.Source

@@ -20,7 +20,9 @@ namespace BJJInParadise.Web
                         .ReverseMap();
                     cfg.CreateMap<CreateCampViewModel, Camp>()
                         .ReverseMap();
-
+                    cfg.CreateMap<NewBookingViewModel, Booking>()
+                        .ReverseMap();
+                    
                 });
             }
         
