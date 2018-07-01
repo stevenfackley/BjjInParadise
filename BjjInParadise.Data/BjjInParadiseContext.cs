@@ -13,7 +13,6 @@ namespace BjjInParadise.Data
     {
         public DbSet<Booking> Bookings { get; set; }
 
-        public DbSet<BookingParticipant> BookingParticipants { get; set; }
         public DbSet<Camp> Camps { get; set; }
         public DbSet<CampRoomOption> CampRoomOptions { get; set; }
         public DbSet<Participant> Participants { get; set; }

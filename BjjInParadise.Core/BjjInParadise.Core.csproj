@@ -44,7 +44,6 @@
     <Compile Include="Constants\UserConsts.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\Booking.cs" />
-    <Compile Include="Models\BookingParticipent.cs" />
     <Compile Include="Models\Camp.cs" />
     <Compile Include="Models\CampRoomOption.cs" />
     <Compile Include="Models\Page.cs" />

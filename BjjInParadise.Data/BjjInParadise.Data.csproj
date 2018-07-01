@@ -68,6 +68,10 @@
     <Compile Include="Migrations\201806300230004_other.Designer.cs">
       <DependentUpon>201806300230004_other.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807011621154_Remove_Participants.cs" />
+    <Compile Include="Migrations\201807011621154_Remove_Participants.Designer.cs">
+      <DependentUpon>201807011621154_Remove_Participants.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -98,6 +102,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806300230004_other.resx">
       <DependentUpon>201806300230004_other.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807011621154_Remove_Participants.resx">
+      <DependentUpon>201807011621154_Remove_Participants.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
