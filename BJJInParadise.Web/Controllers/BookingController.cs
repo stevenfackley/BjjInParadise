@@ -18,7 +18,7 @@ using PayPal.Api;
 namespace BJJInParadise.Web.Controllers
 {
     [Authorize]
-    public class BookingController : Controller
+    public class BookingController : BaseController
     {
         private AccountService _service;
         private CampService _campService;
@@ -80,14 +80,14 @@ namespace BJJInParadise.Web.Controllers
                 PhoneNumber = user.PhoneNumber,
                 HomeGym = user.HomeGym,
                 City = user.City
-
+#if DEBUG
 
                 //Test
                 ,
                 CreditCard = "4678992774231154"
                 ,Expiration =new DateTime( 2027, 5, 1)
                 ,CVC = "377"
-
+#endif
             };
 
             return View(vm);
@@ -154,27 +154,5 @@ namespace BJJInParadise.Web.Controllers
          
         }
 
-        public List<SelectListItem> CreateCountryDropDown()
-        {
-            Dictionary<string, string> objDic = new Dictionary<string, string>();
-
-            foreach (var ObjCultureInfo in CultureInfo.GetCultures(CultureTypes.SpecificCultures))
-            {
-                var objRegionInfo = new RegionInfo(ObjCultureInfo.Name);
-                if (!objDic.ContainsKey(objRegionInfo.EnglishName))
-                {
-                    objDic.Add(objRegionInfo.EnglishName, objRegionInfo.TwoLetterISORegionName.ToLower());
-                }
-            }
-
-            var obj = objDic.OrderBy(p => p.Key);
-           var list = new List<SelectListItem>();
-            foreach (var val in obj)
-            {
-                list.Add(new SelectListItem{ Value = val.Value.ToUpper(), Text = val.Key});
-            }
-
-            return list.OrderBy(x => x.Text).ToList().AddEmpty();
-        }
     }
 }

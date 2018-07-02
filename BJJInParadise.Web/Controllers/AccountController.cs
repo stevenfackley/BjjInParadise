@@ -147,7 +147,9 @@ namespace BJJInParadise.Web.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            var model = new RegisterViewModel();
+            model.Countries = CreateCountryDropDown();
+            return View(model);
         }
 
         //
