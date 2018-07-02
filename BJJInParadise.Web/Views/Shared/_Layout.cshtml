@@ -1,4 +1,5 @@
-﻿@using BjjInParadise.Core.Constants
+﻿@using BjjInParadise.Business
+@using BjjInParadise.Core.Constants
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,12 +44,14 @@
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
             <div class="container">
                 @{
-                    
+
                     string logoHref = Url.Action("Index", "Home");
                     if (Request.Url.AbsoluteUri.Contains("/Home/Index"))
                     {
                         logoHref = "#page-top";
                     }
+
+                    var camps = DependencyResolver.Current.GetService<CampService>().GetAll().ToList();
                 }
                 <a class="navbar-brand js-scroll-trigger" href="@logoHref">BJJ In Paradise</a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,7 +61,7 @@
                 <div class="collapse navbar-collapse " id="navbarResponsive">
                     <ul class="navbar-nav text-uppercase ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link js-scroll-trigger" href="#what">Mission</a>
+                            <a class="nav-link js-scroll-trigger" href="#what" >Mission</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link js-scroll-trigger" href="#portfolio">Media</a>
@@ -72,13 +75,26 @@
                         <li class="nav-item">
                             <a class="nav-link js-scroll-trigger" href="#team">Your Hosts</a>
                         </li>
+                        @if ( camps.Any())
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Upcoming Camps
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    @foreach (var item in camps)
+                                    {
+                                        @Html.ActionLink(item.CampName, "ViewCamp", "Camp", new {id = item.CampId}, new {@class = "dropdown-item"})
 
-                        <li class="nav-item">
-                            @Html.ActionLink("Upcoming Camps", "Upcoming", "Camp", null, new {@class = "nav-link"})
-                        </li>
-                        <li class="nav-item">
-                            @Html.ActionLink("Reserve My Spot", "Index", "Booking", null, new {@class = "nav-link"})
-                        </li>
+                                    }
+
+                                </div>
+                            </li>
+                      
+                            <li class="nav-item">
+                                @Html.ActionLink("Reserve My Spot", "Index", "Booking", null, new {@class = "nav-link"})
+                            </li>
+                        }
                         <li class="nav-item">
                             <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
                         </li>

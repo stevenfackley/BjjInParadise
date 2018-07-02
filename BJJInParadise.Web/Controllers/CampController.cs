@@ -92,6 +92,11 @@ namespace BJJInParadise.Web.Controllers
             }
         }
 
+        public ActionResult ViewCamp(int id)
+        {
+            var camp = _campService.Get(id);
+            return View(camp);
+        }
         // GET: Admin/Delete/5
         public ActionResult Delete(int id)
         {

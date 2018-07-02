@@ -1,0 +1,21 @@
+﻿@model BjjInParadise.Core.Models.Camp
+@section styles{
+    <style>
+        #mainNav {
+            background: #000 !important;
+        }
+
+        #campsContainer {
+            margin-top: 160px;
+        }
+    </style>
+}
+
+
+<div class="container" id="campsContainer">
+    <h4>@Model.CampName</h4>
+    <hr />
+    
+    @Html.Raw(Model.HtmlPageText)
+</div>
+

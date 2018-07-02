@@ -45,6 +45,7 @@ namespace BjjInParadise.Business
         }
         protected override async Task<Camp> Add(Camp t)
         {
+            
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
                 try
@@ -67,8 +68,23 @@ namespace BjjInParadise.Business
                                                                    ,@CreatedDate
                                                                    ,@ModifiedDate
                                                                     ,@HtmlPageText)";
-
-                    var result = await db.ExecuteAsync(insertQuery, t);
+                    var param = new
+                    {
+                        t.CampName,
+                        t.StartDate,
+                        t.EndDate,
+                        t.IsActive,
+                        t.CreatedDate,
+                        t.ModifiedDate,
+                        HtmlPageText = new DbString
+                        {
+                            Value = t.HtmlPageText,
+                            IsFixedLength = false,
+                            Length = -1,
+                            IsAnsi = true
+                        }
+                    };
+                    var result = await db.ExecuteAsync(insertQuery, param);
                     return t;
                 }
                 catch (Exception e)
@@ -83,8 +99,29 @@ namespace BjjInParadise.Business
         {
             if (id == null)
                 return null;
-            var camp =  _context.Camps.Find(id);
-            return camp;
+
+            try
+            {
+                using (IDbConnection db = new SqlConnection(_connectionString))
+                {
+                    string selectBooking = "SELECT TOP 1 * FROM [dbo].[Camp] WHERE CampId = @CampId ";
+                    var result =  db.Query<Camp>(selectBooking, new
+                    {
+                        CampId = id
+                    }).FirstOrDefault();
+                    return result;
+
+
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Instance.Error(e);
+                return null;
+            }
+
+          ;
+            
         }
 
         public override async  Task<Camp> UpdateAsync(Camp t)
