@@ -33,7 +33,7 @@ namespace BJJInParadise.Web.ViewModels
         [Required]
         [Display(Name = "State")]
         public string State { get; set; }
-        [Required]
+        [Required][MaxLength(12)][MinLength(5)]
         [Display(Name = "Zip Code")]
         public string ZipCode { get; set; }
         [Required]
@@ -69,14 +69,22 @@ namespace BJJInParadise.Web.ViewModels
         public int CampRoomOptionId { get; set; }
 
         [Required]
+        [DisplayName("Credit Card Number")]
+        [CreditCard]
         public string CreditCard { get; set; }
 
         [Required]
-        public string Expiration { get; set; }
+        [DisplayName("Expiration Date")]
+        [DisplayFormat(DataFormatString = "{0: MM/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime? Expiration { get; set; }
 
 
         [Required]
+        [MaxLength(5)]
+        [MinLength(2)]
         public string CVC { get; set; }
         public List<SelectListItem> Countries { get; internal set; }
     }
+
+   
 }

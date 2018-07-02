@@ -211,8 +211,8 @@ namespace BjjInParadise.Business
                                 state = result.User.State,
                             },
                             cvv2 = result.CVC,
-                            expire_month = int.Parse(result.Expiration.Substring(0, 2)),
-                            expire_year = int.Parse(result.Expiration.Substring(result.Expiration.Length - 4)),
+                            expire_month = result.Expiration.Value.Month,
+                            expire_year = result.Expiration.Value.Year,
                             first_name = result.User.FirstName,
                             last_name = result.User.LastName,
                             number = result.CreditCard,
@@ -272,5 +272,7 @@ namespace BjjInParadise.Business
                 return "jcb";
             return "invalid";
         }
+
+   
     }
 }

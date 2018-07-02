@@ -34,7 +34,7 @@ namespace BjjInParadise.Core.Models
         public string CreditCard { get; set; }
 
         [NotMapped]
-        public string Expiration { get; set; }
+        public DateTime? Expiration { get; set; }
         [NotMapped]
         public string Email { get; set; }
 

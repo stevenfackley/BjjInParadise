@@ -14,7 +14,7 @@ using BJJInParadise.Web.ViewModels;
 namespace BJJInParadise.Web.Controllers
 {
     [Authorize(Roles = UserConsts.ADMIN_ROLE)]
-    public class UserController : Controller
+    public class UserController : BaseController
     {
         private AccountService _accountService;
         private ApplicationUserManager _userManager;

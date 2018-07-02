@@ -17,11 +17,13 @@ namespace BjjInParadise.Business
     {
         private BjjInParadiseContext _context;
         private string _connectionString;
+        private AccountService _accountService;
 
-        public CampService(BjjInParadiseContext context)
+        public CampService(BjjInParadiseContext context, AccountService accountService)
         {
             _context = context;
             _connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            _accountService = accountService;
         }
 
 
@@ -38,7 +40,8 @@ namespace BjjInParadise.Business
         {
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                return await db.QueryAsync<Camp>("SELECT  * FROM Camp where IsActive = 1 order by StartDate");
+                return await db.QueryAsync<Camp>(
+                    "SELECT DISTINCT  C.* FROM Camp C INNER JOIN CampRoomOption CRO on C.CampId = CRO.CampId  where IsActive = 1 order by StartDate");
 
             }
 
@@ -109,19 +112,27 @@ namespace BjjInParadise.Business
                     {
                         CampId = id
                     }).FirstOrDefault();
-                    return result;
+                    if (result != null)
+                    {
+                        result.Bookings = GetByCampId(id).ToList();
+                        foreach (var resultBooking in result.Bookings)
+                        {
+                            resultBooking.Camp = result;
+                            resultBooking.User = _accountService.Get(resultBooking.UserId);
+                        }
 
-
+                        return result;
+                    }
                 }
             }
             catch (Exception e)
             {
                 Log.Instance.Error(e);
-                return null;
             }
 
-          ;
-            
+          
+            return null;
+
         }
 
         public override async  Task<Camp> UpdateAsync(Camp t)
@@ -152,7 +163,32 @@ namespace BjjInParadise.Business
           
 
         }
+        private IEnumerable<Booking> GetByCampId(int? id)
+        {
+            if (id == null)
+                return null;
 
+            try
+            {
+                using (IDbConnection db = new SqlConnection(_connectionString))
+                {
+                    string selectBooking = "SELECT * FROM [dbo].[Booking] WHERE CampId = @CampId ";
+                    var result = db.Query<Booking>(selectBooking, new
+                    {
+                        CampId = id
+                    });
+                    return result;
+
+
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Instance.Error(e);
+                return null;
+            }
+
+        }
         public override async Task DeleteAsync(Camp camp)
         {
             if (camp == null) return;

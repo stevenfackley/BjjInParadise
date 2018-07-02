@@ -14,7 +14,7 @@ using Imgur.API.Models;
 
 namespace BJJInParadise.Web.Controllers
 {
-    public class GalleryController : Controller
+    public class GalleryController : BaseController
     {
         // GET: Gallery
         public ActionResult Index()

@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace BJJInParadise.Web.Models
 {
@@ -64,6 +67,36 @@ namespace BJJInParadise.Web.Models
 
     public class RegisterViewModel
     {
+        public RegisterViewModel()
+        {
+            var list2 = new List<SelectListItem> {new SelectListItem {Text = "-- Select --", Value = "0"}};
+            list2.AddRange(CreateCountryDropDown());
+            Country = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+        }
+
+        private IEnumerable<SelectListItem> CreateCountryDropDown()
+        {
+            Dictionary<string, string> objDic = new Dictionary<string, string>();
+
+            foreach (var ObjCultureInfo in CultureInfo.GetCultures(CultureTypes.SpecificCultures))
+            {
+                var objRegionInfo = new RegionInfo(ObjCultureInfo.Name);
+                if (!objDic.ContainsKey(objRegionInfo.EnglishName))
+                {
+                    objDic.Add(objRegionInfo.EnglishName, objRegionInfo.TwoLetterISORegionName.ToLower());
+                }
+            }
+
+            var obj = objDic.OrderBy(p => p.Key);
+            var list = new List<SelectListItem>();
+            foreach (var val in obj)
+            {
+                list.Add(new SelectListItem { Value = val.Value.ToUpper(), Text = val.Key });
+            }
+
+            return list.OrderBy(x => x.Text).ToList();
+        }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
@@ -77,7 +110,7 @@ namespace BJJInParadise.Web.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
         public string FirstName { get; set; }
@@ -89,6 +122,7 @@ namespace BJJInParadise.Web.Models
         public string HomeGym { get; set; }
         public string Country { get; set; }
         public string PhoneNumber { get; set; }
+        public IEnumerable<SelectListItem> Countries { get; set; }
     }
 
     public class ResetPasswordViewModel
@@ -106,7 +140,7 @@ namespace BJJInParadise.Web.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }

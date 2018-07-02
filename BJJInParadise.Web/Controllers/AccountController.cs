@@ -18,7 +18,7 @@ using BjjInParadise.Core.Models;
 namespace BJJInParadise.Web.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private AccountService _accountService;
 
@@ -461,13 +461,7 @@ namespace BJJInParadise.Web.Controllers
 
    
 
-        private void AddErrors(IdentityResult result)
-        {
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError("", error);
-            }
-        }
+   
 
         private ActionResult RedirectToLocal(string returnUrl)
         {

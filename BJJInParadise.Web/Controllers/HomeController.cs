@@ -10,7 +10,7 @@ using BjjInParadise.Core.Constants;
 namespace BJJInParadise.Web.Controllers
 {
     [RequireHttps]
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private CampService _service;
 

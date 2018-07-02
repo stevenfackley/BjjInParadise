@@ -10,7 +10,7 @@ using BjjInParadise.Core.Models;
 namespace BJJInParadise.Web.Controllers
 {
     [Authorize]
-    public class AdminController : Controller
+    public class AdminController : BaseController
     {
         private AccountService _accountService;
 

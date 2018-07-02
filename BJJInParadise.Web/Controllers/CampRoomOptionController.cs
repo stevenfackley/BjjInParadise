@@ -11,7 +11,7 @@ using BJJInParadise.Web.ViewModels;
 
 namespace BJJInParadise.Web.Controllers
 {
-    public class CampRoomOptionController : Controller
+    public class CampRoomOptionController : BaseController
     {
         private readonly CampRoomOptionService _campRoomOptionService;
 

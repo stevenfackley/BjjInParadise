@@ -12,7 +12,7 @@ using BJJInParadise.Web.ViewModels;
 
 namespace BJJInParadise.Web.Controllers
 {
-    public class CampController : Controller
+    public class CampController : BaseController
     {
         private readonly CampService _campService;
 
