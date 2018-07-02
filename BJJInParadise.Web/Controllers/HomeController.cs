@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -9,7 +10,7 @@ using BjjInParadise.Core.Constants;
 
 namespace BJJInParadise.Web.Controllers
 {
-    [RequireHttps]
+ 
     public class HomeController : BaseController
     {
         private CampService _service;
@@ -41,6 +42,34 @@ namespace BJJInParadise.Web.Controllers
         public ActionResult ComingSoon()
         {
             return new FilePathResult("~/Views/Home/ComingSoon/index.html", "text/html");
+        }
+
+        public ActionResult SendMessage(string name, string email, string phone, string message)
+        {
+            try
+            {
+                MailMessage message1 = new MailMessage();
+                message1.From = new MailAddress("bradwolfson@bjjinparadise.com");
+
+                message1.To.Add(new MailAddress("stevenfackley@gmail.com"));
+
+                message1.Subject = "BJJ In Paradise Website Info Request";
+                message1.Body = message;
+
+                SmtpClient client = new SmtpClient();
+                client.Send(message1);
+
+                return Json(new { success = true, data = "Mail sent" },
+                    JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+
+                return Json(new { success = false, data = new {message = "Failure" ,exception = e.Message} },
+                    JsonRequestBehavior.AllowGet);
+            }
+      
+
         }
     }
 }

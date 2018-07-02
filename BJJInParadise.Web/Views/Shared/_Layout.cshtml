@@ -75,6 +75,9 @@
                         <li class="nav-item">
                             <a class="nav-link js-scroll-trigger" href="#team">Your Hosts</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
+                        </li>
                         @if ( camps.Any())
                         {
                             <li class="nav-item dropdown">
@@ -95,9 +98,7 @@
                                 @Html.ActionLink("Reserve My Spot", "Index", "Booking", null, new {@class = "nav-link"})
                             </li>
                         }
-                        <li class="nav-item">
-                            <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
-                        </li>
+                       
                     </ul>
                     @Html.Partial("_LoginPartial")
                 </div>
