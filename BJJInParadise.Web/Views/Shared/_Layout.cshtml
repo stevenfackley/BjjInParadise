@@ -51,7 +51,7 @@
                         logoHref = "#page-top";
                     }
 
-                    var camps = DependencyResolver.Current.GetService<CampService>().GetAll().ToList();
+                    var camps = DependencyResolver.Current.GetService<CampService>().GetAllActive().ToList();
                 }
                 <a class="navbar-brand js-scroll-trigger" href="@logoHref">BJJ In Paradise</a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -130,9 +130,7 @@
             <li class="nav-item">
                 @Html.ActionLink("Manage Users", "Index", "User", null, new { @class = "nav-link" })
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
+      
                
         </ul>
     </nav>

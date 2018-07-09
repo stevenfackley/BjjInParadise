@@ -62,7 +62,7 @@ namespace BJJInParadise.Web.Controllers
        
             var list2 = new List<SelectListItem> ().AddEmpty();
      
-
+           
             var vm = new NewBookingViewModel
             {
                 UserId = user.UserId,
@@ -84,12 +84,12 @@ namespace BJJInParadise.Web.Controllers
 
                 //Test
                 ,
-                CreditCard = "4678992774231154"
-                ,Expiration =new DateTime( 2027, 5, 1)
-                ,CVC = "377"
+                CreditCard = "4153725853121993"
+                ,
+                Expiration =new DateTime( 2023, 3, 1)
+                ,CVC = "330"
 #endif
             };
-
             return View(vm);
         }
 
@@ -104,9 +104,9 @@ namespace BJJInParadise.Web.Controllers
         }
 
  
-        private List<CampRoomOption> GetCampRoomOptions(int campId)
+        private async Task<List<CampRoomOption>> GetCampRoomOptions(int campId)
         {
-            var result = _roomOptionService.GetByCampId(campId).ToList();
+            var result = (await _roomOptionService.GetActiveOptionsByCampIdAsync(campId)).ToList();
             foreach (var campRoomOption in result)
             {
                 campRoomOption.Camp = null;
@@ -143,7 +143,7 @@ namespace BJJInParadise.Web.Controllers
                 }
                 vm.AllAvailableCamps = await GetAvailableCampsDropDown();
                 vm.Countries = CreateCountryDropDown();
-                vm.RoomOptions = GetCampRoomOptions(vm.CampId).Select(x => new SelectListItem
+                vm.RoomOptions = (await GetCampRoomOptions(vm.CampId)).Select(x => new SelectListItem
                 {
                     Text = x.RoomType + x.CostPerPerson.ToString("C2"),
                     Value = x.CampRoomOptionId.ToString()

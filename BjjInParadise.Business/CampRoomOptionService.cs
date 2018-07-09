@@ -69,21 +69,49 @@ namespace BjjInParadise.Business
                 throw;
             }
         }
-
-        public IEnumerable<CampRoomOption> GetByCampId(int? id)
+        public async Task<IEnumerable<Booking>> GetBookingsByCampIdAsync(int campId)
         {
             try
             {
                 using (IDbConnection db = new SqlConnection(_connectionString))
                 {
-                    var result = db.Query<CampRoomOption>("SELECT * From CampRoomOption where [CampId] = @CampId",
-                        new {CampId = id}).ToList();
+                    var result = await db.QueryAsync<Booking>("SELECT * From Booking where [CampId] = @CampId", new { CampId = campId });
+                    var enumResult = result.ToList();
+                    foreach (var booking in enumResult)
+                    {
+                        //Add foreign key table
+                        var camp = await db.QueryAsync<Camp>("SELECT TOP 1 * From Camp where [CampId] = @CampId", new { CampId = campId });
+                        booking.Camp = camp.FirstOrDefault();
+                    }
+
+                    return enumResult;
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Instance.Error(e);
+                throw;
+            }
+        }
+        public async Task< IEnumerable<CampRoomOption>> GetActiveOptionsByCampIdAsync(int id)
+        {
+            try
+            {
+                using (IDbConnection db = new SqlConnection(_connectionString))
+                {
+                    var result = await db.QueryAsync<CampRoomOption>("SELECT * From CampRoomOption where [CampId] = @CampId",
+                        new {CampId = id});
                     ;
 
                     var camp = _campService.Get(id);
-
-                    foreach (var campRoomOption in result)
+                    var retVal = new List<CampRoomOption>();
+                    foreach (var campRoomOption in result.ToList())
                     {
+                        var bookings = await GetBookingsByCampIdAsync(id);
+                        if (campRoomOption.SpotsAvailable > bookings.Count())
+                        {
+                            retVal.Add(campRoomOption);
+                        }
                         campRoomOption.Camp = camp;
                     }
 

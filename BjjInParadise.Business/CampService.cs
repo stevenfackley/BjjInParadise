@@ -46,6 +46,17 @@ namespace BjjInParadise.Business
             }
 
         }
+
+        public IEnumerable<Camp> GetAllActive()
+        {
+            using (IDbConnection db = new SqlConnection(_connectionString))
+            {
+                return  db.Query<Camp>(
+                    "SELECT DISTINCT  C.* FROM Camp C INNER JOIN CampRoomOption CRO on C.CampId = CRO.CampId  where IsActive = 1 order by StartDate");
+
+            }
+
+        }
         protected override async Task<Camp> Add(Camp t)
         {
             
