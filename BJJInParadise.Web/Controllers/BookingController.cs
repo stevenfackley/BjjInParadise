@@ -154,5 +154,10 @@ namespace BJJInParadise.Web.Controllers
          
         }
 
+        public ActionResult Success()
+        {
+            return View();
+        }
+
     }
 }

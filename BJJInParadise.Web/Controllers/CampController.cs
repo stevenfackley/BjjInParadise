@@ -129,5 +129,11 @@ namespace BJJInParadise.Web.Controllers
             var camps = _campService.GetAll();
             return View(camps);
         }
+
+        public async Task<ActionResult> Latest()
+        {
+            var camps = await _campService.GetNextCampAsync();
+            return View(camps);
+        }
     }
 }

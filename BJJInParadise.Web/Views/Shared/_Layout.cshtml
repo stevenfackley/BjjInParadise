@@ -78,7 +78,18 @@
                         <li class="nav-item">
                             <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
                         </li>
-                        @if ( camps.Any())
+                        
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Upcoming Camps
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                       
+                                    @Html.ActionLink("Casa Camp 2018", "Latest", "Camp", null, new {@class = "dropdown-item"})
+
+                            </div>
+                        </li>
+                        @*@if ( camps.Any())
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -97,7 +108,7 @@
                             <li class="nav-item">
                                 @Html.ActionLink("Reserve My Spot", "Index", "Booking", null, new {@class = "nav-link"})
                             </li>
-                        }
+                        }*@
                        
                     </ul>
                     @Html.Partial("_LoginPartial")

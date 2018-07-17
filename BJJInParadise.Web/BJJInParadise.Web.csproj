@@ -544,6 +544,8 @@
     <Content Include="Views\CampRoomOption\Delete.cshtml" />
     <Content Include="Views\Booking\Confirmation.cshtml" />
     <Content Include="Views\Camp\ViewCamp.cshtml" />
+    <Content Include="Views\Camp\Latest.cshtml" />
+    <Content Include="Views\Booking\Success.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BjjInParadise.Business\BjjInParadise.Business.csproj">
