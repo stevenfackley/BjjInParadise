@@ -93,6 +93,31 @@ namespace BjjInParadise.Business
                 throw;
             }
         }
+
+        public IEnumerable<Booking> GetBookingsByCampId(int campId)
+        {
+            try
+            {
+                using (IDbConnection db = new SqlConnection(_connectionString))
+                {
+                    var result =  db.Query<Booking>("SELECT * From Booking where [CampId] = @CampId", new { CampId = campId });
+                    var enumResult = result.ToList();
+                    foreach (var booking in enumResult)
+                    {
+                        //Add foreign key table
+                        var camp =  db.Query<Camp>("SELECT TOP 1 * From Camp where [CampId] = @CampId", new { CampId = campId });
+                        booking.Camp = camp.FirstOrDefault();
+                    }
+
+                    return enumResult;
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Instance.Error(e);
+                throw;
+            }
+        }
         public async Task< IEnumerable<CampRoomOption>> GetActiveOptionsByCampIdAsync(int id)
         {
             try
@@ -115,7 +140,7 @@ namespace BjjInParadise.Business
                         campRoomOption.Camp = camp;
                     }
 
-                    return result;
+                    return retVal;
                 }
             }
             catch (Exception e)
@@ -124,7 +149,37 @@ namespace BjjInParadise.Business
                 throw;
             }
         }
+        public IEnumerable<CampRoomOption> GetActiveOptionsByCampId(int id)
+        {
+            try
+            {
+                using (IDbConnection db = new SqlConnection(_connectionString))
+                {
+                    var result =  db.Query<CampRoomOption>("SELECT * From CampRoomOption where [CampId] = @CampId",
+                        new { CampId = id }).ToList();
+                    ;
 
+                    var camp = _campService.Get(id);
+                    var retVal = new List<CampRoomOption>();
+                    foreach (var campRoomOption in result)
+                    {
+                        var bookings =  GetBookingsByCampId(id);
+                        if (campRoomOption.SpotsAvailable > bookings.Count())
+                        {
+                            retVal.Add(campRoomOption);
+                        }
+                        campRoomOption.Camp = camp;
+                    }
+
+                    return retVal;
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Instance.Error(e);
+                throw;
+            }
+        }
         public override IEnumerable<CampRoomOption> GetAll()
         {
             try

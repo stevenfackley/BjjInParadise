@@ -21,9 +21,9 @@ namespace BJJInParadise.Web.Controllers
             _campRoomOptionService = campService;
         }
         // GET: CampRoomOption
-        public async Task<ActionResult> Index(int id)
+        public  ActionResult Index(int id)
         {
-            var result = await _campRoomOptionService.GetActiveOptionsByCampIdAsync(id);
+            var result =  _campRoomOptionService.GetActiveOptionsByCampId(id);
             
             var model = new CreateCampRoomOptionViewModel { CampId = id , CampRoomOptions = result};
             return PartialView("_Index", model);

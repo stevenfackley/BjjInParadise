@@ -5,146 +5,46 @@
 }
 
 @section styles{
-    <link href="~/Content/smart_wizard.css" rel="stylesheet" type="text/css" />
-
+   
     <style>
         #mainNav {
             background: #000 !important;
         }
 
-        #smartwizard {
+        #bookingContainer {
             margin-top: 160px;
         }
 
-
-        #myTable td {
-            width: 150px;
-        }
-
-
-        .credit-card-box .panel-title {
-            display: inline;
-            font-weight: bold;
-        }
-
-        .credit-card-box .form-control.error {
-            border-color: red;
-            outline: 0;
-            box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(255,0,0,0.6);
-        }
-
-        .credit-card-box label.error {
-            font-weight: bold;
-            color: red;
-            padding: 2px 8px;
-            margin-top: 2px;
-        }
-
-        .credit-card-box .payment-errors {
-            font-weight: bold;
-            color: red;
-            padding: 2px 8px;
-            margin-top: 2px;
-        }
-
-        .credit-card-box label {
-            display: block;
-        }
-        /* The old "center div vertically" hack */
-        .credit-card-box .display-table {
-            display: table;
-        }
-
-        .credit-card-box .display-tr {
-            display: table-row;
-        }
-
-        .credit-card-box .display-td {
-            display: table-cell;
-            vertical-align: middle;
-            width: 50%;
-        }
-        /* Just looks nicer */
-        .credit-card-box .panel-heading img {
-            min-width: 180px;
-        }
     </style>
+    <script src="//js.braintreegateway.com/web/dropin/1.11.0/js/dropin.min.js"></script>
+
 }
-<div class="container">
+<div class="container" id="bookingContainer">
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(x => x.UserId)
         @Html.HiddenFor(x => x.Email)
         @Html.HiddenFor(x => x.RoomOptions)
-        <div id="smartwizard">
+        <div class="row">
+            <div id="dropin-container"></div>
+            <button id="submit-button">Request payment method</button>
+        </div>
+        @*<div id="smartwizard">
             <ul>
-                <li><a href="#step-1">Contact Info<br /><small>Who's booking this?</small></a></li>
+               
                 <li><a href="#step-2">Choose a Camp<br /><small>Which one?</small></a></li>
                 <li><a href="#step-3">Payment<br /><small></small></a></li>
             </ul>
 
             <div>
-                <div id="step-1" class="form-inline">
-                    <div class="container">
-
-                        <div class="table-responsive">
-                            @Html.ValidationSummary()
-                            <table class="table">
-                                <tbody>
-                                    <tr>
-                                        <td><label class="control-label">@Html.DisplayNameFor(x => x.FirstName)</label></td>
-                                        <td>@Html.EditorFor(x => x.FirstName, new { htmlAttributes = new { @class = "form-control" } })</td>
-                                        <td><label class="control-label">@Html.DisplayNameFor(x => x.LastName)</label></td>
-                                        <td>@Html.EditorFor(x => x.LastName, new { htmlAttributes = new { @class = "form-control" } })</td>
-
-                                    </tr>
-                                    <tr>
-                                        <td class="tableLabel"><label class="control-label">@Html.DisplayNameFor(x => x.Country)</label></td>
-                                        <td>
-                                            @Html.DropDownListFor(x => x.Country, Model.Countries, new { htmlAttributes = new { @class = "form-control" } })
-                                        </td>
-                                        <td class="tableLabel"><label class="control-label">@Html.DisplayNameFor(x => x.ZipCode)</label></td>
-                                        <td>@Html.EditorFor(x => x.ZipCode, new { htmlAttributes = new { @class = "form-control" } })</td>
-                                    </tr>
-                                    <tr>
-                                        <td><label class="control-label">@Html.DisplayNameFor(x => x.Street)</label></td>
-                                        <td colspan="6">@Html.EditorFor(x => x.Street, new { htmlAttributes = new { @class = "form-control", style = "width: 100%" } })</td>
-
-                                    </tr>
-                                    <tr>
-
-                                        <td><label class="control-label">@Html.DisplayNameFor(x => x.City)</label></td>
-                                        <td>@Html.EditorFor(x => x.City, new { htmlAttributes = new { @class = "form-control" } })</td>
-                                        <td><label class="control-label">@Html.DisplayNameFor(x => x.State)</label></td>
-                                        <td>@Html.EditorFor(x => x.State, new { htmlAttributes = new { @class = "form-control" } })</td>
-
-                                    </tr>
-                                    <tr>
-                                        <td><label class="control-label">@Html.DisplayNameFor(x => x.PhoneNumber)</label></td>
-                                        <td>@Html.EditorFor(x => x.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })</td>
-                                        <td><label class="control-label">@Html.DisplayNameFor(x => x.HomeGym)</label></td>
-                                        <td>@Html.EditorFor(x => x.HomeGym, new { htmlAttributes = new { @class = "form-control" } })</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                        </div>
-                    </div>
-                </div>
+              
                 <div id="step-2" class="">
-                    @Html.ValidationSummary()
-                    <div class="row">
-                        <div class="container">
-                            <label class="control-label">@Html.DisplayNameFor(x => x.AllAvailableCamps)</label>
-                            @Html.DropDownListFor(x => x.CampId, Model.AllAvailableCamps, new {htmlAttributes = new {@class = "form-control"}})
-
-                        </div>
-                    </div>
+                  
                     <div class="row">
                         <div class="container">
                             <label class="control-label">@Html.DisplayNameFor(x => x.RoomOptions)</label>
-                            @Html.DropDownListFor(x => x.CampRoomOptionId, Model.RoomOptions, new {htmlAttributes = new {@class = "form-control"}})
+                            @Html.DropDownListFor(x => x.CampRoomOptionId, Model.RoomOptions, new { htmlAttributes = new { @class = "form-control" } })
 
                         </div>
                     </div>
@@ -168,8 +68,9 @@
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div class="">
+                                    
+                                   
+                                    @*<div class="">
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="form-group">
@@ -227,7 +128,7 @@
                 </div>
 
             </div>
-        </div>
+        </div>*@
 
 
 
@@ -238,83 +139,32 @@
 </div>
 
 @section Scripts {
-    <script src="~/Scripts/jquery.smartWizard.js"></script>
+   
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
-        $(document).on('invalid-form.validate', 'form', function () {
-            var button = $(this).find('input[type="submit"]');
-            setTimeout(function () {
-                button.removeAttr('disabled');
-            }, 1);
-        });
-        $(document).on('submit', 'form', function () {
-            var button = $(this).find('input[type="submit"]');
-            setTimeout(function () {
-                button.attr('disabled', 'disabled');
-            }, 0);
-        });
-        $(document).ready(function() {
-            $('#smartwizard').smartWizard();
-            var counter = 0;
+        var button = document.querySelector('#submit-button');
 
-            $("#addrow").on("click",
-                function() {
-                    var newRow = $("<tr>");
-                    var cols = "";
-
-                    cols += '<td><input type="text" class="form-control" name="firstName' + counter + '"/></td>';
-                    cols += '<td><input type="text" class="form-control" name="lastName' + counter + '"/></td>';
-                    cols += '<td><input type="text" class="form-control" name="Email' + counter + '"/></td>';
-
-                    cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Delete"></td>';
-                    newRow.append(cols);
-                    $("table.order-list").append(newRow);
-                    counter++;
+        braintree.dropin.create({
+            authorization: 'CLIENT_AUTHORIZATION',
+            container: '#dropin-container'
+        }, function (createErr, instance) {
+            button.addEventListener('click', function () {
+                instance.requestPaymentMethod(function (requestPaymentMethodErr, payload) {
+                    // Submit payload.nonce to your server
                 });
-
-
-            $("table.order-list").on("click",
-                ".ibtnDel",
-                function(event) {
-                    $(this).closest("tr").remove();
-                    counter -= 1;
-                });
-
-            $("#CampId").change();
+            });
         });
+
+       
+      
         $('#CreditCard').on('keypress change', function () {
             $(this).val(function (index, value) {
                 return value.replace(/\W/gi, '').replace(/(.{4})/g, '$1 ');
             });
         });
 
-        $("#CampId").change(function() {
-            var camp = $("#CampRoomOptionId").empty();
-            camp.empty();
-            var data = { campId: $(this).val() }
-            $.post('@Url.Action("GetCampOptions")',
-                    data,
-                    function(backdata, status) {
-
-                    },
-                    "json").done(function(data) {
-
-                    $.each(data.data,
-                        function(index, item) { // item is now an object containing properties ID and Text
-                            camp.append($('<option></option>').text(item.RoomType + ' ' + formatAsCurrency(item.CostPerPerson))
-                                .val(item.CampRoomOptionId)).data("cost", item.CostPerPerson);
-                        });
-
-                })
-                .fail(function(xhr) {
-                    alert(xhr.responseText);
-                });;
-        });
-        $("#CampRoomOptionId").change(function () {
-            // Create our number formatter.
-
-
-         });
+      
+     
 
         function formatAsCurrency(value) {
             var formatter = new Intl.NumberFormat('en-US', {
