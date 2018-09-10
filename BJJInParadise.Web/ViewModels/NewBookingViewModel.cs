@@ -84,6 +84,7 @@ namespace BJJInParadise.Web.ViewModels
         [MinLength(2)]
         public string CVC { get; set; }
         public List<SelectListItem> Countries { get; internal set; }
+        public string ClientToken { get; set; }
     }
 
    

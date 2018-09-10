@@ -16,9 +16,11 @@
         }
 
     </style>
-    <script src="//js.braintreegateway.com/web/dropin/1.11.0/js/dropin.min.js"></script>
+ 
 
 }
+
+<script src="//js.braintreegateway.com/web/dropin/1.11.0/js/dropin.min.js"></script>
 <div class="container" id="bookingContainer">
     @using (Html.BeginForm())
     {
@@ -26,143 +28,73 @@
         @Html.HiddenFor(x => x.UserId)
         @Html.HiddenFor(x => x.Email)
         @Html.HiddenFor(x => x.RoomOptions)
-        <div class="row">
-            <div id="dropin-container"></div>
-            <button id="submit-button">Request payment method</button>
-        </div>
-        @*<div id="smartwizard">
-            <ul>
-               
-                <li><a href="#step-2">Choose a Camp<br /><small>Which one?</small></a></li>
-                <li><a href="#step-3">Payment<br /><small></small></a></li>
-            </ul>
-
-            <div>
-              
-                <div id="step-2" class="">
-                  
-                    <div class="row">
-                        <div class="container">
-                            <label class="control-label">@Html.DisplayNameFor(x => x.RoomOptions)</label>
-                            @Html.DropDownListFor(x => x.CampRoomOptionId, Model.RoomOptions, new { htmlAttributes = new { @class = "form-control" } })
-
-                        </div>
-                    </div>
-                </div>
-                <div id="step-3" class="">
-                    <div class="container">
-                        @Html.ValidationSummary()
-                        <div class="row">
-                            <!-- You can make it whatever width you want. I'm making it full width
-                            on <= small devices and 4/12 page width on >= medium devices -->
-                            <div class="col-xs-12 col-md-8">
-
-
-                                <!-- CREDIT CARD FORM STARTS HERE -->
-                                <div class="panel panel-default credit-card-box">
-                                    <div class="panel-heading display-table">
-                                        <div class="row display-tr">
-                                            <h3 class="panel-title display-td">Payment Details</h3>
-                                            <div class="display-td">
-                                                <img class="img-responsive pull-right" src="//i76.imgup.net/accepted_c22e0.png">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                   
-                                    @*<div class="">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    @Html.DisplayNameFor(x => x.CreditCard)
-                                                    <div class="input-group">
-                                                        @Html.EditorFor(model => model.CreditCard, new { htmlAttributes = new { @class = "form-control", placeholder = "Valid Card Number" } })
-
-
-                                                        <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-7 col-md-7">
-                                                <div class="form-group">
-                                                    @Html.DisplayNameFor(x => x.Expiration)
-                                                    <div class="input-group">
-                                                        @Html.EditorFor(model => model.Expiration, new { htmlAttributes = new { @class = "form-control", placeholder = "MM/YYYY" } })
-
-
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <div class="col-5 col-md-5 pull-right">
-                                                <div class="form-group">
-                                                    @Html.DisplayNameFor(x => x.CVC)
-                                                    <div class="input-group">
-                                                        @Html.EditorFor(model => model.CVC, new { htmlAttributes = new { @class = "form-control", placeholder = "CVC" } })
-
-
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-xs-12">
-                                                <button class="btn btn-success btn-lg btn-block" type="submit">Checkout</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row" style="display: none;">
-                                        <div class="col-xs-12">
-                                            <p class="payment-errors"></p>
-                                        </div>
-                                    </div>
-
-                                </div>
+        <div class="wrapper">
+            <div class="checkout container">
+                <form id="payment-form" >
+                    <section>
+                        <label for="amount">
+                            <span class="input-label">Amount</span>
+                            <div class="input-wrapper amount-wrapper">
+                                <input id="amount" name="amount" type="tel" min="1" placeholder="Amount" value="10">
                             </div>
+                        </label>
+
+                        <div class="bt-drop-in-wrapper">
+                            <div id="bt-dropin"></div>
                         </div>
-                    </div>
-                </div>
+                    </section>
+
+                    <input id="nonce" name="payment_method_nonce" type="hidden"/>
+                    <button class="button" type="submit"><span>Test Transaction</span></button>
+                </form>
 
             </div>
-        </div>*@
 
-
-
-
-
-
+        </div>
     }
 </div>
-
 @section Scripts {
    
-    @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
-        var button = document.querySelector('#submit-button');
+
+        (function () {
+            var amount = document.querySelector('#amount');
+            var amountLabel = document.querySelector('label[for="amount"]');
+
+            amount.addEventListener('focus', function () {
+                amountLabel.className = 'has-focus';
+            }, false);
+            amount.addEventListener('blur', function () {
+                amountLabel.className = '';
+            }, false);
+        })();
+
+
+        var client_token = "@Model.ClientToken";
+        var form = document.querySelector('#payment-form');
 
         braintree.dropin.create({
-            authorization: 'CLIENT_AUTHORIZATION',
-            container: '#dropin-container'
+            authorization: client_token,
+            container: '#bt-dropin',
+            paypal: {
+                flow: 'vault'
+            }
         }, function (createErr, instance) {
-            button.addEventListener('click', function () {
-                instance.requestPaymentMethod(function (requestPaymentMethodErr, payload) {
-                    // Submit payload.nonce to your server
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                instance.requestPaymentMethod(function (err, payload) {
+                    if (err) {
+                        console.log('Error', err);
+                        return;
+                    }
+
+                    // Add the nonce to the form and submit
+                    document.querySelector('#nonce').value = payload.nonce;
+                    form.submit();
                 });
             });
         });
-
-       
-      
-        $('#CreditCard').on('keypress change', function () {
-            $(this).val(function (index, value) {
-                return value.replace(/\W/gi, '').replace(/(.{4})/g, '$1 ');
-            });
-        });
-
       
      
 
