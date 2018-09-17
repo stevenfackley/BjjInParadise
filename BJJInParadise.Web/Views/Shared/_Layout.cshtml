@@ -94,9 +94,18 @@
 
                                 </div>
                             </li>
-                      
-                            <li class="nav-item">
-                                @Html.ActionLink("Reserve My Spot", "Index", "Booking", new { id = camps.First().CampId }, new {@class = "nav-link"})
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Reserve My Spot
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    @foreach (var item in camps)
+                                    {
+                                        @Html.ActionLink(item.CampName, "Index", "Booking", new {id = item.CampId}, new {@class = "dropdown-item"})
+
+                                    }
+
+                                </div>
                             </li>
                         }
                        
