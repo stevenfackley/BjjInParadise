@@ -17,5 +17,10 @@
     <hr />
     
     @Html.Raw(Model.HtmlPageText)
+    <br/>
+    <br/>
+
+    @Html.ActionLink("Reserve My Spot", "Index", "Booking", new {id = Model.CampId}, new {@class = "btn btn-success"})
+
 </div>
 
