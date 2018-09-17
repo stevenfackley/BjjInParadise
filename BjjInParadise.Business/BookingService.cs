@@ -53,7 +53,45 @@ namespace BjjInParadise.Business
         {
             throw new NotImplementedException();
         }
+        public Booking AddNew(Booking t)
+        {
+            UpdateCreatedAndModifiedDate(t);
+            try
+            {
+                t.BookingDate = t.ModifiedDate;
+                if (t.AmountPaid == null)
+                    t.AmountPaid = _campRoomOptionService.Get(t.CampRoomOptionId).CostPerPerson;
 
+                using (IDbConnection db = new SqlConnection(_connectionString))
+                {
+                    string insertQuery = @"INSERT INTO [dbo].[Booking]
+           ([BookingDate]
+           ,[AmountPaid]
+           ,[UserId]
+           ,[CampId]
+           ,[CampRoomOptionId]
+           ,[CreatedDate]
+           ,[ModifiedDate])
+     VALUES
+           (@BookingDate
+           ,@AmountPaid
+           ,@UserId
+           ,@CampId
+           ,@CampRoomOptionId
+           ,@CreatedDate
+           ,@ModifiedDate)
+";
+
+                    var result =  db.Execute(insertQuery, t);
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Instance.Error(e);
+            }
+
+            return t;
+        }
         protected override async Task<Booking> Add(Booking t)
         {
             try

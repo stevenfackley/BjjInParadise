@@ -15,7 +15,7 @@ using BJJInParadise.Web.ViewModels;
 using Braintree;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using PayPal.Api;
+
 
 namespace BJJInParadise.Web.Controllers
 {
@@ -112,7 +112,7 @@ namespace BJJInParadise.Web.Controllers
             return list;
 
         }
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int? id)
         {
             var user = await _service.Get(User.Identity.GetUserId());
             //var nextCamp = await _campService.GetNextCampAsync();
@@ -120,50 +120,35 @@ namespace BJJInParadise.Web.Controllers
             
 
        
-            var list2 = new List<SelectListItem> ().AddEmpty();
 
+            var cro =await GetCampRoomOptions(id.Value);
+            var list2 = cro.Select(x => new SelectListItem
+                {Value = x.CampId.ToString(), Text = x.RoomType + " " + x.CostPerPerson.ToString("C0")}).ToList();
             var gateway = config.GetGateway();
             var clientToken = gateway.ClientToken.generate();
 
             var vm = new NewBookingViewModel
             {
                 UserId = user.UserId,
-                CampId = 0,
+                CampId = id.Value,
                 Email = userOwin.Email,
-                AllAvailableCamps = await GetAvailableCampsDropDown(),
-                RoomOptions = list2,
-                Countries = CreateCountryDropDown(),
-                Country = user.Country,
-                Street = user.Street,
-                State = user.State,
-                ZipCode = user.ZipCode,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                PhoneNumber = user.PhoneNumber,
-                HomeGym = user.HomeGym,
-                City = user.City,
-                ClientToken = clientToken
-#if DEBUG
+               RoomOptions = list2,
 
-                //Test
-                ,
-                CreditCard = "4153725853121993"
-                ,
-                Expiration =new DateTime( 2023, 3, 1)
-                ,CVC = "330"
-#endif
+                ClientToken = clientToken
             };
             return View(vm);
         }
         [HttpPost]
         public ActionResult Index(FormCollection fc)
         {
+
+
             var gateway = config.GetGateway();
-            Decimal amount;
+            decimal amount;
 
             try
             {
-                amount = Convert.ToDecimal(Request["amount"]);
+                amount =GetRoomOptionAmount(int.Parse( fc["CampRoomOptionId"])) ;
             }
             catch (FormatException e)
             {
@@ -176,6 +161,7 @@ namespace BJJInParadise.Web.Controllers
             {
                 Amount = amount,
                 PaymentMethodNonce = nonce,
+                
                 Options = new TransactionOptionsRequest
                 {
                     SubmitForSettlement = true
@@ -186,11 +172,16 @@ namespace BJJInParadise.Web.Controllers
             if (result.IsSuccess())
             {
                 var transaction = result.Target;
-                return RedirectToAction("Success", new { id = transaction.Id });
+                _bookingService.AddNew(new Booking
+                {
+                    CampId = int.Parse(fc["CampId"]), AmountPaid = request.Amount, BookingDate = DateTime.UtcNow,
+                    CampRoomOptionId = int.Parse(fc["CampRoomOptionId"])
+                });
+                return RedirectToAction("Show", new { id = transaction.Id });
             }
             else if (result.Transaction != null)
             {
-                return RedirectToAction("Index", new { id = result.Transaction.Id });
+                return RedirectToAction("Show", new { id = result.Transaction.Id });
             }
             else
             {
@@ -203,9 +194,15 @@ namespace BJJInParadise.Web.Controllers
                 return RedirectToAction("Index");
             }
 
+
         }
 
-       
+        private decimal GetRoomOptionAmount(int parse)
+        {
+            var cro = _roomOptionService.Get(parse);
+            return cro.CostPerPerson;
+        }
+
 
         [HttpPost]
         public ActionResult GetCampOptions(int campId)
@@ -227,49 +224,32 @@ namespace BJJInParadise.Web.Controllers
             return result;
         }
 
-        //[HttpPost]
-        //public async Task<ActionResult> Index(NewBookingViewModel vm)
-        //{
-           
-
-        //    if (ModelState.Values.Count(x => x.Errors.Any()) <= 1)
-        //    {
-        //        var result = Mapper.Map<NewBookingViewModel, Booking>(vm);
-        //        var t = _bookingService.ProcessPayment(result);
-        //        if (t.failed_transactions == null || !t.failed_transactions.Any())
-        //        {
-        //            await _bookingService.AddAsync(result);
-
-        //        }
-
-        //        return View("Confirmation", t);
-        //    }
-        //    else
-        //    {
-        //        foreach (var item in ModelState)
-        //        {
-        //            if (item.Value.Errors.Any())
-        //            {
-
-        //            }
-        //        }
-        //        vm.AllAvailableCamps = await GetAvailableCampsDropDown();
-        //        vm.Countries = CreateCountryDropDown();
-        //        vm.RoomOptions = (await GetCampRoomOptions(vm.CampId)).Select(x => new SelectListItem
-        //        {
-        //            Text = x.RoomType + x.CostPerPerson.ToString("C2"),
-        //            Value = x.CampRoomOptionId.ToString()
-        //        }).ToList();
-        //        return View(vm);
-        //    }
-
-         
-        //}
-
         public ActionResult Success()
         {
             return View();
         }
+        public ActionResult Show(string id)
+        {
+            var gateway = config.GetGateway();
+            Transaction transaction = gateway.Transaction.Find(id);
 
+            if (transactionSuccessStatuses.Contains(transaction.Status))
+            {
+                TempData["header"] = "Sweet Success!";
+                TempData["icon"] = "success";
+                TempData["message"] = "Your test transaction has been successfully processed.";
+
+                return View("Success", transaction);
+            }
+            else
+            {
+                TempData["header"] = "Transaction Failed";
+                TempData["icon"] = "fail";
+                TempData["message"] = "Your test transaction has a status of " + transaction.Status + ".";
+            };
+
+            ViewBag.Transaction = transaction;
+            return View();
+        }
     }
 }

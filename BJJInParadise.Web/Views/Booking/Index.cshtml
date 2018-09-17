@@ -12,7 +12,7 @@
         }
 
         #bookingContainer {
-            margin-top: 160px;
+           
         }
 
     </style>
@@ -22,52 +22,53 @@
 
 <script src="//js.braintreegateway.com/web/dropin/1.11.0/js/dropin.min.js"></script>
 <div class="container" id="bookingContainer">
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-        @Html.HiddenFor(x => x.UserId)
-        @Html.HiddenFor(x => x.Email)
-        @Html.HiddenFor(x => x.RoomOptions)
-        <div class="wrapper">
-            <div class="checkout container">
-                <form id="payment-form" >
-                    <section>
-                        <label for="amount">
-                            <span class="input-label">Amount</span>
-                            <div class="input-wrapper amount-wrapper">
-                                <input id="amount" name="amount" type="tel" min="1" placeholder="Amount" value="10">
-                            </div>
-                        </label>
 
-                        <div class="bt-drop-in-wrapper">
-                            <div id="bt-dropin"></div>
+
+    <div class="notice-wrapper">
+        @{
+            string flash = TempData["Flash"] as string;
+            if (flash != null)
+            {
+                <div class="show notice error notice-error">
+                    <span class="notice-message">@flash</span>
+                </div>
+            }
+        }
+    </div>
+    <div class="wrapper">
+        <div class="checkout container">
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "payment-form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(x => x.UserId)
+                @Html.HiddenFor(x => x.Email)
+                @Html.HiddenFor(x => x.RoomOptions)
+                @Html.HiddenFor(x => x.CampId)
+
+                <section>
+                    <label for="amount">
+                        <div class="input-wrapper amount-wrapper">
+                           Room Options: @Html.DropDownListFor(x => x.CampRoomOptionId, Model.RoomOptions, new { htmlAttributes = new { @class = "form-control", id = "amount", name = "amount" } })
                         </div>
-                    </section>
+                    </label>
 
-                    <input id="nonce" name="payment_method_nonce" type="hidden"/>
-                    <button class="button" type="submit"><span>Test Transaction</span></button>
-                </form>
+                    <div class="bt-drop-in-wrapper">
+                        <div id="bt-dropin"></div>
+                    </div>
+                </section>
 
-            </div>
+                <input id="nonce" name="payment_method_nonce" type="hidden" />
+                <button class="button btn btn-success" type="submit"><span>Submit</span></button>
 
+            }
         </div>
-    }
+    </div>
+
 </div>
 @section Scripts {
    
     <script type="text/javascript">
 
-        (function () {
-            var amount = document.querySelector('#amount');
-            var amountLabel = document.querySelector('label[for="amount"]');
-
-            amount.addEventListener('focus', function () {
-                amountLabel.className = 'has-focus';
-            }, false);
-            amount.addEventListener('blur', function () {
-                amountLabel.className = '';
-            }, false);
-        })();
 
 
         var client_token = "@Model.ClientToken";

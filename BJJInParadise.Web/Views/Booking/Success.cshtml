@@ -1,5 +1,5 @@
 ﻿
-
+@model Braintree.Transaction
 @section styles{
     <style>
         #mainNav {
@@ -13,5 +13,8 @@
 }
 <div class="container" id="successContainer">
     <h3>Thank you for your reservation!</h3>
-    <p>You'll be recieving a confirmation shortly! </p>
+    <p>You'll be receiving a confirmation shortly! </p>
+    
+    <h3>Order Summary</h3>
+    @Model.Amount
 </div>
