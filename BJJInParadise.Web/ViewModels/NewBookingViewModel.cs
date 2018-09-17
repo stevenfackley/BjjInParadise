@@ -38,6 +38,7 @@ namespace BJJInParadise.Web.ViewModels
         public int CampRoomOptionId { get; set; }
 
         public string ClientToken { get; set; }
+        public string CampName { get; set; }
     }
 
    

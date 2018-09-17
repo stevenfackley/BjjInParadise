@@ -117,10 +117,10 @@ namespace BJJInParadise.Web.Controllers
             var user = await _service.Get(User.Identity.GetUserId());
             //var nextCamp = await _campService.GetNextCampAsync();
             var userOwin = await UserManager.FindByIdAsync(user.AspNetUserId);
-            
 
-       
 
+
+            var camp = _campService.Get(id);
             var cro =await GetCampRoomOptions(id.Value);
             var list2 = cro.Select(x => new SelectListItem
                 {Value = x.CampId.ToString(), Text = x.RoomType + " " + x.CostPerPerson.ToString("C0")}).ToList();
@@ -133,7 +133,7 @@ namespace BJJInParadise.Web.Controllers
                 CampId = id.Value,
                 Email = userOwin.Email,
                RoomOptions = list2,
-
+               CampName =  $@"{camp.StartDate.ToShortDateString()} - {camp.EndDate.ToShortDateString()}: {camp.CampName}  ",
                 ClientToken = clientToken
             };
             return View(vm);

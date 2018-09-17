@@ -12,7 +12,7 @@
         }
 
         #bookingContainer {
-           
+            margin-top: 60px;
         }
 
     </style>
@@ -21,9 +21,11 @@
 }
 
 <script src="//js.braintreegateway.com/web/dropin/1.11.0/js/dropin.min.js"></script>
+
+
 <div class="container" id="bookingContainer">
 
-
+    <h2>@Model.CampName</h2>
     <div class="notice-wrapper">
         @{
             string flash = TempData["Flash"] as string;
@@ -58,7 +60,7 @@
                 </section>
 
                 <input id="nonce" name="payment_method_nonce" type="hidden" />
-                <button class="button btn btn-success" type="submit"><span>Submit</span></button>
+                <button class="button btn btn-success" type="submit" >Submit</button>
 
             }
         </div>
