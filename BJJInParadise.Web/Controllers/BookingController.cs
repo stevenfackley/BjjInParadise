@@ -114,7 +114,7 @@ namespace BJJInParadise.Web.Controllers
         }
         public async Task<ActionResult> Index(int? id)
         {
-            var user = await _service.Get(User.Identity.GetUserId());
+            var user = await _service.GetAsync(User.Identity.GetUserId());
             //var nextCamp = await _campService.GetNextCampAsync();
             var userOwin = await UserManager.FindByIdAsync(user.AspNetUserId);
 
@@ -123,7 +123,7 @@ namespace BJJInParadise.Web.Controllers
             var camp = _campService.Get(id);
             var cro =await GetCampRoomOptions(id.Value);
             var list2 = cro.Select(x => new SelectListItem
-                {Value = x.CampId.ToString(), Text = x.RoomType + " " + x.CostPerPerson.ToString("C0")}).ToList();
+                {Value = x.CampRoomOptionId.ToString(), Text = x.RoomType + " " + x.CostPerPerson.ToString("C0")}).ToList();
             var gateway = config.GetGateway();
             var clientToken = gateway.ClientToken.generate();
 
@@ -133,7 +133,7 @@ namespace BJJInParadise.Web.Controllers
                 CampId = id.Value,
                 Email = userOwin.Email,
                RoomOptions = list2,
-               CampName =  $@"{camp.StartDate.ToShortDateString()} - {camp.EndDate.ToShortDateString()}: {camp.CampName}  ",
+               CampName =  $@" {camp.CampName}: {camp.StartDate.ToShortDateString()} - {camp.EndDate.ToShortDateString()} ",
                 ClientToken = clientToken
             };
             return View(vm);
@@ -171,10 +171,13 @@ namespace BJJInParadise.Web.Controllers
             var result = gateway.Transaction.Sale(request);
             if (result.IsSuccess())
             {
+              var user =  _service.Get(User.Identity.GetUserId());
+
                 var transaction = result.Target;
                 _bookingService.AddNew(new Booking
                 {
                     CampId = int.Parse(fc["CampId"]), AmountPaid = request.Amount, BookingDate = DateTime.UtcNow,
+                    UserId = user.UserId,
                     CampRoomOptionId = int.Parse(fc["CampRoomOptionId"])
                 });
                 return RedirectToAction("Show", new { id = transaction.Id });

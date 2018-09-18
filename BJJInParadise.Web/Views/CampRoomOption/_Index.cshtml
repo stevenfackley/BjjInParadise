@@ -21,6 +21,9 @@
                 <th>
                     @Html.DisplayNameFor(model => model.CampRoomOptions.FirstOrDefault().SpotsAvailable)
                 </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CampRoomOptions.FirstOrDefault().BookedSpots)
+                </th>
                 <th></th>
             </tr>
 
@@ -39,7 +42,9 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.SpotsAvailable)
                     </td>
-
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BookedSpots)
+                    </td>
                     <td>
                         @Html.ActionLink("Edit", "Edit", new {id = item.CampRoomOptionId}, new {@class = "btn btn-success"})
                         @Html.ActionLink("Delete", "Delete", new {id = item.CampRoomOptionId}, new {@class = "btn btn-danger"})

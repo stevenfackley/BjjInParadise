@@ -28,6 +28,7 @@ namespace BjjInParadise.Core.Models
         [Required]
         [Display(Name = "Spots Available: ")]
         public int SpotsAvailable { get; set; }
-
+[NotMapped]
+        public int BookedSpots { get; set; }
     }
 }

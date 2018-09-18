@@ -41,7 +41,7 @@ namespace BjjInParadise.Business
             }
         }
 
-        public async Task<User> Get(string id)
+        public async Task<User> GetAsync(string id)
         {
             try
             {
@@ -60,6 +60,24 @@ namespace BjjInParadise.Business
          
         }
 
+        public User Get(string id)
+        {
+            try
+            {
+                using (IDbConnection db = new SqlConnection(_connectionString))
+                {
+                    var result =  db.Query<User>("SELECT TOP 1 * From ApplicationUsers where [AspNetUserId] = @AspNetUserId", new { AspNetUserId = id });
+
+                    return result.FirstOrDefault();
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Instance.Error(e);
+                throw;
+            }
+
+        }
         public override User Get(int? id)
         {
             if (id == null)

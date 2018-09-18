@@ -51,7 +51,15 @@
                         logoHref = "#page-top";
                     }
 
-                    var camps = DependencyResolver.Current.GetService<CampService>().GetAllActive().ToList();
+                    var service = DependencyResolver.Current.GetService<CampService>();
+
+                    var camps = service.GetAllActive().ToList();
+                    var cros = camps.Select(x => x.CampRoomOptions).ToList();
+                    var bookings = camps.Select(x => x.Bookings).ToList();
+       
+                    var spotsAvailable = cros.Sum(x => x.Sum(y => y.SpotsAvailable));
+                    var bookedSpots = bookings.Sum(x => x.Count());
+                    var areAnyCampsAvailableToBeBooked = spotsAvailable > bookedSpots;//  camps.Any(x =>x.CampRoomOptions x.Bookings.Any());
                 }
                 <a class="navbar-brand js-scroll-trigger" href="@logoHref">BJJ In Paradise</a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -94,19 +102,27 @@
 
                                 </div>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Reserve My Spot
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    @foreach (var item in camps)
-                                    {
-                                        @Html.ActionLink(item.CampName, "Index", "Booking", new {id = item.CampId}, new {@class = "dropdown-item"})
+                            if (areAnyCampsAvailableToBeBooked)
+                            {
+                                <li class="nav-item dropdown">
 
-                                    }
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Reserve My Spot
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                        @foreach (var item in camps)
+                                        {
+                                            if (item.CampRoomOptions.Sum(x => x.SpotsAvailable) > item.Bookings.Count)
+                                            {
+                                                @Html.ActionLink(item.CampName, "Index", "Booking", new {id = item.CampId}, new {@class = "dropdown-item"})
 
-                                </div>
-                            </li>
+                                            }
+
+                                        }
+
+                                    </div>
+                                </li>
+                            }
                         }
                        
                     </ul>

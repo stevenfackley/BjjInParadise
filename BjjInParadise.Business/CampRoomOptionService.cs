@@ -157,18 +157,18 @@ namespace BjjInParadise.Business
                 {
                     var result =  db.Query<CampRoomOption>("SELECT * From CampRoomOption where [CampId] = @CampId",
                         new { CampId = id }).ToList();
-                    ;
+                    
 
                     var camp = _campService.Get(id);
                     var retVal = new List<CampRoomOption>();
+                    var bookings = GetBookingsByCampId(id);
+
                     foreach (var campRoomOption in result)
                     {
-                        var bookings =  GetBookingsByCampId(id);
-                        if (campRoomOption.SpotsAvailable > bookings.Count())
-                        {
-                            retVal.Add(campRoomOption);
-                        }
+                        var bookedCount = bookings.Count(x => x.CampRoomOptionId == campRoomOption.CampRoomOptionId);
+                        campRoomOption.BookedSpots = bookedCount;
                         campRoomOption.Camp = camp;
+                        retVal.Add(campRoomOption);
                     }
 
                     return retVal;

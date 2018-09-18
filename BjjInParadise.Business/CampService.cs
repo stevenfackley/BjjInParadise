@@ -49,12 +49,32 @@ namespace BjjInParadise.Business
 
         public IEnumerable<Camp> GetAllActive()
         {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                return  db.Query<Camp>(
-                    "SELECT DISTINCT  C.* FROM Camp C INNER JOIN CampRoomOption CRO on C.CampId = CRO.CampId  where IsActive = 1 order by StartDate");
+            //using (IDbConnection db = new SqlConnection(_connectionString))
+            //{
+            //    var lookup = new Dictionary<int, Camp>();
+            //  var result=    db.Query<Camp, CampRoomOption, Camp>(
+            //        "SELECT DISTINCT  C.* FROM Camp C INNER JOIN CampRoomOption CRO on C.CampId = CRO.CampId  where IsActive = 1 order by StartDate",
+            //        (s, a) =>
+            //        {
+            //            Camp camp;
+            //            if (!lookup.TryGetValue(s.CampId, out camp))
+            //            {
+            //                camp = s;
+            //                camp.CampRoomOptions = new List<CampRoomOption>();
+            //                lookup.Add(s.CampId, camp = s);
+            //            }
+   
+            //            camp.CampRoomOptions.Add(a);
+            //            return camp;
 
-            }
+            //        }, splitOn: "CampRoomOptionId");
+            //    return result;
+            //}
+
+         return _context.Camps.Where(x => x.IsActive).Include(x => x.CampRoomOptions).Include(x => x.Bookings)
+                .OrderBy(x => x.StartDate);
+
+           
 
         }
         protected override async Task<Camp> Add(Camp t)
