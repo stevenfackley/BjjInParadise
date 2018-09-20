@@ -68,7 +68,7 @@
 
                     }
                 }
-                <a class="navbar-brand js-scroll-trigger" href="@logoHref">BJJ In Paradise</a>
+                <a class="navbar-brand js-scroll-trigger" href="@Url.Action("Index", "Home")">BJJ In Paradise</a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     Menu
                     <i class="fa fa-bars"></i>
@@ -76,7 +76,8 @@
                 <div class="collapse navbar-collapse " id="navbarResponsive">
                     <ul class="navbar-nav text-uppercase ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link js-scroll-trigger" href="#what" >Mission</a>
+                         
+                                <a class="nav-link js-scroll-trigger" href="#what">Mission</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link js-scroll-trigger" href="#portfolio">Media</a>
@@ -93,8 +94,8 @@
                         <li class="nav-item">
                             <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
                         </li>
-               
-                       @if ( camps.Any())
+
+                        @if (camps.Any())
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -103,7 +104,7 @@
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     @foreach (var item in camps)
                                     {
-                                        @Html.ActionLink(item.CampName, "ViewCamp", "Camp", new {id = item.CampId}, new {@class = "dropdown-item"})
+                                        @Html.ActionLink(item.CampName, "ViewCamp", "Camp", new { id = item.CampId }, new { @class = "dropdown-item" })
 
                                     }
 
@@ -121,7 +122,7 @@
                                         {
                                             if (item.CampRoomOptions.Sum(x => x.SpotsAvailable) > item.Bookings.Count)
                                             {
-                                                @Html.ActionLink(item.CampName, "Index", "Booking", new {id = item.CampId}, new {@class = "dropdown-item"})
+                                                @Html.ActionLink(item.CampName, "Index", "Booking", new { id = item.CampId }, new { @class = "dropdown-item" })
 
                                             }
 
@@ -131,7 +132,7 @@
                                 </li>
                             }
                         }
-                       
+
                     </ul>
                     @Html.Partial("_LoginPartial")
                 </div>
@@ -179,7 +180,18 @@
     <script src="~/Scripts/agency/jqBootstrapValidation.min.js"></script>
     <script src="~/Scripts/agency/contact_me.min.js"></script>
 
-<script>
+    <script>
+
+
+    var name = "@ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString()"
+    if (name !== "Home") {
+        $(".js-scroll-trigger").on("click",
+            function (e) {
+                e.preventDefault();
+                var myClass = $(this).attr("href");
+                window.location.href = "/Home/Index/" + myClass;
+            });
+    }
 
 
 
@@ -188,11 +200,7 @@
 
 
 
-
-
-
-
-</script>
+    </script>
     @RenderSection("scripts", required: false)
 </body>
 </html>
