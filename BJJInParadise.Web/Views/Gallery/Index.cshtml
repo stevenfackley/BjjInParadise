@@ -1,4 +1,4 @@
-﻿
+﻿@model BJJInParadise.Web.Controllers.ImageResult[]
 @section styles{
 
     <style>
@@ -8,27 +8,97 @@
 
         #mainNav {
             background: #000 !important;
-          
         }
+
         .slideShow {
             margin-top: 80px;
+            background: gainsboro;
         }
-     
+
+        .b-lazy {
+            -webkit-transition: opacity 500ms ease-in-out;
+            -moz-transition: opacity 500ms ease-in-out;
+            -o-transition: opacity 500ms ease-in-out;
+            transition: opacity 500ms ease-in-out;
+            max-width: 100%;
+            opacity: 0;
+        }
+        .b-lazy.b-loaded {
+            opacity: 1;
+        }
+        #title {
+            margin-top: 130px;
+        }
+       img {
+           margin: 5px;
+       }
+
     </style>
 
 }
-
-
-
-<div class="container-fluid">
-    <div class="slideShow">
-        <blockquote class="imgur-embed-pub" lang="en" data-id="a/SZFpO6D" data-context="false"><a href="//imgur.com/SZFpO6D">BJJ In Paradise</a></blockquote>
-    </div>
-
+<h2 id="title">Pictures from our most recent trip!</h2>
+<hr/>
+<div class="slideShow" id="slideShowContainer">
+    <div class="container">
+    @for (var i = 0; i < Model.Count(); i += 3)
+    {
+        <div class="d-flex flex-row flex-wrap justify-content-center">
+            <div class="flex-column">
+                <img class="b-lazy img-fluid"
+                     src="~/Images/loader.gif"
+                     data-src="@Model[i].Link"
+                     data-src-small="@Model[i].Link"
+                     alt="small" />
+            </div>
+            @if (Model.Length > i + 1)
+            {
+            <div class="flex-column">
+                <img class="b-lazy img-fluid"
+                     src="~/Images/loader.gif"
+                     data-src="@Model[i + 1].Link"
+                     data-src-small="@Model[i + 1].Link"
+                     alt="small" />
+            </div>
+            }
+            @if (Model.Length > i + 2)
+            {
+            <div class="flex-column">
+                <img class="b-lazy img-fluid"
+                     src="~/Images/loader.gif"
+                     data-src="@Model[i + 2].Link"
+                     data-src-small="@Model[i + 2].Link"
+                     alt="@Model[i + 2].Description" />
+            </div>
+            }
+        </div>
+    }
+        </div>
 </div>
 
-<script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
-
 @section Scripts {
+    <script src="~/Scripts/blazy.js"></script>
+     <script>
+         var bLazy = new Blazy({
+     
+             breakpoints: [{
+                     width: 420 // max-width
+                     , src: 'data-src-small'
+                 }
+                 , {
+                     width: 768 // max-width
+                     , src: 'data-src-medium'
+                 }],
+             container: "#slideShowContainer",
+             success: function (element) {
+                setTimeout(function () {
+                    // We want to remove the loader gif now.
+                    // First we find the parent container
+                    // then we remove the "loading" class which holds the loader image
+                    var parent = element.parentNode;
+                    parent.className = parent.className.replace(/\bloading\b/, '');
+                }, 200);
+            }
+        });
 
+    </script>
 }

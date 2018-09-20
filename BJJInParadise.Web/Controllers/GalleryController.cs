@@ -17,10 +17,10 @@ namespace BJJInParadise.Web.Controllers
     public class GalleryController : BaseController
     {
         // GET: Gallery
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-          
-            return View();
+            var result = await GetImagesAsync();
+            return View(result.ToArray());
         }
 
         private async Task<IEnumerable<ImageResult>> GetImagesAsync()
@@ -31,7 +31,7 @@ namespace BJJInParadise.Web.Controllers
                 var endpoint = new AlbumEndpoint(client);
                 var image = await endpoint.GetAlbumImagesAsync("SZFpO6D");
              
-                return image.Select(x => new ImageResult {Link = x.Link,Description = x.Description}).ToList();
+                return image.OrderByDescending(x => x.Width).Select(x => new ImageResult {Link = x.Link,Description = x.Description}).ToList();
             }
             catch (ImgurException imgurEx)
             {
