@@ -1,6 +1,9 @@
-﻿@model BjjInParadise.Core.Models.Camp
+﻿@using BjjInParadise.Business
+@model BjjInParadise.Core.Models.Camp
 @{
     ViewBag.Title = "BJJ In Paradise - Home";
+ var service = DependencyResolver.Current.GetService<CampService>();
+    var areAnyCampsAvailableToBeBooked = service.AreAnyCampsAvailableToBeBooked(Model);
 }
 
 <!-- Header -->
@@ -20,9 +23,9 @@
                 <div class="intro-heading text-uppercase">We are organizing our next camp!</div>
             }
             <a class="btn btn-info btn-xl text-uppercase js-scroll-trigger" href="#what">Tell Me More</a>
-            @if (Model != null)
+            @if (Model != null && areAnyCampsAvailableToBeBooked)
             {
-                @Html.ActionLink("Reserve My Spot", "Latest", "Camp", null, new { @class = "btn btn-primary btn-xl text-uppercase " })
+                @Html.ActionLink("Reserve My Spot", "Index", "Booking", new {id=Model.CampId}, new { @class = "btn btn-primary btn-xl text-uppercase " })
             }
         </div>
     </div>

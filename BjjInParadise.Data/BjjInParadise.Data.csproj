@@ -52,6 +52,10 @@
     <Compile Include="Migrations\201807011910345_initial.Designer.cs">
       <DependentUpon>201807011910345_initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809182339381_RemovedCreditCardAddedBraintreeId.cs" />
+    <Compile Include="Migrations\201809182339381_RemovedCreditCardAddedBraintreeId.Designer.cs">
+      <DependentUpon>201809182339381_RemovedCreditCardAddedBraintreeId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -70,6 +74,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201807011910345_initial.resx">
       <DependentUpon>201807011910345_initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809182339381_RemovedCreditCardAddedBraintreeId.resx">
+      <DependentUpon>201809182339381_RemovedCreditCardAddedBraintreeId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

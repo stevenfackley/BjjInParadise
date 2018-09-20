@@ -11,10 +11,15 @@
         }
     </style>
 }
-<div class="container" id="successContainer">
-    <h3>Thank you for your reservation!</h3>
-    <p>You'll be receiving a confirmation shortly! </p>
-    
-    <h3>Order Summary</h3>
-    @Model.Amount
-</div>
+
+    <div class="container" id="successContainer">
+        <h3>Thank you for your reservation!</h3>
+        <p>You'll be receiving a confirmation shortly! </p>
+
+        <h3>Order Summary</h3>
+        @if (Model != null)
+        {
+            <h4>Confirmation Number: @Model.Id</h4>
+            <h4>Order Total: @Html.EditorFor(model => model.Amount, "Currency")</h4>
+        }
+    </div>

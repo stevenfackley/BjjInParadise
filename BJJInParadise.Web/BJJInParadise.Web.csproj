@@ -547,6 +547,7 @@
     <Content Include="Views\Camp\Latest.cshtml" />
     <Content Include="Views\Booking\Success.cshtml" />
     <Content Include="Views\Booking\Show.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Currency.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BjjInParadise.Business\BjjInParadise.Business.csproj">

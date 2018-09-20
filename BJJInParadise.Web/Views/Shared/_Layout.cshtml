@@ -54,12 +54,19 @@
                     var service = DependencyResolver.Current.GetService<CampService>();
 
                     var camps = service.GetAllActive().ToList();
-                    var cros = camps.Select(x => x.CampRoomOptions).ToList();
-                    var bookings = camps.Select(x => x.Bookings).ToList();
-       
-                    var spotsAvailable = cros.Sum(x => x.Sum(y => y.SpotsAvailable));
-                    var bookedSpots = bookings.Sum(x => x.Count());
-                    var areAnyCampsAvailableToBeBooked = spotsAvailable > bookedSpots;//  camps.Any(x =>x.CampRoomOptions x.Bookings.Any());
+
+                    bool areAnyCampsAvailableToBeBooked = false;
+
+                    foreach (var camp in camps)
+                    {
+                        if (service.AreAnyCampsAvailableToBeBooked(camp))
+                        {
+                            areAnyCampsAvailableToBeBooked = true;
+                            break;
+                        }
+               
+
+                    }
                 }
                 <a class="navbar-brand js-scroll-trigger" href="@logoHref">BJJ In Paradise</a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">

@@ -13,6 +13,7 @@ using BjjInParadise.Core.Models;
 using BJJInParadise.Web.Helpers;
 using BJJInParadise.Web.ViewModels;
 using Braintree;
+using Braintree.Exceptions;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 
@@ -177,7 +178,7 @@ namespace BJJInParadise.Web.Controllers
                 _bookingService.AddNew(new Booking
                 {
                     CampId = int.Parse(fc["CampId"]), AmountPaid = request.Amount, BookingDate = DateTime.UtcNow,
-                    UserId = user.UserId,
+                    UserId = user.UserId, BrainTreeTransactionId = result.Target.Id,
                     CampRoomOptionId = int.Parse(fc["CampRoomOptionId"])
                 });
                 return RedirectToAction("Show", new { id = transaction.Id });
@@ -233,26 +234,41 @@ namespace BJJInParadise.Web.Controllers
         }
         public ActionResult Show(string id)
         {
-            var gateway = config.GetGateway();
-            Transaction transaction = gateway.Transaction.Find(id);
-
-            if (transactionSuccessStatuses.Contains(transaction.Status))
+            try
             {
-                TempData["header"] = "Sweet Success!";
-                TempData["icon"] = "success";
-                TempData["message"] = "Your test transaction has been successfully processed.";
+                var gateway = config.GetGateway();
+                Transaction transaction = gateway.Transaction.Find(id);
 
-                return View("Success", transaction);
+                if (transactionSuccessStatuses.Contains(transaction.Status))
+                {
+                    TempData["header"] = "Sweet Success!";
+                    TempData["icon"] = "success";
+                    TempData["message"] = "Your test transaction has been successfully processed.";
+
+                    return View("Success", transaction);
+                }
+                else
+                {
+                    TempData["header"] = "Transaction Failed";
+                    TempData["icon"] = "fail";
+                    TempData["message"] = "Your test transaction has a status of " + transaction.Status + ".";
+                }
+
+                ;
+
+                ViewBag.Transaction = transaction;
+                return View();
             }
-            else
+            catch (NotFoundException ex)
             {
-                TempData["header"] = "Transaction Failed";
-                TempData["icon"] = "fail";
-                TempData["message"] = "Your test transaction has a status of " + transaction.Status + ".";
-            };
-
-            ViewBag.Transaction = transaction;
-            return View();
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+       
         }
     }
 }

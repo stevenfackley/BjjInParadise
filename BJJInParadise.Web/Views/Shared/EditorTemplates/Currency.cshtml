@@ -1,0 +1,6 @@
+﻿@model decimal
+@Html.Label(
+    Model.ToString(), 
+    string.Format("{0:c}", ViewData.Model),
+    new { @class = "single-line" }
+    )

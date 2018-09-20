@@ -136,25 +136,11 @@ namespace BjjInParadise.Business
 
             try
             {
-                using (IDbConnection db = new SqlConnection(_connectionString))
-                {
-                    string selectBooking = "SELECT TOP 1 * FROM [dbo].[Camp] WHERE CampId = @CampId ";
-                    var result =  db.Query<Camp>(selectBooking, new
-                    {
-                        CampId = id
-                    }).FirstOrDefault();
-                    if (result != null)
-                    {
-                        result.Bookings = GetByCampId(id).ToList();
-                        foreach (var resultBooking in result.Bookings)
-                        {
-                            resultBooking.Camp = result;
-                            resultBooking.User = _accountService.Get(resultBooking.UserId);
-                        }
+                var result = _context.Camps.Where(x => x.CampId == id).Include(x => x.CampRoomOptions)
+                    .Include(x => x.Bookings).FirstOrDefault();
 
-                        return result;
-                    }
-                }
+
+                return result;
             }
             catch (Exception e)
             {
@@ -234,15 +220,17 @@ namespace BjjInParadise.Business
 
             try
             {
+                return await _context.Camps.Where(x => x.IsActive).Include(x => x.CampRoomOptions)
+                    .Include(x => x.Bookings)
+                    .OrderBy(x => x.StartDate).FirstOrDefaultAsync();
 
+                //using (IDbConnection db = new SqlConnection(_connectionString))
+                //{
+                //    var result =
+                //        await db.QueryAsync<Camp>("Select top 1 * From Camp where IsActive = 1 order by StartDate");
 
-                using (IDbConnection db = new SqlConnection(_connectionString))
-                {
-                    var result =
-                        await db.QueryAsync<Camp>("Select top 1 * From Camp where IsActive = 1 order by StartDate");
-
-                    return result.FirstOrDefault();
-                }
+                //    return result.FirstOrDefault();
+                //}
 
             }
             catch (Exception e)
@@ -250,6 +238,17 @@ namespace BjjInParadise.Business
                 Console.WriteLine(e);
                 throw;
             }
+        }
+
+        public bool AreAnyCampsAvailableToBeBooked(Camp camp)
+        {
+            var cros = camp.CampRoomOptions.ToList();
+            var bookings = camp.Bookings.ToList();
+
+            var spotsAvailable = cros.Sum(x => x.SpotsAvailable);
+            var bookedSpots = bookings.Count;
+            var areAnyCampsAvailableToBeBooked = spotsAvailable > bookedSpots;//  camps.Any(x =>x.CampRoomOptions x.Bookings.Any());
+            return areAnyCampsAvailableToBeBooked;
         }
     }
 }

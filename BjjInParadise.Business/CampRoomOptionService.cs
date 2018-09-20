@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -122,22 +123,30 @@ namespace BjjInParadise.Business
         {
             try
             {
+             
+
                 using (IDbConnection db = new SqlConnection(_connectionString))
                 {
-                    var result = await db.QueryAsync<CampRoomOption>("SELECT * From CampRoomOption where [CampId] = @CampId",
-                        new {CampId = id});
-                    ;
+                    var result = await db.QueryAsync<CampRoomOption>(@"SELECT cro.*	, BookedSpots = COUNT(B.BookingId)
+            From CampRoomOption cro
+            INNER JOIN Camp C
+            On cro.CampId = C.CampId 
+            left outer JOIN Booking B
+            On B.CampId = C.CampId AND cro.CampRoomOptionId = B.CampRoomOptionId
+          where cro.[CampId] = @CampId
+				Group By cro.SpotsAvailable, cro.CampRoomOptionId, cro.CampId, cro.RoomType, cro.CostPerPerson, cro.RoomType,  cro.CreatedDate, cro.ModifiedDate
+			Having cro.SpotsAvailable > COUNT(B.BookingId)
+                                                           ",
+                        new { CampId = id });
+
 
                     var camp = _campService.Get(id);
                     var retVal = new List<CampRoomOption>();
-                    foreach (var campRoomOption in result.ToList())
+                  
+                    foreach (var campRoomOption in result)
                     {
-                        var bookings = await GetBookingsByCampIdAsync(id);
-                        if (campRoomOption.SpotsAvailable > bookings.Count())
-                        {
-                            retVal.Add(campRoomOption);
-                        }
                         campRoomOption.Camp = camp;
+                        retVal.Add(campRoomOption);
                     }
 
                     return retVal;

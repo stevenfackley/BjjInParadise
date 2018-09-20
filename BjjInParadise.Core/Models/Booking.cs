@@ -28,17 +28,8 @@ namespace BjjInParadise.Core.Models
 
         public int CampRoomOptionId { get; set; }
 
-      
+ 
 
-        [NotMapped]
-        public string CreditCard { get; set; }
-
-        [NotMapped]
-        public DateTime? Expiration { get; set; }
-        [NotMapped]
-        public string Email { get; set; }
-
-        [NotMapped]
-        public string CVC { get; set; }
+        public string BrainTreeTransactionId { get; set; }
     }
 }

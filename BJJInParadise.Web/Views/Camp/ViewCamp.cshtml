@@ -1,4 +1,5 @@
-﻿@model BjjInParadise.Core.Models.Camp
+﻿@using BjjInParadise.Business
+@model BjjInParadise.Core.Models.Camp
 @section styles{
     <style>
         #mainNav {
@@ -19,8 +20,18 @@
     @Html.Raw(Model.HtmlPageText)
     <br/>
     <br/>
+    @{
+        var service = DependencyResolver.Current.GetService<CampService>();
+        var areAnyCampsAvailableToBeBooked = service.AreAnyCampsAvailableToBeBooked(Model);
 
-    @Html.ActionLink("Reserve My Spot", "Index", "Booking", new {id = Model.CampId}, new {@class = "btn btn-success"})
-
+    }
+    @if (areAnyCampsAvailableToBeBooked)
+    {
+        @Html.ActionLink("Reserve My Spot", "Index", "Booking", new {id = Model.CampId}, new {@class = "btn btn-success"})
+    }
+    else
+    {
+        <p>We're sorry! We're all booked for this camp. Check back soon for our next adventure!</p>
+    }
 </div>
 

@@ -31,7 +31,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.CostPerPerson, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.CostPerPerson, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.TextBoxFor(model => model.CostPerPerson, new { htmlAttributes = new { @class = "form-control text-box single-line" } })
                     @Html.ValidationMessageFor(model => model.CostPerPerson, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -45,7 +45,7 @@
             </div>
 
             <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
+                <div class="offset-md-2 col-md-10">
                     <input type="submit" value="Create" class="btn btn-default" />
                 </div>
             </div>
