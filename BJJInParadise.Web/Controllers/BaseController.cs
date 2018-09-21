@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 
 namespace BJJInParadise.Web.Controllers
 {
+    [RequireHttps]
     public abstract class BaseController : Controller
     {
         protected void AddErrors(IdentityResult result)
