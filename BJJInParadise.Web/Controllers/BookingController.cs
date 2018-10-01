@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
 using System.Linq;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -175,12 +176,18 @@ namespace BJJInParadise.Web.Controllers
               var user =  _service.Get(User.Identity.GetUserId());
 
                 var transaction = result.Target;
-                _bookingService.AddNew(new Booking
+                var booking = new Booking
                 {
-                    CampId = int.Parse(fc["CampId"]), AmountPaid = request.Amount, BookingDate = DateTime.UtcNow,
-                    UserId = user.UserId, BrainTreeTransactionId = result.Target.Id,
+                    CampId = int.Parse(fc["CampId"]),
+                    AmountPaid = request.Amount,
+                    BookingDate = DateTime.UtcNow,
+                    UserId = user.UserId,
+                    BrainTreeTransactionId = result.Target.Id,
                     CampRoomOptionId = int.Parse(fc["CampRoomOptionId"])
-                });
+                };
+                _bookingService.AddNew(booking);
+
+                SendConfirmationEmail(user, transaction, booking);
                 return RedirectToAction("Show", new { id = transaction.Id });
             }
             else if (result.Transaction != null)
@@ -201,6 +208,79 @@ namespace BJJInParadise.Web.Controllers
 
         }
 
+        private void SendConfirmationEmail(User user, Transaction transaction,  Booking booking)
+        {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+            if (transaction == null) throw new ArgumentNullException(nameof(transaction));
+            if (booking == null) throw new ArgumentNullException(nameof(booking));
+
+            var userOwin =  UserManager.FindById(user.AspNetUserId);
+            var message = CreateConfirmationMessage(transaction,booking);
+            SendMessage(user.FirstName + " " + user.LastName, userOwin.Email, userOwin.PhoneNumber, message);
+        }
+
+        private string CreateConfirmationMessage(Transaction transaction, Booking booking)
+        {
+            var camp = _campService.Get(booking.CampId);
+            var template = string.Format(@"<h1>BJJ In Paradise {4}</h1><h2>Thank you for your order! </h2><dl>
+<dt>
+Amount
+</dt>
+<dd>
+{0}
+</dd>
+<dt>
+Transaction Date
+</dt>
+<dd>
+{1}
+</dd>
+<dt>
+Status
+</dt>
+<dd>
+{2}
+</dd>
+<dt>
+Confirmation #
+</dt>
+<dd>
+{3}
+</dd>
+
+</dl>",transaction.Amount.Value.ToString("c2"), transaction.CreatedAt, transaction.Status, transaction.Id, camp.CampName);
+
+
+            return template;
+        }
+
+        private const string EMAIL_FROM_ADDRESS = "bradwolfson@bjjinparadise.com";
+        public ActionResult SendMessage(string name, string email, string phone, string message)
+        {
+            try
+            {
+                var message1 = new MailMessage { From = new MailAddress(EMAIL_FROM_ADDRESS) };
+
+                message1.To.Add(new MailAddress(email));
+
+                message1.Subject = "BJJ In Paradise Order Confirmation";
+                message1.Body = "From: " + name + " " + email + " " + phone + "\n" + message;
+                message1.IsBodyHtml = true;
+                var client = new SmtpClient();
+                client.Send(message1);
+
+                return Json(new { success = true, data = "Mail sent" },
+                    JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+
+                return Json(new { success = false, data = new { message = "Failure", exception = e.Message } },
+                    JsonRequestBehavior.AllowGet);
+            }
+
+
+        }
         private decimal GetRoomOptionAmount(int parse)
         {
             var cro = _roomOptionService.Get(parse);
