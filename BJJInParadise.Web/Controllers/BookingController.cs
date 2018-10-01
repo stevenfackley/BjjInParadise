@@ -262,7 +262,7 @@ Confirmation #
                 var message1 = new MailMessage { From = new MailAddress(EMAIL_FROM_ADDRESS) };
 
                 message1.To.Add(new MailAddress(email));
-
+                message1.Bcc.Add(new MailAddress(EMAIL_FROM_ADDRESS));
                 message1.Subject = "BJJ In Paradise Order Confirmation";
                 message1.Body = "From: " + name + " " + email + " " + phone + "\n" + message;
                 message1.IsBodyHtml = true;
