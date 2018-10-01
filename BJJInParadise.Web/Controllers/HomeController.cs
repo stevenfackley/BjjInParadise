@@ -25,19 +25,6 @@ namespace BJJInParadise.Web.Controllers
             return View(nextCamp);
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
 
         public ActionResult ComingSoon()
         {
@@ -48,15 +35,14 @@ namespace BJJInParadise.Web.Controllers
         {
             try
             {
-                MailMessage message1 = new MailMessage();
-                message1.From = new MailAddress("bradwolfson@bjjinparadise.com");
+                MailMessage message1 = new MailMessage {From = new MailAddress(EMAIL_FROM_ADDRESS)};
 
-                message1.To.Add(new MailAddress("stevenfackley@gmail.com"));
+                message1.To.Add(new MailAddress(EMAIL_TO_ADDRESS));
 
                 message1.Subject = "BJJ In Paradise Website Info Request";
-                message1.Body = message;
+                message1.Body = "From: " + name + " " + email + " " + phone + "\n" + message;
 
-                SmtpClient client = new SmtpClient();
+                var client = new SmtpClient();
                 client.Send(message1);
 
                 return Json(new { success = true, data = "Mail sent" },
@@ -71,5 +57,8 @@ namespace BJJInParadise.Web.Controllers
       
 
         }
+
+        private const string EMAIL_FROM_ADDRESS = "bradwolfson@bjjinparadise.com";
+        private const string EMAIL_TO_ADDRESS = "Soulcraftjiujitsu@gmail.com";
     }
 }
