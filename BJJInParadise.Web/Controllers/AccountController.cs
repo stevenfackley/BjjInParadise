@@ -202,7 +202,7 @@ namespace BJJInParadise.Web.Controllers
         private void AddUserToRole(ApplicationUser user)
         {
             string role = UserConsts.USER_ROLE;
-            if (user.Email == "info@soulcraftbjj.com" || user.Email == "stevenfackley@gmail.com")
+            if (user.Email == "info@soulcraftbjj.com" || user.Email == "stevenfackley@gmail.com" || user.Email == "Soulcraftjiujitsu@gmail.com")
             {
                 role = UserConsts.ADMIN_ROLE;
             }
