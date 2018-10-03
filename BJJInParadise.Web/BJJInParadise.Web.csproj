@@ -418,8 +418,6 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\agency\agency.js" />
     <Content Include="Scripts\agency\agency.min.js" />
-    <Content Include="Scripts\agency\contact_me.js" />
-    <Content Include="Scripts\agency\contact_me.min.js" />
     <Content Include="Scripts\agency\jqBootstrapValidation.js" />
     <Content Include="Scripts\agency\jqBootstrapValidation.min.js" />
     <Content Include="ApplicationInsights.config">

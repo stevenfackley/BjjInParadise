@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -31,34 +32,59 @@ namespace BJJInParadise.Web.Controllers
             return new FilePathResult("~/Views/Home/ComingSoon/index.html", "text/html");
         }
 
-        public ActionResult SendMessage(string name, string email, string phone, string message)
+        public ActionResult SendMessage(EmailMessage message)
         {
-            try
+            if (ModelState.IsValid)
             {
-                MailMessage message1 = new MailMessage {From = new MailAddress(EMAIL_FROM_ADDRESS)};
+                try
+                {
+                    MailMessage message1 = new MailMessage {From = new MailAddress(EMAIL_FROM_ADDRESS)};
 
-                message1.To.Add(new MailAddress(EMAIL_TO_ADDRESS));
+                    message1.To.Add(new MailAddress(EMAIL_TO_ADDRESS));
+                    message1.Bcc.Add(new MailAddress("stevenfackley@gmail.com"));
 
-                message1.Subject = "BJJ In Paradise Website Info Request";
-                message1.Body = "From: " + name + " " + email + " " + phone + "\n" + message;
+                    message1.Subject = "BJJ In Paradise Website Info Request";
+                    message1.Body = "From: " + message.Name + " " + message.Email + " " + message.Phone + "\n" + message.Message;
 
-                var client = new SmtpClient();
-                client.Send(message1);
+                    var client = new SmtpClient();
+                    client.Send(message1);
 
-                return Json(new { success = true, data = "Mail sent" },
+                    return Json(new {success = true, data = "Mail sent"},
+                        JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception e)
+                {
+
+                    return Json(new {success = false, data = new {message = "Failure", exception = e.Message}},
+                        JsonRequestBehavior.AllowGet);
+                }
+            }
+            else
+            {
+                return Json(new { success = false, data = new { message = "Validation Failure", exception = string.Join(" | ", ModelState.Values
+                            .SelectMany(v => v.Errors)
+                            .Select(e => e.ErrorMessage))} },
                     JsonRequestBehavior.AllowGet);
             }
-            catch (Exception e)
-            {
-
-                return Json(new { success = false, data = new {message = "Failure" ,exception = e.Message} },
-                    JsonRequestBehavior.AllowGet);
-            }
-      
 
         }
 
         private const string EMAIL_FROM_ADDRESS = "bradwolfson@bjjinparadise.com";
         private const string EMAIL_TO_ADDRESS = "Soulcraftjiujitsu@gmail.com";
+    }
+
+    public class EmailMessage
+    {
+        [Required]
+        public string Name { get; set; }
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+        [Required]
+        [Phone]
+        public string Phone { get; set; }
+        [Required]
+        public string Message { get; set; }
+
     }
 }

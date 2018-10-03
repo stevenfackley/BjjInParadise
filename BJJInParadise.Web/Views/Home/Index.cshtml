@@ -622,7 +622,7 @@
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <form id="contactForm" name="sentMessage" novalidate="novalidate">
+                <form id="contactForm" name="sentMessage" novalidate="novalidate" >
                     <div class="row">
                         <div class="col-md-8">
                             <div class="form-group">
@@ -691,7 +691,7 @@
     </div>
 </footer>
 @section Scripts {
-    
+
     <script>
         /*!
     * Start Bootstrap - Agency v4.1.1 (https://startbootstrap.com/template-overviews/agency)
@@ -701,43 +701,104 @@
         ! function(a) {
             "use strict";
             a('a.js-scroll-trigger[href*="#"]:not([href="#"])').click(function() {
-                if (location.pathname.replace(/^\//, "") == this.pathname.replace(/^\//, "") && location.hostname == this.hostname) {
+                if (location.pathname.replace(/^\//, "") == this.pathname.replace(/^\//, "") &&
+                    location.hostname == this.hostname) {
                     var o = a(this.hash);
-                    if ((o = o.length ? o : a("[name=" + this.hash.slice(1) + "]")).length) return a("html, body").animate({
-                        scrollTop: o.offset().top - 54
-                    }, 1e3, "easeInOutExpo"), !1
+                    if ((o = o.length ? o : a("[name=" + this.hash.slice(1) + "]")).length)
+                        return a("html, body").animate({
+                                scrollTop: o.offset().top - 54
+                            },
+                            1e3,
+                            "easeInOutExpo"), !1
                 }
             }), a(".js-scroll-trigger").click(function() {
-                a(".navbar-collapse").collapse("hide")
+                a(".navbar-collapse").collapse("hide");
             }), a("body").scrollspy({
                 target: "#mainNav",
                 offset: 56
             });
             var o = function() {
-                a("#mainNav").offset().top > 100 ? a("#mainNav").addClass("navbar-shrink") : a("#mainNav").removeClass("navbar-shrink")
+                a("#mainNav").offset().top > 100
+                    ? a("#mainNav").addClass("navbar-shrink")
+                    : a("#mainNav").removeClass("navbar-shrink");
             };
-            o(), a(window).scroll(o), a(".portfolio-modal").on("show.bs.modal", function(o) {
-                a(".navbar").addClass("d-none")
-            }), a(".portfolio-modal").on("hidden.bs.modal", function(o) {
-                a(".navbar").removeClass("d-none")
-            })
+            o(), a(window).scroll(o), a(".portfolio-modal").on("show.bs.modal",
+                function(o) {
+                    a(".navbar").addClass("d-none");
+                }), a(".portfolio-modal").on("hidden.bs.modal",
+                function(o) {
+                    a(".navbar").removeClass("d-none");
+                });
         }(jQuery);
 
-        $("#sendMessageButton").click(function () {
-            var data = { name: $("#name").val(), email: $("#email").val(), phone: $("#phone").val(), message: $("#message").val()  }
-            $.post('@Url.Action("SendMessage")',
-                    data,
-                    function(backdata, status) {
+        $("#sendMessageButton").click(function(e) {
+                e.preventDefault();
+            $("#sendMessageButton").prop("disabled", true);
+       
+
+            var jsonObject = {
+                "Message": {  Name: $("#name").val(),
+                    Email: $("#email").val(),
+                    Phone: $("#phone").val(),
+                   Message: $("#message").val()}
+            };
+                $.ajax({
+                    url: "@Url.Action("SendMessage")",
+                    type: "POST",
+                    data: JSON.stringify(jsonObject),
+                    contentType: "application/json",
+                    dataType: "json",
+                    error: function (response) {
+                        showSuccess();
 
                     },
-                    "json").done(function(data) {
+                    success: function(response) {
+                         showSuccess();
+                    }
+                });
 
-                   
 
-                })
-                .fail(function(xhr) {
-                    alert(xhr.data.message);
-                });;
-        })
+            function showSuccess() {
+                $("#sendMessageButton").prop("disabled", false);
+
+                // Success message
+                $('#success').html("<div class='alert alert-success'>");
+                $('#success > .alert-success')
+                    .html(
+                        "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
+                    .append("</button>");
+                $('#success > .alert-success')
+                    .append("<strong>Your message has been sent. </strong>");
+                $('#success > .alert-success')
+                    .append('</div>');
+                //clear all fields
+                $('#contactForm').trigger("reset");
+            };
+        function showError(xhr) {
+            $("#sendMessageButton").prop("disabled", false);
+            // Fail message
+            $('#success').html("<div class='alert alert-danger'>");
+            $('#success > .alert-danger')
+                .html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
+                .append("</button>");
+            if (xhr.data.message == "Validation Failure") {
+                $('#success > .alert-danger').append($("<strong>")
+                    .text(xhr.data.exception));
+            } else {
+                $('#contactForm').trigger("reset");
+                $('#success > .alert-danger').append($("<strong>")
+                    .text("Sorry , it seems that my mail server is not responding. Please try again later!"));}
+
+            $('#success > .alert-danger').append('</div>');
+            //clear all fields
+           
+           
+        }
+    });
+
+        $("a[data-toggle=\"tab\"]").click(function(e) {
+            e.preventDefault();
+            $(this).tab("show");
+        });
     </script>
 }
