@@ -81,10 +81,10 @@ namespace BjjInParadise.Business
            ,@CampRoomOptionId
            ,@CreatedDate
            ,@ModifiedDate
-           ,@BrainTreeTransactionId)
+           ,@BrainTreeTransactionId);SELECT CAST(SCOPE_IDENTITY() as int)
 ";
-
-                    var result =  db.Execute(insertQuery, t);
+                    int newUserId = db.QuerySingle<int>(insertQuery,t);
+                    t.BookingId = newUserId;
                 }
             }
             catch (Exception e)
