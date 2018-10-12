@@ -1,5 +1,5 @@
 ﻿
-@model Braintree.Transaction
+@model BjjInParadise.Core.Models.Booking
 @section styles{
     <style>
         #mainNav {
@@ -19,7 +19,30 @@
         <h3>Order Summary</h3>
         @if (Model != null)
         {
-            <h4>Confirmation Number: @Model.Id</h4>
-            <h4>Order Total: @Html.EditorFor(model => model.Amount, "Currency")</h4>
+           
+            <aside class="drawer dark">
+                <h5>Transaction</h5>
+                <table cellpadding="0" cellspacing="0">
+                    <tbody>
+                    <tr>
+                        <td>confirmation</td>
+                        <td>@Model.BrainTreeTransactionId</td>
+                    </tr>
+                    <tr>
+                        <td>amount</td>
+                        <td>@Model.AmountPaid</td>
+                    </tr>
+                    <tr>
+                        <td>status</td>
+                        <td>Submitted to PayPal</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+      
+  
+
+            </aside>
+
         }
     </div>

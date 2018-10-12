@@ -41,7 +41,7 @@ namespace BjjInParadise.Business
 
         public override Booking Get(int? id)
         {
-            throw new NotImplementedException();
+           return _context.Bookings.Find(id);
         }
 
         public override IEnumerable<Booking> GetAll()

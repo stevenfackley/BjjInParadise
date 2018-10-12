@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Net.Mail;
@@ -13,61 +14,14 @@ using BjjInParadise.Business;
 using BjjInParadise.Core.Models;
 using BJJInParadise.Web.Helpers;
 using BJJInParadise.Web.ViewModels;
-using Braintree;
-using Braintree.Exceptions;
+
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 
 
 namespace BJJInParadise.Web.Controllers
 {
-    public class BraintreeConfiguration : IBraintreeConfiguration
-    {
-        public string Environment { get; set; }
-        public string MerchantId { get; set; }
-        public string PublicKey { get; set; }
-        public string PrivateKey { get; set; }
-        private IBraintreeGateway BraintreeGateway { get; set; }
-
-        public IBraintreeGateway CreateGateway()
-        {
-            Environment = System.Environment.GetEnvironmentVariable("BraintreeEnvironment");
-            MerchantId = System.Environment.GetEnvironmentVariable("BraintreeMerchantId");
-            PublicKey = System.Environment.GetEnvironmentVariable("BraintreePublicKey");
-            PrivateKey = System.Environment.GetEnvironmentVariable("BraintreePrivateKey");
-
-            if (MerchantId == null || PublicKey == null || PrivateKey == null)
-            {
-                Environment = GetConfigurationSetting("BraintreeEnvironment");
-                MerchantId = GetConfigurationSetting("BraintreeMerchantId");
-                PublicKey = GetConfigurationSetting("BraintreePublicKey");
-                PrivateKey = GetConfigurationSetting("BraintreePrivateKey");
-            }
-
-            return new BraintreeGateway(Environment, MerchantId, PublicKey, PrivateKey);
-        }
-
-        public string GetConfigurationSetting(string setting)
-        {
-            return ConfigurationManager.AppSettings[setting];
-        }
-
-        public IBraintreeGateway GetGateway()
-        {
-            if (BraintreeGateway == null)
-            {
-                BraintreeGateway = CreateGateway();
-            }
-
-            return BraintreeGateway;
-        }
-    }
-    public interface IBraintreeConfiguration
-    {
-        IBraintreeGateway CreateGateway();
-        string GetConfigurationSetting(string setting);
-        IBraintreeGateway GetGateway();
-    }
+ 
 
     [Authorize]
     public class BookingController : BaseController
@@ -77,16 +31,7 @@ namespace BJJInParadise.Web.Controllers
         private ApplicationUserManager _userManager;
         private CampRoomOptionService _roomOptionService;
         private BookingService _bookingService;
-        private IBraintreeConfiguration config = new BraintreeConfiguration();
-        public static readonly TransactionStatus[] transactionSuccessStatuses = {
-            TransactionStatus.AUTHORIZED,
-            TransactionStatus.AUTHORIZING,
-            TransactionStatus.SETTLED,
-            TransactionStatus.SETTLING,
-            TransactionStatus.SETTLEMENT_CONFIRMED,
-            TransactionStatus.SETTLEMENT_PENDING,
-            TransactionStatus.SUBMITTED_FOR_SETTLEMENT
-        };
+   
 
         public BookingController(AccountService service, CampService campService, ApplicationUserManager userManager, CampRoomOptionService roomOptionService, BookingService bookingService)
         {
@@ -114,141 +59,99 @@ namespace BJJInParadise.Web.Controllers
             return list;
 
         }
+
+        
         public async Task<ActionResult> Index(int? id)
         {
             var user = await _service.GetAsync(User.Identity.GetUserId());
-            //var nextCamp = await _campService.GetNextCampAsync();
             var userOwin = await UserManager.FindByIdAsync(user.AspNetUserId);
-
-
 
             var camp = _campService.Get(id);
             var cro =await GetCampRoomOptions(id.Value);
-            var list2 = cro.Select(x => new SelectListItem
-                {Value = x.CampRoomOptionId.ToString(), Text = x.RoomType + " " + x.CostPerPerson.ToString("C0")}).ToList();
-            var gateway = config.GetGateway();
-            var clientToken = gateway.ClientToken.generate();
+          
+            bool isLive = !HttpContext.IsDebuggingEnabled;
 
-            var vm = new NewBookingViewModel
+            var vm = new NewBookingViewModel()
             {
                 UserId = user.UserId,
                 CampId = id.Value,
                 Email = userOwin.Email,
-               RoomOptions = list2,
+                IsLive = isLive,
+               RoomOptions = cro,
+                CampRoomOptionId = cro.First().CampRoomOptionId,
                CampName =  $@" {camp.CampName}: {camp.StartDate.ToShortDateString()} - {camp.EndDate.ToShortDateString()} ",
-                ClientToken = clientToken
+                ClientToken = "123"//clientToken
             };
             return View(vm);
         }
         [HttpPost]
-        public ActionResult Index(FormCollection fc)
+        public ActionResult Index(NewBookingViewModel fc)
         {
 
 
-            var gateway = config.GetGateway();
-            decimal amount;
 
-            try
-            {
-                amount =GetRoomOptionAmount(int.Parse( fc["CampRoomOptionId"])) ;
-            }
-            catch (FormatException e)
-            {
-                TempData["Flash"] = "Error: 81503: Amount is an invalid format.";
-                return RedirectToAction("Index");
-            }
-
-            var nonce = Request["payment_method_nonce"];
-            var request = new TransactionRequest
-            {
-                Amount = amount,
-                PaymentMethodNonce = nonce,
-                
-                Options = new TransactionOptionsRequest
-                {
-                    SubmitForSettlement = true
-                }
-            };
-
-            var result = gateway.Transaction.Sale(request);
-            if (result.IsSuccess())
-            {
               var user =  _service.Get(User.Identity.GetUserId());
 
-                var transaction = result.Target;
                 var booking = new Booking
                 {
-                    CampId = int.Parse(fc["CampId"]),
-                    AmountPaid = request.Amount,
+                    CampId = fc.CampId,
                     BookingDate = DateTime.UtcNow,
                     UserId = user.UserId,
-                    BrainTreeTransactionId = result.Target.Id,
-                    CampRoomOptionId = int.Parse(fc["CampRoomOptionId"])
+                    AmountPaid = fc.AmountPaid,
+                   BrainTreeTransactionId = fc.PayPalTransactionId,
+                    CampRoomOptionId = fc.CampRoomOptionId
                 };
                 _bookingService.AddNew(booking);
 
-                SendConfirmationEmail(user, transaction, booking);
-                return RedirectToAction("Show", new { id = transaction.Id });
-            }
-            else if (result.Transaction != null)
-            {
-                return RedirectToAction("Show", new { id = result.Transaction.Id });
-            }
-            else
-            {
-                string errorMessages = "";
-                foreach (ValidationError error in result.Errors.DeepAll())
-                {
-                    errorMessages += "Error: " + (int)error.Code + " - " + error.Message + "\n";
-                }
-                TempData["Flash"] = errorMessages;
-                return RedirectToAction("Index");
-            }
+            SendConfirmationEmail(user,  booking);
+
+            return Json(new { success = true, data = booking },
+                JsonRequestBehavior.AllowGet);
 
 
         }
 
-        private void SendConfirmationEmail(User user, Transaction transaction,  Booking booking)
+        private void SendConfirmationEmail(User user,  Booking booking)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
-            if (transaction == null) throw new ArgumentNullException(nameof(transaction));
+     
             if (booking == null) throw new ArgumentNullException(nameof(booking));
 
-            var userOwin =  UserManager.FindById(user.AspNetUserId);
-            var message = CreateConfirmationMessage(transaction,booking);
+            var userOwin = UserManager.FindById(user.AspNetUserId);
+            var message = CreateConfirmationMessage( booking);
             SendMessage(user.FirstName + " " + user.LastName, userOwin.Email, userOwin.PhoneNumber, message);
         }
 
-        private string CreateConfirmationMessage(Transaction transaction, Booking booking)
+        private string CreateConfirmationMessage(Booking booking)
         {
             var camp = _campService.Get(booking.CampId);
             var template = string.Format(@"<h1>BJJ In Paradise {4}</h1><h2>Thank you for your order! </h2><dl>
-<dt>
-Amount
-</dt>
-<dd>
-{0}
-</dd>
-<dt>
-Transaction Date
-</dt>
-<dd>
-{1}
-</dd>
-<dt>
-Status
-</dt>
-<dd>
-{2}
-</dd>
-<dt>
-Confirmation #
-</dt>
-<dd>
-{3}
-</dd>
+        <dt>
+        Amount
+        </dt>
+        <dd>
+        {0}
+        </dd>
+        <dt>
+        Transaction Date
+        </dt>
+        <dd>
+        {1}
+        </dd>
+        <dt>
+        Status
+        </dt>
+        <dd>
+        {2}
+        </dd>
+        <dt>
+        Confirmation #
+        </dt>
+        <dd>
+        {3}
+        </dd>
 
-</dl>",transaction.Amount.Value.ToString("c2"), transaction.CreatedAt, transaction.Status, transaction.Id, camp.CampName);
+        </dl>", booking.AmountPaid.Value.ToString("c2"), booking.CreatedDate, "Submitted To PayPpal", booking.BrainTreeTransactionId, camp.CampName);
 
 
             return template;
@@ -307,48 +210,12 @@ Confirmation #
 
             return result;
         }
-
-        public ActionResult Success()
+        [HttpGet]
+        public ActionResult Success(int id)
         {
-            return View();
+            var b = _bookingService.Get(id);
+            return View(b);
         }
-        public ActionResult Show(string id)
-        {
-            try
-            {
-                var gateway = config.GetGateway();
-                Transaction transaction = gateway.Transaction.Find(id);
 
-                if (transactionSuccessStatuses.Contains(transaction.Status))
-                {
-                    TempData["header"] = "Sweet Success!";
-                    TempData["icon"] = "success";
-                    TempData["message"] = "Your test transaction has been successfully processed.";
-
-                    return View("Success", transaction);
-                }
-                else
-                {
-                    TempData["header"] = "Transaction Failed";
-                    TempData["icon"] = "fail";
-                    TempData["message"] = "Your test transaction has a status of " + transaction.Status + ".";
-                }
-
-                ;
-
-                ViewBag.Transaction = transaction;
-                return View();
-            }
-            catch (NotFoundException ex)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-       
-        }
     }
 }

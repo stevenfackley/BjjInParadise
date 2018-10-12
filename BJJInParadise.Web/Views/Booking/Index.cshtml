@@ -14,13 +14,13 @@
         #bookingContainer {
             margin-top: 60px;
         }
-
+      
     </style>
  
 
 }
 
-<script src="//js.braintreegateway.com/web/dropin/1.11.0/js/dropin.min.js"></script>
+<script src="//www.paypalobjects.com/api/checkout.js"></script>
 
 
 <div class="container" id="bookingContainer">
@@ -38,31 +38,29 @@
             
        
                 <section>
-                    <div class="notice-wrapper">
-                        @{
-                            string flash = TempData["Flash"] as string;
-                            if (flash != null)
-                            {
-                                <div class="show notice error notice-error">
-                                    <span class="notice-message">@flash</span>
-                                </div>
-                            }
-                        }
-                    </div>
+                   
                     <h2>@Model.CampName</h2>
                     <label for="amount">
-                        <div class="input-wrapper amount-wrapper">
-                            Room Options: @Html.DropDownListFor(x => x.CampRoomOptionId, Model.RoomOptions, new {htmlAttributes = new {@class = "form-control", id = "amount", name = "amount"}})
-                        </div>
+                          Room Options: 
+                     
+                        
+                        <select name="amount" id="campRoomOptions" class="form-control">
+                            @foreach(var item in Model.RoomOptions)
+                            {
+                                <option value="@item.CampRoomOptionId" data-cost="@item.CostPerPerson">
+                                    @(item.RoomType + " " + item.CostPerPerson.ToString("C0"))
+                                </option>
+                            }
+                        </select>
+          
                     </label>
 
-                    <div class="bt-drop-in-wrapper">
-                        <div id="bt-dropin"></div>
+                    <div class="bt-drop-in-wrapper align-content-center">
+                        <div id="paypal-button-container"></div>
+                       
                     </div>
                 </section>
 
-                <input id="nonce" name="payment_method_nonce" type="hidden" />
-                <button class="button btn btn-success" type="submit" >Submit</button>
 
             }
         </div>
@@ -74,34 +72,88 @@
     <script type="text/javascript">
 
 
-
+  
         var client_token = "@Model.ClientToken";
         var form = document.querySelector('#payment-form');
 
-        braintree.dropin.create({
-            authorization: client_token,
-            container: '#bt-dropin',
-            paypal: {
-                flow: 'vault'
-            }
-        }, function (createErr, instance) {
-            form.addEventListener('submit', function (event) {
-                event.preventDefault();
+            $("#paypal-animation-container").remove();
+             // Render the PayPal button
+        paypal.Button.render({
+// Set your environment
+            env: '@(Model.IsLive ? "production" : "sandbox")', // sandbox | production
 
-                instance.requestPaymentMethod(function (err, payload) {
-                    if (err) {
-                        console.log('Error', err);
-                        return;
+// Specify the style of the button
+            style: {
+                layout: 'vertical',  // horizontal | vertical
+                size:   'medium',    // medium | large | responsive
+                shape:  'rect',      // pill | rect
+                color:  'gold'       // gold | blue | silver | white | black
+            },
+
+// Specify allowed and disallowed funding sources
+//
+// Options:
+// - paypal.FUNDING.CARD
+// - paypal.FUNDING.CREDIT
+// - paypal.FUNDING.ELV
+            funding: {
+                allowed: [
+                    paypal.FUNDING.CARD,
+                    paypal.FUNDING.CREDIT
+                ],
+                disallowed: []
+            },
+
+// PayPal Client IDs - replace with your own
+// Create a PayPal app: https://developer.paypal.com/developer/applications/create
+            client: {
+                sandbox: 'AbYml2Bi2Z4yOkZ0SaanEZL_lCTlpIR40SuNR53ufb_lxxBR6ZPm0HU10CiZx3Zk3T-DGCv4yIId6j-F',
+                production: 'ATc8yNG_xClCkR9bupldp6n5gglZvKmBhP7zzcZ2XfvZvmFlmiLFgpRC1hBt0jC4QeQFxtgHrUXQlfJx'
+            },
+
+            payment: function (data, actions) {
+                return actions.payment.create({
+                    payment: {
+                        transactions: [
+                            {
+                                amount: {
+                                    total: $("#campRoomOptions").find(':selected').data('cost'),
+                                    currency: 'USD'
+                                }
+                            }
+                        ]
                     }
-
-                    // Add the nonce to the form and submit
-                    document.querySelector('#nonce').value = payload.nonce;
-                    form.submit();
                 });
-            });
-        });
-      
+            },
+
+            onAuthorize: function (data, actions) {
+                return actions.payment.execute()
+                    .then(function (e) {
+                     
+                        var obj = @Html.Raw(Json.Encode(Model));
+                        obj.PayPalTransactionId = e.id;
+                        obj.AmountPaid = $("#campRoomOptions").find(':selected').data('cost');
+                        $.ajax({
+                            url: "@Url.Action("Index")",
+                            type: "POST",
+                            data: JSON.stringify( obj),
+                            contentType: "application/json",
+                            dataType: "json",
+                            error: function (response) {
+                               
+
+
+                            },
+                            success: function(response) {
+                                window.location.href = '/Booking/Success/' + response.data.CampId;
+                            }
+                        });
+                    });
+            }
+        }, '#paypal-button-container');
      
+        
+       
 
         function formatAsCurrency(value) {
             var formatter = new Intl.NumberFormat('en-US', {
