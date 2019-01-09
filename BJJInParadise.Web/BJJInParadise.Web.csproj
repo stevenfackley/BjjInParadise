@@ -224,6 +224,7 @@
     <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Controllers\CampController.cs" />
     <Compile Include="Controllers\CampRoomOptionController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\GalleryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -243,6 +244,9 @@
     <Compile Include="ViewModels\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\403.jpg" />
+    <Content Include="Images\404.png" />
+    <Content Include="Images\500.jpg" />
     <Content Include="Images\loader.gif" />
     <Content Include="Scripts\blazy.js" />
     <Content Include="Scripts\card.css" />
@@ -549,6 +553,9 @@
     <Content Include="Views\Booking\Success.cshtml" />
     <Content Include="Views\Booking\Show.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Currency.cshtml" />
+    <Content Include="Views\Error\Index.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Error\BadRequest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BjjInParadise.Business\BjjInParadise.Business.csproj">

@@ -9,7 +9,7 @@ using Microsoft.AspNet.Identity;
 
 namespace BJJInParadise.Web.Controllers
 {
-    [RequireHttps]
+    [RequireHttps][HandleError]
     public abstract class BaseController : Controller
     {
         protected void AddErrors(IdentityResult result)
@@ -19,7 +19,17 @@ namespace BJJInParadise.Web.Controllers
                 ModelState.AddModelError("", error);
             }
         }
+        protected override void OnException(ExceptionContext filterContext)
+        {
+            if (filterContext.ExceptionHandled)
+                return;
 
+            filterContext.ExceptionHandled = true;
+          
+            // Redirect on error:
+            filterContext.Result = RedirectToAction("Index", "Error");
+
+        }
         protected List<SelectListItem> CreateCountryDropDown()
         {
             Dictionary<string, string> objDic = new Dictionary<string, string>();
