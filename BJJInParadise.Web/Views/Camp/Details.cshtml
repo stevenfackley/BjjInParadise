@@ -14,7 +14,7 @@
 <div class="container" id="detailsCampsContainer">
     <h4>Camp</h4>
     <hr />
-    <dl class="dl-horizontal">
+    <table class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.CampName)
         </dt>
@@ -63,7 +63,7 @@
             @Html.DisplayFor(model => model.ModifiedDate)
         </dd>
 
-    </dl>
+    </table>
     
 @{ Html.RenderAction("Index", "CampRoomOption", new {id = Model.CampId}); }
     @{ var count = 0;}
