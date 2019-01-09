@@ -2,86 +2,81 @@
 @{
     ViewBag.Title = "Manage";
 }
+@section styles{
+    <style>
+        #mainNav {
+            background: #000 !important;
+        }
 
-<h2>@ViewBag.Title.</h2>
+        #manageContainer {
+            margin-top: 160px;
+        }
+    </style>
+}
+    <div id="manageContainer">
+      
+   
+        <div class="container ">
 
-<p class="text-success">@ViewBag.StatusMessage</p>
-<div>
-    <h4>Change your account settings</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>Password:</dt>
-        <dd>
-            [
-            @if (Model.HasPassword)
+            <h4>My Reservations</h4>
+            @if (Model.Bookings.Any())
             {
-                @Html.ActionLink("Change your password", "ChangePassword")
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            @if (Model.Bookings.Any())
+                            {
+                                <tr>
+                                    <th scope="col">@Html.LabelFor(x => x.Bookings.First().BookingDate)</th>
+                                    <th scope="col">@Html.LabelFor(x => x.Bookings.First().AmountPaid)</th>
+                                    <th scope="col">@Html.LabelFor(x => x.Bookings.First().Camp.CampName)</th>
+                                    <th scope="col">@Html.LabelFor(x => x.Bookings.First().Camp.StartDate)</th>
+                                </tr>
+                            }
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Bookings)
+                            {
+                                <tr scope="row">
+                                    <td>@Html.DisplayFor(x => item.BookingDate)</td>
+                                    <td>@Html.DisplayFor(x => item.AmountPaid)</td>
+                                    <td>@Html.DisplayFor(x => item.Camp.CampName)</td>
+                                    <td>@Html.DisplayFor(x => item.Camp.StartDate)</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <span>To cancel or change a reservation, please contact Brad at <a href="mailto:soulcraftjiujitsu@gmail.com?Subject=Change%20or%20Cancel%20Reservation">soulcraftjiujitsu@gmail.com</a></span>
+
             }
             else
             {
-                @Html.ActionLink("Create", "SetPassword")
+                @Html.ActionLink("Reserve My Spot", "Index", "Booking", new { id = ViewBag.NextCamp.CampId }, new { @class = "btn btn-primary btn-xl text-uppercase " })
+
             }
-            ]
-        </dd>
-        <dt>External Logins:</dt>
-        <dd>
-            @Model.Logins.Count [
-            @Html.ActionLink("Manage", "ManageLogins") ]
-        </dd>
-        @*
-            Phone Numbers can used as a second factor of verification in a two-factor authentication system.
-             
-             See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-                for details on setting up this ASP.NET application to support two-factor authentication using SMS.
-             
-             Uncomment the following block after you have set up two-factor authentication
-        *@
-        @*  
-            <dt>Phone Number:</dt>
-            <dd>
-                @(Model.PhoneNumber ?? "None")
-                @if (Model.PhoneNumber != null)
-                {
-                    <br />
-                    <text>[&nbsp;&nbsp;@Html.ActionLink("Change", "AddPhoneNumber")&nbsp;&nbsp;]</text>
-                    using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        </div>
+        <div class="container">
+            <p class="text-success">@ViewBag.StatusMessage</p>
+            <h4>Change your account settings</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>Password:</dt>
+                <dd>
+                    [
+                    @if (Model.HasPassword)
                     {
-                        @Html.AntiForgeryToken()
-                        <text>[<input type="submit" value="Remove" class="btn-link" />]</text>
+                        @Html.ActionLink("Change your password", "ChangePassword")
                     }
-                }
-                else
-                {
-                    <text>[&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber")
-                }
-            </dd>
-        *@
-        <dt>Two-Factor Authentication:</dt>
-        <dd>
-            <p>
-                There are no two-factor authentication providers configured. See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-                for details on setting up this ASP.NET application to support two-factor authentication.
-            </p>
-            @*@if (Model.TwoFactor)
-                {
-                    using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    else
                     {
-                        @Html.AntiForgeryToken()
-                        <text>Enabled
-                        <input type="submit" value="Disable" class="btn btn-link" />
-                        </text>
+                        @Html.ActionLink("Create", "SetPassword")
                     }
-                }
-                else
-                {
-                    using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <text>Disabled
-                        <input type="submit" value="Enable" class="btn btn-link" />
-                        </text>
-                    }
-                }*@
-        </dd>
-    </dl>
-</div>
+                    ]
+                </dd>
+
+
+
+            </dl>
+        </div>
+    </div>

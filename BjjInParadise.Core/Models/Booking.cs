@@ -12,6 +12,7 @@ namespace BjjInParadise.Core.Models
     {
         public int BookingId { get; set; }
        [Display(Name = "Booking Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime BookingDate { get; set; }
         [DataType(DataType.Currency)]
         [Display(Name = "Amount Paid")]

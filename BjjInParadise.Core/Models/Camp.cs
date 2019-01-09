@@ -15,11 +15,11 @@ namespace BjjInParadise.Core.Models
         public string CampName { get; set; }
 
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
-        [Display(Name = "Start Date")]
+        [Display(Name = "Camp Start Date")]
         public DateTime StartDate { get; set; }
 
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
-        [Display(Name = "End Date")]
+        [Display(Name = "Camp End Date")]
         public DateTime EndDate { get; set; }
 
         [Display(Name = "Is Active")]

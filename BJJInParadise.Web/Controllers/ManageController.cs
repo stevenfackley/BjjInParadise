@@ -7,23 +7,28 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using BJJInParadise.Web.Models;
+using BjjInParadise.Business;
 
 namespace BJJInParadise.Web.Controllers
 {
     [Authorize]
     public class ManageController : BaseController
     {
+        private CampService _cservice;
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
+        private BookingService _service;
         public ManageController()
         {
         }
 
-        public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager,
+            BookingService service,CampService cservice)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            _service = service;
+            _cservice = cservice;
         }
 
         public ApplicationSignInManager SignInManager
@@ -62,15 +67,19 @@ namespace BJJInParadise.Web.Controllers
                 : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
+            ViewBag.NextCamp = await _cservice.GetNextCampAsync();
 
             var userId = User.Identity.GetUserId();
+            var bookings = await _service.GetBookingsByUserIdAsync(userId);
+           
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+                Bookings = bookings.ToList() 
             };
             return View(model);
         }

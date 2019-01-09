@@ -159,7 +159,32 @@ namespace BjjInParadise.Business
             }
         }
 
+        public async Task<IEnumerable<Booking>> GetBookingsByUserIdAsync(string userId)
+        {
+            try
+            {
+                using (IDbConnection db = new SqlConnection(_connectionString))
+                {
+                    var result = await db.QueryAsync<Booking>("SELECT B.* From Booking B inner join ApplicationUsers A " +
+                        "on B.UserId =  A.UserId " +
+                        "where A.AspNetUserId = @UserId", new { UserId = userId });
+                    var enumResult = result.ToList();
+                    foreach (var booking in enumResult)
+                    {
+                        //Add foreign key table
+                        var camp = await db.QueryAsync<Camp>("SELECT TOP 1 * From Camp where [CampId] = @CampId", new { CampId = booking.CampId });
+                        booking.Camp = camp.FirstOrDefault();
+                    }
 
+                    return enumResult;
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Instance.Error(e);
+                throw;
+            }
+        }
         private void AddUser(Booking booking)
         {
             var result = _accService.Get(booking.UserId);
