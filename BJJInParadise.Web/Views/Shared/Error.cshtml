@@ -1,9 +1,19 @@
-﻿@model System.Web.Mvc.HandleErrorInfo
+﻿
+@section styles{
 
-@{
-    ViewBag.Title = "Error";
+    <style>
+        #mainNav {
+            background: #000 !important;
+        }
+
+        #errorContainer {
+            margin-top: 160px;
+        }
+    </style>
+
+
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
-
+<div id="errorContainer" class="container">
+    <img src="~/Images/500.jpg" />
+</div>
