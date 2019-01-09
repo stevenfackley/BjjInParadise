@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -240,7 +241,7 @@ namespace BJJInParadise.Web.Controllers
             if (ModelState.IsValid)
             {
                 var user = await UserManager.FindByNameAsync(model.Email);
-                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+                if (user == null /*|| !(await UserManager.IsEmailConfirmedAsync(user.Id))*/)
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");
@@ -248,14 +249,42 @@ namespace BJJInParadise.Web.Controllers
 
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
+                SendMessage(user.Email, callbackUrl);
+                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+        private const string EMAIL_FROM_ADDRESS = "bradwolfson@bjjinparadise.com";
+
+        public ActionResult SendMessage(string email,  string callbackUrl)
+        {
+            try
+            {
+                var message1 = new MailMessage { From = new MailAddress(EMAIL_FROM_ADDRESS) };
+
+                message1.To.Add(new MailAddress(email));
+                message1.Bcc.Add(new MailAddress(EMAIL_FROM_ADDRESS));
+                message1.Subject = "BJJ In Paradise Password Reset";
+                message1.Body = "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>";
+                message1.IsBodyHtml = true;
+                var client = new SmtpClient();
+                client.Send(message1);
+
+                return Json(new { success = true, data = "Mail sent" },
+                    JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+
+                return Json(new { success = false, data = new { message = "Failure", exception = e.Message } },
+                    JsonRequestBehavior.AllowGet);
+            }
+
+
         }
 
         //
