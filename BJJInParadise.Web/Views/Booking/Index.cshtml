@@ -68,7 +68,7 @@
 
 </div>
 @section Scripts {
-   
+   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
     <script type="text/javascript">
 
 
@@ -103,14 +103,10 @@
                 ],
                 disallowed: []
             },
-
-// PayPal Client IDs - replace with your own
-// Create a PayPal app: https://developer.paypal.com/developer/applications/create
             client: {
                 sandbox: 'AbYml2Bi2Z4yOkZ0SaanEZL_lCTlpIR40SuNR53ufb_lxxBR6ZPm0HU10CiZx3Zk3T-DGCv4yIId6j-F',
                 production: 'ATc8yNG_xClCkR9bupldp6n5gglZvKmBhP7zzcZ2XfvZvmFlmiLFgpRC1hBt0jC4QeQFxtgHrUXQlfJx'
             },
-
             payment: function (data, actions) {
                 return actions.payment.create({
                     payment: {
@@ -129,25 +125,25 @@
             onAuthorize: function (data, actions) {
                 return actions.payment.execute()
                     .then(function (e) {
-                     
+                        $.blockUI();
                         var obj = @Html.Raw(Json.Encode(Model));
                         obj.PayPalTransactionId = e.id;
                         obj.AmountPaid = $("#campRoomOptions").find(':selected').data('cost');
                         $.ajax({
                             url: "@Url.Action("Index")",
                             type: "POST",
-                            data: JSON.stringify( obj),
+                            data: JSON.stringify(obj),
                             contentType: "application/json",
                             dataType: "json",
                             error: function (response) {
-                               
-
-
+                                window.location.href = '/Booking/'
                             },
-                            success: function(response) {
+                            success: function (response) {
                                 window.location.href = '/Booking/Success/' + response.data.BookingId;
                             }
                         });
+                    }).then(function (e) {
+                        $.unblockUI();
                     });
             }
         }, '#paypal-button-container');
