@@ -130,12 +130,9 @@ WHERE [AspNetUserId] = @AspNetUserId
                     {
                         t.FirstName,
                         t.LastName,
-                        t.Street,
-                        t.City,
-                        t.State,
+
                         t.ZipCode,
                         t.HomeGym,
-                        t.Country,
                         t.PhoneNumber,
                         t.ModifiedDate,
                         t.AspNetUserId

@@ -56,6 +56,10 @@
     <Compile Include="Migrations\201809182339381_RemovedCreditCardAddedBraintreeId.Designer.cs">
       <DependentUpon>201809182339381_RemovedCreditCardAddedBraintreeId.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901091726597_SimplifyRegistration.cs" />
+    <Compile Include="Migrations\201901091726597_SimplifyRegistration.Designer.cs">
+      <DependentUpon>201901091726597_SimplifyRegistration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -77,6 +81,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809182339381_RemovedCreditCardAddedBraintreeId.resx">
       <DependentUpon>201809182339381_RemovedCreditCardAddedBraintreeId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901091726597_SimplifyRegistration.resx">
+      <DependentUpon>201901091726597_SimplifyRegistration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

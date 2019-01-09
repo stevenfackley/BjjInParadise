@@ -150,7 +150,6 @@ namespace BJJInParadise.Web.Controllers
         public ActionResult Register()
         {
             var model = new RegisterViewModel();
-            model.Countries = CreateCountryDropDown();
             return View(model);
         }
 
@@ -161,8 +160,6 @@ namespace BJJInParadise.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            model.Countries = CreateCountryDropDown();
-
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, PhoneNumber = model.PhoneNumber};
@@ -175,13 +172,9 @@ namespace BJJInParadise.Web.Controllers
                         AspNetUserId = user.Id,
                         FirstName = model.FirstName,
                         LastName = model.LastName,
-                        State = model.State,
-                        Street = model.Street,
-                        City = model.City,
                         ZipCode = model.ZipCode,
                         HomeGym = model.HomeGym,
-                        PhoneNumber = model.PhoneNumber,
-                        Country = model.Country
+                        PhoneNumber = model.PhoneNumber
                     });
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     

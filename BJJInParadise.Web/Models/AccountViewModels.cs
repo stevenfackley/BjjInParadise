@@ -71,7 +71,6 @@ namespace BJJInParadise.Web.Models
         {
             var list2 = new List<SelectListItem> {new SelectListItem {Text = "-- Select --", Value = "0"}};
             list2.AddRange(CreateCountryDropDown());
-            Country = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
         }
 
         private IEnumerable<SelectListItem> CreateCountryDropDown()
@@ -108,21 +107,12 @@ namespace BJJInParadise.Web.Models
         [Display(Name = "Password")]
         public string Password { get; set; }
 
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-        public string ConfirmPassword { get; set; }
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Street { get; set; }
-        public string State { get; set; }
         public string ZipCode { get; set; }
-        public string City { get; set; }
         public string HomeGym { get; set; }
-        public string Country { get; set; }
         public string PhoneNumber { get; set; }
-        public IEnumerable<SelectListItem> Countries { get; set; }
     }
 
     public class ResetPasswordViewModel
