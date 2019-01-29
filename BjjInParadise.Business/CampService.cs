@@ -214,7 +214,30 @@ namespace BjjInParadise.Business
            _context.Camps.Remove(delCamp);
             await _context.SaveChangesAsync();
         }
+        public  Camp GetNextCamp()
+        {
 
+            try
+            {
+                return  _context.Camps.Where(x => x.IsActive).Include(x => x.CampRoomOptions)
+                    .Include(x => x.Bookings)
+                    .OrderBy(x => x.StartDate).FirstOrDefault();
+
+                //using (IDbConnection db = new SqlConnection(_connectionString))
+                //{
+                //    var result =
+                //        await db.QueryAsync<Camp>("Select top 1 * From Camp where IsActive = 1 order by StartDate");
+
+                //    return result.FirstOrDefault();
+                //}
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
         public async Task<Camp> GetNextCampAsync()
         {
 

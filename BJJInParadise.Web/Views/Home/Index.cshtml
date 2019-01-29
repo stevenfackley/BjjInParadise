@@ -4,6 +4,7 @@
     ViewBag.Title = "BJJ In Paradise - Home";
  var service = DependencyResolver.Current.GetService<CampService>();
     var areAnyCampsAvailableToBeBooked = service.AreAnyCampsAvailableToBeBooked(Model);
+    var nextCamp = service.GetNextCamp();
 }
 
 <!-- Header -->
@@ -25,7 +26,12 @@
             <a class="btn btn-info btn-xl text-uppercase js-scroll-trigger" href="#what">Tell Me More</a>
             @if (Model != null && areAnyCampsAvailableToBeBooked)
             {
-                @Html.ActionLink("Reserve My Spot", "Index", "Booking", new {id=Model.CampId}, new { @class = "btn btn-primary btn-xl text-uppercase " })
+                @Html.ActionLink("Reserve My Spot", "Index", "Booking", new { id = Model.CampId }, new { @class = "btn btn-primary btn-xl text-uppercase " })
+            }
+            else if (Model != null && !areAnyCampsAvailableToBeBooked)
+            {
+                <div class="intro-lead-in">Our next camp is sold out, stay tuned for upcoming camps! </div>
+
             }
         </div>
     </div>
