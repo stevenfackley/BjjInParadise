@@ -14,7 +14,9 @@
         #bookingContainer {
             margin-top: 60px;
         }
-      
+        #BookingPersonalInformation {
+            margin-top: 160px !important;
+        }
     </style>
  
 
@@ -32,35 +34,65 @@
             {
                 @Html.AntiForgeryToken()
                 @Html.HiddenFor(x => x.UserId)
-                @Html.HiddenFor(x => x.Email)
                 @Html.HiddenFor(x => x.RoomOptions)
                 @Html.HiddenFor(x => x.CampId)
-            
-       
-                <section>
-                   
-                    <h2>@Model.CampName</h2>
-                    <label for="amount">
-                          Room Options: 
-                     
-                        
-                        <select name="amount" id="campRoomOptions" class="form-control">
-                            @foreach(var item in Model.RoomOptions)
-                            {
-                                <option value="@item.CampRoomOptionId" data-cost="@item.CostPerPerson">
-                                    @(item.RoomType + " " + item.CostPerPerson.ToString("C0"))
-                                </option>
-                            }
-                        </select>
-          
-                    </label>
+                
+                <div id="BookingPersonalInformation" class="row">
+                    <div class="col-sm-8">
+                        <h2>@Model.CampName</h2>
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 
-                    <div class="bt-drop-in-wrapper align-content-center">
-                        <div id="paypal-button-container"></div>
-                       
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </section>
+                    <div class="col-sm-4">
+                    <section>
 
+
+                        <label for="amount">
+                            Room Options:
+
+
+                            <select name="amount" id="campRoomOptions" class="form-control">
+                                @foreach (var item in Model.RoomOptions)
+                                {
+                                    <option value="@item.CampRoomOptionId" data-cost="@item.CostPerPerson">
+                                        @(item.RoomType + " " + item.CostPerPerson.ToString("C0"))
+                                    </option>
+                                }
+                            </select>
+
+                        </label>
+
+                        <div class="bt-drop-in-wrapper align-content-center">
+                            <div id="paypal-button-container"></div>
+
+                        </div>
+                    </section>
+                </div></div>
+               
+             
 
             }
         </div>
@@ -68,10 +100,12 @@
 
 </div>
 @section Scripts {
-   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+
     <script type="text/javascript">
 
-
+        var paypalActions;
   
         var client_token = "@Model.ClientToken";
         var form = document.querySelector('#payment-form');
@@ -121,7 +155,33 @@
                     }
                 });
             },
+            // Called when page displays
+            validate: function(actions) {
+                console.log("validate called");
+                actions.disable(); // Allow for validation in onClick()
+                paypalActions = actions; // Save for later enable()/disable() calls
+            },
 
+            // Called for every click on the PayPal button even if actions.disabled
+            onClick: function(e) {
+                console.log('onClick called');
+
+                var msgErrors = 0;
+
+                // Do validations and if OK, continue on to PayPal popup
+                if ($("form").valid()) {
+       
+                    paypalActions.enable();
+                    /* Add code for Ajax post */
+                } else {
+                    paypalActions.disable();
+                }
+
+       
+         
+     
+
+            },
             onAuthorize: function (data, actions) {
                 return actions.payment.execute()
                     .then(function (e) {
@@ -129,6 +189,9 @@
                         var obj = @Html.Raw(Json.Encode(Model));
                         obj.PayPalTransactionId = e.id;
                         obj.AmountPaid = $("#campRoomOptions").find(':selected').data('cost');
+                        obj.FirstName = $("#FirstName").val();
+                        obj.LastName = $("#LastName").val();
+                        obj.Email = $("#Email").val();
                         $.ajax({
                             url: "@Url.Action("Index")",
                             type: "POST",
@@ -136,7 +199,7 @@
                             contentType: "application/json",
                             dataType: "json",
                             error: function (response) {
-                                window.location.href = '/Booking/'
+                                window.location.href = '/Booking/';
                             },
                             success: function (response) {
                                 window.location.href = '/Booking/Success/' + response.data.BookingId;

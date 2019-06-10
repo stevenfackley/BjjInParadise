@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace BjjInParadise.Core.Models
 {
@@ -27,6 +28,8 @@ namespace BjjInParadise.Core.Models
 
         public virtual ICollection<Booking> Bookings { get; set; }
         public virtual ICollection<CampRoomOption> CampRoomOptions { get; set; }
+
+        [AllowHtml]
         public string HtmlPageText { get; set; }
     }
 }

@@ -28,6 +28,12 @@ namespace BjjInParadise.Data
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+            // configures one-to-many relationship
+            modelBuilder.Entity<Booking>()
+                .HasOptional<User>(s => s.User)
+                .WithMany(g => g.Bookings)
+                .HasForeignKey(s => s.UserId).WillCascadeOnDelete(false);
+
             base.OnModelCreating(modelBuilder);
 
         }

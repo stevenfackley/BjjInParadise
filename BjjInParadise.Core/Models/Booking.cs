@@ -17,9 +17,14 @@ namespace BjjInParadise.Core.Models
         [DataType(DataType.Currency)]
         [Display(Name = "Amount Paid")]
         public decimal? AmountPaid { get; set; }
-        [ForeignKey("User")]
-        public int UserId { get; set; }
 
+        public int? UserId { get; set; }
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public string EmailAddress { get; set; }
         public virtual User User { get; set; }
 
         [ForeignKey("Camp")]

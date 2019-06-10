@@ -12,25 +12,23 @@ namespace BJJInParadise.Web.ViewModels
 {
     public class NewBookingViewModel
     {
-        private int _campRoomOptionId;
-     
-      
-
         public NewBookingViewModel()
         {
 
         }
-
-    
-
-
-        [Required]
-        public int UserId { get; set; }
+     
+        public int? UserId { get; set; }
 
         [Required]
         public int CampId { get; set; }
 
- 
+        [Required]
+        [DisplayName("First Name")]
+        public string FirstName { get; set; }
+        [Required]
+        [DisplayName("Last Name")]
+        public string LastName { get; set; }
+
         [Required]
         [EmailAddress]
         public string Email { get; set; }

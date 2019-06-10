@@ -60,6 +60,10 @@
     <Compile Include="Migrations\201901091726597_SimplifyRegistration.Designer.cs">
       <DependentUpon>201901091726597_SimplifyRegistration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906100102226_Remove_Login_Requirement_For_Booking.cs" />
+    <Compile Include="Migrations\201906100102226_Remove_Login_Requirement_For_Booking.Designer.cs">
+      <DependentUpon>201906100102226_Remove_Login_Requirement_For_Booking.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -84,6 +88,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901091726597_SimplifyRegistration.resx">
       <DependentUpon>201901091726597_SimplifyRegistration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906100102226_Remove_Login_Requirement_For_Booking.resx">
+      <DependentUpon>201906100102226_Remove_Login_Requirement_For_Booking.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

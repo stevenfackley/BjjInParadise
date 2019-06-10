@@ -23,7 +23,7 @@ namespace BJJInParadise.Web.Controllers
 {
  
 
-    [Authorize]
+
     public class BookingController : BaseController
     {
         private AccountService _service;
@@ -61,51 +61,70 @@ namespace BJJInParadise.Web.Controllers
         }
 
         
-        public async Task<ActionResult> Index(int? id)
+        public async Task<ActionResult> Index(int id)
         {
-            var user = await _service.GetAsync(User.Identity.GetUserId());
-            var userOwin = await UserManager.FindByIdAsync(user.AspNetUserId);
+
+            var user =User.Identity.IsAuthenticated? await _service.GetAsync(User.Identity.GetUserId()) : null;
+            var userOwin = user != null ? await UserManager.FindByIdAsync(user.AspNetUserId) : null;
 
             var camp = _campService.Get(id);
-            var cro =await GetCampRoomOptions(id.Value);
+            var cro =await GetCampRoomOptions(id);
           
             bool isLive = !HttpContext.IsDebuggingEnabled;
 
-            var vm = new NewBookingViewModel()
+            var vm = new NewBookingViewModel
             {
-                UserId = user.UserId,
-                CampId = id.Value,
-                Email = userOwin.Email,
+                UserId = user?.UserId,
+                CampId = id,
+                Email = userOwin?.Email,
                 IsLive = isLive,
                RoomOptions = cro,
                 CampRoomOptionId = cro.First().CampRoomOptionId,
                CampName =  $@" {camp.CampName}: {camp.StartDate.ToShortDateString()} - {camp.EndDate.ToShortDateString()} ",
-                ClientToken = "123"//clientToken
+                ClientToken = "123",//clientToken
+                FirstName =  user?.FirstName,
+                LastName = user?.LastName
             };
             return View(vm);
         }
         [HttpPost]
         public ActionResult Index(NewBookingViewModel fc)
         {
-
-
-
-              var user =  _service.Get(User.Identity.GetUserId());
-
-                var booking = new Booking
-                {
-                    CampId = fc.CampId,
-                    BookingDate = DateTime.UtcNow,
-                    UserId = user.UserId,
-                    AmountPaid = fc.AmountPaid,
-                   BrainTreeTransactionId = fc.PayPalTransactionId,
-                    CampRoomOptionId = fc.CampRoomOptionId
-                };
+            
+              var user =  User.Identity.IsAuthenticated ? _service.Get(User.Identity.GetUserId()) : null;
+              if (user == null && (fc.FirstName == null || fc.LastName == null || fc.Email == null))
+              {
+                  throw new Exception("First name, last name, or email is null");
+              }
+              var booking = new Booking
+              {
+                  CampId = fc.CampId,
+                  BookingDate = DateTime.UtcNow,
+                  UserId = user?.UserId,
+                  AmountPaid = fc.AmountPaid,
+                  BrainTreeTransactionId = fc.PayPalTransactionId,
+                  CampRoomOptionId = fc.CampRoomOptionId,
+                  FirstName = fc.FirstName,
+                  LastName = fc.LastName,
+                  EmailAddress = fc.Email
+              };
                 _bookingService.AddNew(booking);
 
-            SendConfirmationEmail(user,  booking);
+                //Only try to send an email if it is a live env
+                if (!HttpContext.IsDebuggingEnabled)
+                {
+                    if (user == null)
+                    {
+                        SendConfirmationEmail(booking);
+                    }
+                    else
+                    {
+                        SendConfirmationEmail(user, booking);
 
-            return Json(new { success = true, data = booking },
+                    }
+                }
+
+                return Json(new { success = true, data = booking },
                 JsonRequestBehavior.AllowGet);
 
 
@@ -121,7 +140,13 @@ namespace BJJInParadise.Web.Controllers
             var message = CreateConfirmationMessage( booking);
             SendMessage(user.FirstName + " " + user.LastName, userOwin.Email, userOwin.PhoneNumber, message);
         }
+        private void SendConfirmationEmail(Booking booking)
+        {
+            if (booking == null) throw new ArgumentNullException(nameof(booking));
 
+            var message = CreateConfirmationMessage(booking);
+            SendMessage(booking.FirstName + " " + booking.LastName, booking.EmailAddress, null, message);
+        }
         private string CreateConfirmationMessage(Booking booking)
         {
             var camp = _campService.Get(booking.CampId);

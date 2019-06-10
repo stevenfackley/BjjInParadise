@@ -55,7 +55,7 @@
                  </div>
             </div>
             <div class="resize">
-                <textarea style="width: 100%; height: 400px;" name="HtmlPageText">@Model.HtmlPageText</textarea>
+                <textarea  name="HtmlPageText" id="HtmlPageText">@Model.HtmlPageText</textarea>
             </div>
 
 
@@ -78,11 +78,13 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
-    <script src="~/Scripts/nicEdit.js" type="text/javascript"></script>
-
-
+  
+    
+    <script src="https://cdn.tiny.cloud/1/fvk3ye2u7kju0csathigcoqfnuw9q547xrbn21obxl3anw90/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
     <script>
-        bkLib.onDomLoaded(function () { nicEditors.allTextAreas() });
+        tinymce.init({
+            selector: '#HtmlPageText'
+        });
     </script>
 }

@@ -61,18 +61,21 @@ namespace BjjInParadise.Business
                 t.BookingDate = t.ModifiedDate;
                 if (t.AmountPaid == null)
                     t.AmountPaid = _campRoomOptionService.Get(t.CampRoomOptionId).CostPerPerson;
-
+                
                 using (IDbConnection db = new SqlConnection(_connectionString))
                 {
                     string insertQuery = @"INSERT INTO [dbo].[Booking]
-           ([BookingDate]
-           ,[AmountPaid]
-           ,[UserId]
-           ,[CampId]
-           ,[CampRoomOptionId]
-           ,[CreatedDate]
-           ,[ModifiedDate]
-,[BrainTreeTransactionId])
+               ([BookingDate]
+               ,[AmountPaid]
+               ,[UserId]
+               ,[CampId]
+               ,[CampRoomOptionId]
+               ,[CreatedDate]
+               ,[ModifiedDate]
+                ,[BrainTreeTransactionId]
+                ,[FirstName]
+                ,[LastName]
+                ,[EmailAddress])
      VALUES
            (@BookingDate
            ,@AmountPaid
@@ -81,7 +84,10 @@ namespace BjjInParadise.Business
            ,@CampRoomOptionId
            ,@CreatedDate
            ,@ModifiedDate
-           ,@BrainTreeTransactionId);SELECT CAST(SCOPE_IDENTITY() as int)
+           ,@BrainTreeTransactionId
+           ,@FirstName
+           ,@LastName
+           ,@EmailAddress);SELECT CAST(SCOPE_IDENTITY() as int)
 ";
                     int newUserId = db.QuerySingle<int>(insertQuery,t);
                     t.BookingId = newUserId;
@@ -111,7 +117,10 @@ namespace BjjInParadise.Business
            ,[CampId]
            ,[CampRoomOptionId]
            ,[CreatedDate]
-           ,[ModifiedDate])
+           ,[ModifiedDate]
+                          ,[FirstName]
+                ,[LastName]
+                ,[EmailAddress])
      VALUES
            (@BookingDate
            ,@AmountPaid
@@ -119,7 +128,10 @@ namespace BjjInParadise.Business
            ,@CampId
            ,@CampRoomOptionId
            ,@CreatedDate
-           ,@ModifiedDate)
+           ,@ModifiedDate
+            ,@FirstName
+           ,@LastName
+           ,@EmailAddress)
 ";
 
                     var result = await db.ExecuteAsync(insertQuery, t);

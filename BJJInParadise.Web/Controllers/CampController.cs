@@ -34,7 +34,7 @@ namespace BJJInParadise.Web.Controllers
         public ActionResult Create()
         {
 
-            return View(new CreateCampViewModel());
+            return View(new CreateCampViewModel(){StartDate = DateTime.Now.AddMonths(6), EndDate = DateTime.Now.AddMonths(6).AddDays(5)});
         }
 
         // POST: Admin/Create
