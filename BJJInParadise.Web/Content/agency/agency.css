@@ -120,6 +120,7 @@ img::-moz-selection {
     #mainNav .navbar-brand {
         color: #fed136;
         font-family: 'Kaushan Script', 'Helvetica Neue', Helvetica, Arial, cursive;
+        background-image: url('~/Images/bjj_paradise_final.svg');
     }
 
         #mainNav .navbar-brand.active, #mainNav .navbar-brand:active, #mainNav .navbar-brand:focus, #mainNav .navbar-brand:hover {
